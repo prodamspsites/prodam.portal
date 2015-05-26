@@ -1,0 +1,16 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:gs="http://namespaces.zope.org/genericsetup"
+    i18n_domain="prodam.portal">
+
+  <!-- Profiles -->
+  <gs:registerProfile
+      name="default"
+      title="prodam.portal"
+      directory="profiles/default"
+      description="prodam.portal"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+</configure>

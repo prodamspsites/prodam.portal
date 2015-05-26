@@ -1,0 +1,21 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="prodam.portal">
+
+  <!-- Busca -->
+  <include package='.busca' />
+
+  <!-- Conteudos -->
+  <include package='.content' />
+
+  <!-- Contraste -->
+  <include package='.contraste' />
+
+  <!-- Sitemap -->
+  <include package='.sitemap' />
+
+  <!-- Viewlets -->
+  <include package='.viewlets' />
+
+</configure>

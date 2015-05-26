@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="prodam.portal">
+
+  <browser:page
+      name="batchnavigation"
+      for="*"
+      permission="zope.Public"
+      class="plone.batching.browser.PloneBatchView"
+      template="templates/batchnavigation.pt"
+      layer="prodam.portal.interfaces.IProdamPortal"
+      />
+
+</configure>

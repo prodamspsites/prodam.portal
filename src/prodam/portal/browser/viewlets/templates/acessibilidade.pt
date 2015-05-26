@@ -1,0 +1,26 @@
+                <ul i18n:domain="prodam.portal" id="accessibility">
+                    <li>
+                        <a accesskey="1" i18n:translate="" href="#acontent" id="link-conteudo">
+                            Ir para o conteúdo
+                            <span>1</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a accesskey="2" i18n:translate="" href="#anavigation" id="link-navegacao">
+                            Ir para navegação
+                            <span>2</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a accesskey="3" i18n:translate="" href="#SearchableText" id="link-buscar">
+                            Ir para busca
+                            <span>3</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a accesskey="4" i18n:translate="" href="#afooter" id="link-rodape">
+                            Ir para rodapé
+                            <span>4</span>
+                        </a>
+                    </li>
+                </ul>

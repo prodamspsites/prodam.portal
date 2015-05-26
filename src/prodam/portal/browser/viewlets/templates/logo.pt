@@ -1,0 +1,9 @@
+<div id="logo">
+    <a metal:define-macro="portal_logo"
+       id="portal-logo"
+       title="Home"
+       tal:attributes="href view/navigation_root_url">
+            <h1 id="portal-title">Logo do site</h1>
+           
+    </a>
+</div>
