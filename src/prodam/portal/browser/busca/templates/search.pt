@@ -28,7 +28,7 @@
 
   <div id="content-core" metal:fill-slot="main">
     <h1 class="documentFirstHeading"
-        i18n:domain="brasil.gov.portal"
+        i18n:domain="prodam.portal"
         i18n:translate="">
         Search
     </h1>
@@ -46,7 +46,7 @@
         <input type="hidden" name="sort_on" value="" />
 
         <fieldset id="search-field" i18n:domain="plone" class="noborder">
-            <legend i18n:domain="brasil.gov.portal"
+            <legend i18n:domain="prodam.portal"
                     i18n:translate="">Search Site</legend>
             <input class="searchPage"
                    name="SearchableText"
@@ -347,22 +347,6 @@
                                                tal:attributes="href string:$navigation_root_url/@@busca?Subject%3Alist=${category_quote}">
                                               Category
                                             </a><tal:separator condition="not: repeat/category/end">,</tal:separator>
-                                          </span>
-                                        </span>
-
-                                        <span i18n:domain="brasil.gov.portal"
-                                              tal:define="categories python:view.skos(item)"
-                                              tal:condition="categories">
-                                          <tal:filedunder i18n:translate="">subject(s):</tal:filedunder>
-                                          <span tal:repeat="category categories">
-                                            <a href=""
-                                               class="link-category"
-                                               tal:content="category/title"
-                                               tal:attributes="href category/url;
-                                                               property view/rel;
-                                                               resource category/id">
-                                              Category
-                                              </a><span class="separator" tal:condition="not: repeat/category/end">,</span>
                                           </span>
                                         </span>
                                       </span>
