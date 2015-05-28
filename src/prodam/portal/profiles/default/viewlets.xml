@@ -3,8 +3,11 @@
   <order manager="plone.portaltop" skinname="*">
     <viewlet name="prodam.portal.acessibilidade" before="*"/>
   </order>
-  <hidden manager="plone.portalheader" skinname="*">
+  <order manager="plone.portalheader" skinname="*" purge="True">
     <viewlet name="plone.global_sections" />
+  </order>
+  <hidden manager="plone.portalheader" skinname="*" purge="True">
+    <viewlet name="plone.global_sections" remove="true" />
   </hidden>
   <order manager="plone.plonefooter" skinname="*">
     <viewlet name="prodam.portal.topo" before="doormat.footer"/>
