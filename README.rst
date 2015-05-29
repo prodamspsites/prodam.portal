@@ -21,7 +21,14 @@ Para uso deste pacote, seu site deve ter sido construído com:
 Estado deste pacote
 -------------------
 
-TODO
+Este produto possui testes automatizados e, a cada alteração de código
+esses testes são executados pelo serviço Travis.
+
+O estado atual dos testes pode ser visto pela imagem abaixo:
+
+.. image:: https://travis-ci.org/prodamspsites/prodam.portal.svg
+    :target: https://travis-ci.org/prodamspsites/prodam.portal
+
 
 Instalação
 ----------
