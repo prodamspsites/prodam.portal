@@ -5,7 +5,7 @@
 
   <!-- Viewlets -->
   <browser:viewlet
-      name="prodam.logo"
+      name="plone.logo"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
       class=".logo.LogoViewlet"
       permission="zope2.View"
