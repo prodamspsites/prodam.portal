@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="prodam.portal">
+
+  <body>
+    <metal:content-core fill-slot="main">
+      <metal:block define-macro="main">
+        <article>
+          <header>
+            <h1 tal:content="context/Title">Meu template</h1>
+            <h2 tal:content="context/Description">Minha descrição</h2>
+          </header>
+          <div>
+            <p tal:replace="structure context/text/raw">Meu conteúdo</p>
+          </div>
+        </article>
+      </metal:block>
+    </metal:content-core>
+  </body>
+
+</html>
+
