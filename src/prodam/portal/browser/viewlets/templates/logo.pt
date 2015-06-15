@@ -3,6 +3,8 @@
        id="portal-logo"
        title="Home"
        tal:attributes="href view/navigation_root_url">
-            <h1 id="portal-title">Logo do site</h1>
+            <h1 id="portal-title">
+            	<a href="/portal" tal:attributes="href python:'/'.join(context.getPhysicalPath())">Logo do site</a>
+            </h1>
     </a>
 </div>
