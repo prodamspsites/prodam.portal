@@ -22,5 +22,6 @@ local.cfg
 Makefile
 parts/
 src/collective.cover/
+src/prodam.tema
 var/
 dist/

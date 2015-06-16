@@ -43,6 +43,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
+        'prodam.tema',
         'collective.cover',
         'collective.jsonmigrator',
         'collective.nitf',
