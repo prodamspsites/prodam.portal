@@ -1,10 +1,5 @@
 <div id="logo">
-    <a metal:define-macro="portal_logo"
-       id="portal-logo"
-       title="Home"
-       tal:attributes="href view/navigation_root_url">
-            <h1 id="portal-title">
-            	<a href="/portal" tal:attributes="href python:'/'.join(context.getPhysicalPath())">Logo do site</a>
-            </h1>
-    </a>
+  <h1 id="portal-title">
+    <a href="/portal" tal:attributes="href context/portal_url" tal:content="context/portal_url/Title">Logo do site</a>
+  </h1>
 </div>
