@@ -8,7 +8,7 @@
     i18n_domain="prodam.portal">
 
   <!-- Layer skin registry -->
-  <cmf:registerDirectory name="prodam.templates" directory="templates" recursive="True" />
+  <cmf:registerDirectory name="templates" directory="templates" recursive="True" />
 
   <!-- ZCML de importacao de dependencias -->
   <include file="dependencies.zcml" />
