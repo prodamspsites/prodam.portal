@@ -5,7 +5,8 @@ Histórico de Alterações
 ^^^^^^^^^^^^^^^^^^
 * Ajusta link do template do logo [mosesjr]
 * Adiciona view de notícias [mosesjr]
-* Registra pasta templates no portal skins [mosesjr]
+* Adiciona Capa como padrão na instalação [dbarbato]
+* Aplica Tema de Capa na instalação [dbarbato]
 * Adiciona teste de viewlets [dbarbato]
 * Oculta home_page do portal_tabs [mosesjr]
 * Adiciona links de serviço no site_actions [mosesjr] 
