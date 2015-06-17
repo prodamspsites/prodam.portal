@@ -3,6 +3,7 @@ Histórico de Alterações
 
 0.5a1 (unreleased)
 ^^^^^^^^^^^^^^^^^^
+* Adiciona viewlet para barra cinza [mosesjr]
 * Ajusta link do template do logo [mosesjr]
 * Adiciona view de notícias [mosesjr]
 * Adiciona Capa como padrão na instalação [dbarbato]
