@@ -9,13 +9,25 @@
   <body>
     <metal:content-core fill-slot="main">
       <metal:block define-macro="main">
+        <header class="titulo_principal">
+          <h1>Notícias</h1>
+        </header>
         <article>
-          <header>
-            <h1 tal:content="context/Title">Meu template</h1>
-            <h2 tal:content="context/Description">Minha descrição</h2>
+          <header tal:define="portal_url python:'/'.join(context.getPhysicalPath())">
+            <div class="btn_voltar">
+              <a href="#" tal:attributes="href python:portal_url + '/noticias'">Voltar</a>
+            </div>
+            <h1 tal:content="context/Title">Template de notícias</h1>
+            <h2 tal:content="context/Description">Descrição</h2>
+            <div class="noticias_media" tal:define="date context/Date;
+                                                    data python:context.toLocalizedTime();
+                                                    hora python:date[11:16]">
+              <time tal:content="python:hora + ' ' + data" />
+              <div class="autor">De <strong tal:content="context/Creator" /></div>
+            </div>
           </header>
           <div>
-            <p tal:replace="structure context/text/raw">Meu conteúdo</p>
+            <p tal:replace="structure context/text/raw">Conteúdo</p>
           </div>
         </article>
       </metal:block>
@@ -23,4 +35,3 @@
   </body>
 
 </html>
-
