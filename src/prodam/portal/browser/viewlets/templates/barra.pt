@@ -1,9 +1,11 @@
-<div class="full-cinza">
-  <div id="acesso" class="container">
+<div class="barra-cinza">
+<div class="container-wrapper">
+  <div id="acesso" class="container width-12">
     <a href="http://transparencia.prefeitura.sp.gov.br/acesso-a-informacao/" class="four columns bold em09">Acesso à informação
-      <div class="theI">
+      <div class="imgI">
       </div>
     </a>
-    <a id="trnsp" class="four columns upper" href="http://transparencia.prefeitura.sp.gov.br/Paginas/home.aspx">Transparência São Paulo</a>
+    <a id="transparenciasp" class="upper"href="http://transparencia.prefeitura.sp.gov.br/Paginas/home.aspx">Transparência São Paulo</a>
   </div>
+</div>
 </div>
