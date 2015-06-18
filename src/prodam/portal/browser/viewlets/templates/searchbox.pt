@@ -19,18 +19,16 @@
                    type="text"
                    size="18"
                    value=""
-                   title="Search Site"
-                   placeholder="Search Site"
+                   title="Buscar"
+                   placeholder=""
                    i18n:attributes="title title_search_box;
                                     placeholder title_search_box"
-                   tal:attributes="value request/form/SearchableText|nothing;
-                                   id search_input_id"
+                   tal:attributes="id search_input_id"
                    class="searchField" />
 
             <input class="searchButton"
                    type="submit"
-                   value="Search"
-                   i18n:attributes="value label_search;" />
+                   value="" />
 
         </fieldset>
     </form>

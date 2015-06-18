@@ -3,6 +3,7 @@ Histórico de Alterações
 
 0.5a1 (unreleased)
 ^^^^^^^^^^^^^^^^^^
+* Customiza viewlet de busca [mosesjr]
 * Adiciona viewlet para barra cinza [mosesjr]
 * Adiciona sc.social.like ao produto [dadlo]
 * Ajusta link do template do logo [mosesjr]
