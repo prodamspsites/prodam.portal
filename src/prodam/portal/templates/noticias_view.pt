@@ -24,11 +24,23 @@
                                                     hora python:date[11:16]">
               <time tal:content="python:hora + ' ' + data" />
               <div class="autor">De <strong tal:content="context/Creator | nothing" /></div>
+              <div class="noticias_media_col2">
+                <div class="noticias_actions">
+                  <ul>
+                    <li><a href="#" class="aumentar_fonte">A+</a></li>
+                    <li><a href="#" class="diminuir_fonte">A-</a></li>
+                  </ul>
+                </div>
+                <div class="social_share">
+                  <div tal:replace="structure provider:plone.belowcontenttitle" />
+                </div>
+              </div>
             </div>
           </header>
           <div tal:define="texto context/text/raw | nothing">
             <p tal:replace="structure texto">Conteúdo</p>
           </div>
+          <div tal:replace="structure provider:plone.belowcontentbody" />
         </article>
       </metal:block>
     </metal:content-core>
