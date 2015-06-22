@@ -37,7 +37,7 @@
               </div>
             </div>
           </header>
-          <div tal:define="texto context/text/raw | nothing">
+          <div class="contentBody" tal:define="texto context/text/raw | nothing">
             <p tal:replace="structure texto">Conteúdo</p>
           </div>
           <div tal:replace="structure provider:plone.belowcontentbody" />
