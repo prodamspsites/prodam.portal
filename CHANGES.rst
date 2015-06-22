@@ -3,7 +3,7 @@ Histórico de Alterações
 
 0.5a1 (unreleased)
 ^^^^^^^^^^^^^^^^^^
-* Adiciona conteúdo relacionado no template de notícias
+* Adiciona conteúdo relacionado no template de notícias [mosesjr]
 * Adiciona funcionalidade de tamanho de fontes em notícias [mosesjr]
 * Adiciona social share no template de notícias [mosesjr]
 * Customiza viewlet de busca [mosesjr]
