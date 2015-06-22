@@ -28,7 +28,7 @@
                 <div class="noticias_actions">
                   <ul>
                     <li><a href="#" class="aumentar_fonte">A+</a></li>
-                    <li><a href="#" class="diminuir_fonte">A+</a></li>
+                    <li><a href="#" class="diminuir_fonte">A-</a></li>
                   </ul>
                 </div>
                 <div class="social_share">
