@@ -3,6 +3,7 @@ Histórico de Alterações
 
 0.5a1 (unreleased)
 ^^^^^^^^^^^^^^^^^^
+* Implementa funcionalidade de tamanho de fontes [mosesjr]
 * Adiciona conteúdo relacionado no template de notícias [mosesjr]
 * Adiciona funcionalidade de tamanho de fontes em notícias [mosesjr]
 * Adiciona social share no template de notícias [mosesjr]
