@@ -4,8 +4,8 @@
   <dependencies>
     <dependency>profile-collective.js.jqueryui:default</dependency>
     <dependency>profile-sc.social.like:default</dependency>
-    <dependency>profile-collective.cover:default</dependency>
     <dependency>profile-plone.app.contenttypes:default</dependency>
     <dependency>profile-plone.app.theming:default</dependency>
+    <dependency>profile-prodam.tiles:default</dependency>
   </dependencies>
 </metadata>

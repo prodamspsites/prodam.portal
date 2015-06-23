@@ -44,7 +44,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'prodam.tema',
-        'collective.cover',
+        'prodam.tiles',
         'collective.jsonmigrator',
         'collective.nitf',
         'sc.social.like',

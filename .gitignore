@@ -23,5 +23,6 @@ Makefile
 parts/
 src/collective.cover/
 src/prodam.tema
+src/prodam.tiles
 var/
 dist/

@@ -3,8 +3,8 @@
     i18n_domain="prodam.portal">
 
   <include package="prodam.tema" />
+  <include package="prodam.tiles" />
   <include package="sc.social.like" />
-  <include package="collective.cover" />
   <include package="plone.app.contenttypes" />
   <include package="Products.CMFPlone" />
 

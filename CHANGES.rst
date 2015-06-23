@@ -3,6 +3,8 @@ Histórico de Alterações
 
 0.5a1 (unreleased)
 ^^^^^^^^^^^^^^^^^^
+* Disponibiliza tiles e estilos de tiles automaticamente [dadlo]
+* Adiciona prodam.tiles como dependencia [dadlo]
 * Implementa funcionalidade de tamanho de fontes [mosesjr]
 * Adiciona conteúdo relacionado no template de notícias [mosesjr]
 * Adiciona funcionalidade de tamanho de fontes em notícias [mosesjr]
