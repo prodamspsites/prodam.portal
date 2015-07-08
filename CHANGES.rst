@@ -3,6 +3,7 @@ Histórico de Alterações
 
 0.5a1 (unreleased)
 ^^^^^^^^^^^^^^^^^^
+* Ajusta sources para https seguindo padrão para proxy [dadlo]
 * Disponibiliza tiles e estilos de tiles automaticamente [dadlo]
 * Adiciona prodam.tiles como dependencia [dadlo]
 * Implementa funcionalidade de tamanho de fontes [mosesjr]
