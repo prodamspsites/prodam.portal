@@ -62,7 +62,7 @@
         <h2 class="buscaPor"
           i18n:translate=""
           tal:condition="st">
-          Busca por: 
+          Busca por:
           <strong id="search-term" tal:content="st" i18n:name="term">
             Termo buscado
           </strong>
@@ -148,8 +148,8 @@
 
                       <span i18n:domain="plone"
                         tal:condition="show_about">
-                       
-                        <span class="itemType" i18n:translate="" 
+
+                        <span class="itemType" i18n:translate=""
                         tal:content="item/PortalType">
                         </span>
 
