@@ -24,5 +24,6 @@ parts/
 src/collective.cover/
 src/prodam.tema
 src/prodam.tiles
+src/prodam.secoes
 var/
 dist/

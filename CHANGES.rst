@@ -3,7 +3,7 @@ Histórico de Alterações
 
 0.5a1 (unreleased)
 ^^^^^^^^^^^^^^^^^^
-* Ajusta para uso de sources padrão do buildout [dadlo]
+* Ajusta uso de sources padrão do buildout [dadlo]
 * Adiciona prodam.secoes como dependencia [dadlo]
 * Ajusta sources para https seguindo padrão para proxy [dadlo]
 * Disponibiliza tiles e estilos de tiles automaticamente [dadlo]
