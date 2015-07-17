@@ -4,6 +4,7 @@
 
   <include package="prodam.tema" />
   <include package="prodam.tiles" />
+  <include package="prodam.secoes" />
   <include package="sc.social.like" />
   <include package="plone.app.contenttypes" />
   <include package="Products.CMFPlone" />

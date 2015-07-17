@@ -7,5 +7,6 @@
     <dependency>profile-plone.app.contenttypes:default</dependency>
     <dependency>profile-plone.app.theming:default</dependency>
     <dependency>profile-prodam.tiles:default</dependency>
+    <dependency>profile-prodam.secoes:default</dependency>
   </dependencies>
 </metadata>

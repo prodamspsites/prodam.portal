@@ -45,6 +45,7 @@ setup(
     install_requires=[
         'prodam.tema',
         'prodam.tiles',
+        'prodam.secoes',
         'collective.jsonmigrator',
         'collective.nitf',
         'sc.social.like',
