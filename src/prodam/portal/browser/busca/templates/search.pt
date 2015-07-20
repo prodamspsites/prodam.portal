@@ -114,7 +114,6 @@
                              >Select All/None
                           </label>
                       </span>
-                      <br />
 
                     <div style="float:left; margin-right: 2em;"
                        tal:define="typeLists python:context.createMultiColumnList(types_list, numCols=1, sort_on='self');"
