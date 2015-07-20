@@ -178,10 +178,18 @@
                       <span class="itemTitle" tal:content="item/Title" > </span>
 
                       <span i18n:domain="plone"
-                        tal:condition="show_about">
+                        tal:condition="show_about"
+                        tal:define="item_type item/PortalType">
 
-                        <span class="itemType" i18n:translate=""
-                        tal:content="item/PortalType">
+                        <span class="itemType" i18n:translate="" i18n:domain="plone"
+                        tal:content="item_type"
+                        tal:condition="python: item_type != 'service'">
+                        </span>
+
+
+                        <span class="itemType"
+                        tal:condition="python: item_type == 'service'">
+                          Serviço
                         </span>
 
                         <span tal:define="publication_date item/EffectiveDate;
