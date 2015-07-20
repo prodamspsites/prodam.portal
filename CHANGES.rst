@@ -3,6 +3,7 @@ Histórico de Alterações
 
 0.5a1 (unreleased)
 ^^^^^^^^^^^^^^^^^^
+* Ajusta campos e estrutura da págna de busca [dadlo]
 * Ajusta uso de sources padrão do buildout [dadlo]
 * Adiciona prodam.secoes como dependencia [dadlo]
 * Ajusta sources para https seguindo padrão para proxy [dadlo]

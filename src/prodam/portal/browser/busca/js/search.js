@@ -26,8 +26,7 @@ jQuery(function ($) {
 
                     var $data_res = $ajax_search_res.find('#search-results').children(),
                         data_search_term = $ajax_search_res.find('#updated-search-term').text(),
-                        data_res_number = $ajax_search_res.find('#updated-search-results-number').text(),
-                        data_sorting_opt = $ajax_search_res.find('#updated-sorting-options').html();
+                        data_res_number = $ajax_search_res.find('#updated-search-results-number').text();
 
                     $container.html($data_res);
                     $container.fadeIn();
@@ -41,11 +40,8 @@ jQuery(function ($) {
 
                     $search_term.text(data_search_term);
                     $('#search-results-number').text(data_res_number);
-                    $('#search-results-bar').find('#sorting-options').html(data_sorting_opt);
 
-                    $('#rss-subscription').find('a.link-feed').attr('href', function () {
-                        return navigation_root_url + '/search_rss?' + query;
-                    });
+
                 });
         });
     };
@@ -170,23 +166,6 @@ jQuery(function ($) {
             e.preventDefault();
         }
     );
-
-    // Since we replace the whole sorting options with HTML, coming in
-    // AJAX response, we should bind the click event with delegate() in order
-    // for this to keep working with the HTML elements, coming from AJAX
-    // response
-    $('#sorting-options').delegate('a', 'click', function (e) {
-        if ($(this).attr('data-sort')) {
-            $form_search_page.find("input[name='sort_on']").val($(this).attr('data-sort'));
-        }
-        else {
-            $form_search_page.find("input[name='sort_on']").val('');
-        }
-        query = this.search.split('?')[1];
-        $default_res_container.pullSearchResults(query);
-        pushState(query);
-        e.preventDefault();
-    });
 
     // Handle clicks in the batch navigation bar. Load those with Ajax as
     // well.
