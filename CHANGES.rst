@@ -3,6 +3,8 @@ Histórico de Alterações
 
 0.5a1 (unreleased)
 ^^^^^^^^^^^^^^^^^^
+* Adiciona portlet de ocorrências [mosesjr]
+* Adiciona pasta portlets [mosesjr]
 * Adiciona template boneco para Mapa de Serviços [dadlo]
 * Ajusta campos e estrutura da págna de busca [dadlo]
 * Ajusta uso de sources padrão do buildout [dadlo]

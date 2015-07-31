@@ -21,6 +21,7 @@
   <include file='profiles.zcml' />
 
   <include package=".browser" />
+  <include package=".portlets" />
 
   <!-- Registra pasta de elementos estaticos -->
   <browser:resourceDirectory
