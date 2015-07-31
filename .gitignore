@@ -9,6 +9,7 @@
 .mr.developer.cfg
 default.cfg
 cache.cfg
+development.cfg
 .settings
 bin/
 coverage/
