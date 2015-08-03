@@ -56,9 +56,7 @@ class Renderer(base.Renderer):
 
     @property
     def getVideos(self):
-        import pdb
-        pdb.set_trace()
-        return self.data.hide
+        return self.data.urls
 
 
 class AddForm(base.AddForm):
