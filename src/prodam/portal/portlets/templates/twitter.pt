@@ -2,10 +2,39 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       tal:omit-tag=""
-      i18n:domain="brasil.gov.agenda">
-<dl class="portlet portletSearch"
-    i18n:domain="plone">
-    <h1>Twitter</h1>
-    <span tal:replace="structure view/getTweets" />
+      i18n:domain="prodam.portal">
+<dl class="portlet">
+    <header class="box">
+      <h3 class=""><span tal:replace="structure context/title" /></h3>
+    </header>
+    <div class="news-list twitter-list">
+      <ul>
+        <li>
+          <a href="https://twitter.com/saopaulo_agora/statuses/628174995492048896" target="_blank">
+            <time>Há 4 horas</time>
+            <p>Hoje não há previsão de chuvas. (CGE) #spagora</p>
+          </a>
+        </li>
+        <li>
+          <a href="https://twitter.com/saopaulo_agora/statuses/628174844341915648" target="_blank">
+            <time>Há 4 horas</time>
+            <p>O predomínio de sol desde o amanhecer garante mais um dia quente para a época do ano. A máxima deve ficar por volta dos 28°C. (CGE) #spagora</p>
+          </a>
+        </li>
+        <li>
+          <a href="https://twitter.com/saopaulo_agora/statuses/628159996363173888" target="_blank">
+            <time>Há 5 horas</time>
+            <p>Retorna ao estado de OBSERVAÇÃO para baixa temperatura em Toda Cidade. Temperatura e sensação térmica de 14°C. (COMDEC) #spagora</p>
+          </a>
+        </li>
+        <li>
+          <a href="https://twitter.com/saopaulo_agora/statuses/628101007277486080" target="_blank">
+            <time>Há 9 horas</time>
+            <p>Madrugada sem alterações significativas, temperatura média 15°C. Capela do Socorro com 10°C.  Não há previsão de chuva. (CGE) #spagora</p>
+          </a>
+        </li>
+      </ul>
+    </div>
+
 </dl>
 </html>
