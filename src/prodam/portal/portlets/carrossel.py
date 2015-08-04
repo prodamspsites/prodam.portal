@@ -12,19 +12,19 @@ from zope.interface import implements
 class iCarrossel(IPortletDataProvider):
 
     header = schema.TextLine(
-        title=_(u"Portlet header"),
-        description=_(u"Title of the rendered portlet"),
+        title=_(u'Portlet header'),
+        description=_(u'Title of the rendered portlet'),
         required=True)
 
     show_header = schema.Bool(
-        title=_(u"Show portlet header"),
-        description=_(u""),
+        title=_(u'Show portlet header'),
+        description=_(u''),
         required=True,
         default=False)
 
     urls = schema.Text(
-        title=_(u"URL dos Vídeos"),
-        description=_(u"Lista com links dos vídeos a serem exibidos"),
+        title=_(u'URL dos Vídeos'),
+        description=_(u'Lista com links dos vídeos a serem exibidos'),
         required=True)
 
 
@@ -32,7 +32,7 @@ class Assignment(base.Assignment):
 
     implements(iCarrossel)
 
-    def __init__(self, header=u"", show_header=False, urls=None):
+    def __init__(self, header=u'', show_header=False, urls=None):
         self.header = header
         self.show_header = show_header
         self.urls = urls
@@ -42,7 +42,7 @@ class Assignment(base.Assignment):
         if self.header:
             return self.header
         else:
-            return "Youtube"
+            return 'Youtube'
 
 
 class Renderer(base.Renderer):
@@ -61,8 +61,8 @@ class Renderer(base.Renderer):
 
 class AddForm(base.AddForm):
     form_fields = form.Fields(iCarrossel)
-    label = _(u"Add carrossel Portlet")
-    description = _(u"Exibe vídeos em carrossel.")
+    label = _(u'Add carrossel Portlet')
+    description = _(u'Exibe vídeos em carrossel.')
 
     def create(self, data):
         return Assignment(**data)
@@ -70,5 +70,5 @@ class AddForm(base.AddForm):
 
 class EditForm(base.EditForm):
     form_fields = form.Fields(iCarrossel)
-    label = _(u"Editar portlet de carrossel")
-    description = _(u"Exibe vídeos em carrossel.")
+    label = _(u'Editar portlet de carrossel')
+    description = _(u'Exibe vídeos em carrossel.')
