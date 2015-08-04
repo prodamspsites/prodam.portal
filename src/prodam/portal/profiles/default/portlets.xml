@@ -13,6 +13,16 @@
    <for interface="plone.app.portlets.interfaces.IColumn" />
    <for interface="plone.app.portlets.interfaces.IDashboard" />
  </portlet>
+ <portlet
+   addview="prodam.carrossel"
+   title="Carrossel de vídeos"
+   description="Portlet com vídeos em carrossel."
+   i18n:attributes="title;
+                    description"
+   >
+   <for interface="plone.app.portlets.interfaces.IColumn" />
+   <for interface="plone.app.portlets.interfaces.IDashboard" />
+ </portlet>
 
 
 </portlets>

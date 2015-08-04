@@ -5,7 +5,7 @@
       i18n:domain="prodam.portal">
 <dl class="portlet">
     <header class="box">
-      <h3 class=""><span tal:replace="structure context/title" /></h3>
+      <h3 class="maisBuscadosTitulo"><span tal:replace="structure context/title" /></h3>
     </header>
     <div class="news-list twitter-list">
       <ul>
