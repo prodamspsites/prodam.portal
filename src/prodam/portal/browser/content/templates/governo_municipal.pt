@@ -1,0 +1,3 @@
+<tal:secretarias tal:replace="structure view/getSecretarias"></tal:secretarias>
+<tal:subprefeituras tal:replace="structure view/getSubPrefeituras"></tal:subprefeituras>
+<tal:orgaos tal:replace="structure view/getOrgaos"></tal:orgaos>
