@@ -7,10 +7,15 @@
   <order manager="plone.portalheader" skinname="*" purge="True">
     <viewlet name="plone.global_sections" />
   </order>
+  <order manager="plone.plonefooter" skinname="*">
+    <viewlet name="prodam.portal.topo" before="doormat.footer"/>
+    <viewlet name="prodam.prefeitura.footer" before="doormat.footer"/>
+  </order>
   <hidden manager="plone.portalheader" skinname="*" purge="True">
     <viewlet name="plone.global_sections" remove="true" />
   </hidden>
-  <order manager="plone.plonefooter" skinname="*">
-    <viewlet name="prodam.portal.topo" before="doormat.footer"/>
-  </order>
+  <hidden manager="plone.plonefooter" skinname="*" purge="True">
+    <viewlet name="plone.footer" />
+  </hidden>
+  <hidden manager="plone.plonefooter" skinname="*" remove="True" />
 </object>

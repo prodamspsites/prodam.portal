@@ -1,0 +1,114 @@
+<footer id="footer-nav">
+  <div class="container-wrapper">
+    <section class="width-16 first">
+      <nav role="navigation" class="width-4 first" id="bloco1">
+        <strong>Governo Municipal</strong>
+          <ul>
+            <li>
+              <span>Prefeito</span>
+              <strong>Fernando Haddad</strong>
+            </li>
+            <li><a target="_blank" href="http://www.prefeitura.sp.gov.br/guiadeservicos/content/equipe-de-governo">
+            <strong>Equipe de Governo</strong></a></li>
+        </ul>
+        <ul class="lista">
+          <li><a href="/portal/evento/agenda/PREFEITO">Agenda do prefeito</a></li>
+        </ul>
+      </nav>
+      <nav role="navigation" class="width-4" id="bloco2">
+        <strong>Acontece na Cidade</strong>
+        <ul class="lista">
+          <li><a href="/portal/noticia">ÚLTIMAS NOTÍCIAS</a></li>
+          <li><a target="_blank" href="http://www.sptrans.com.br/itinerarios/">Itinerários de ônibus</a></li>
+          <li><a target="_blank" href="/portal/mapa">Mapa de serviços</a></li>
+        </ul>
+      </nav>
+      <nav role="navigation" class="width-4" id="bloco3">
+        <strong>São Paulo para</strong>
+        <ul class="upper lista">
+          <li><a href="../cidadao">Cidadão</a></li>
+          <li><a href="../empresa">Empresa</a></li>
+          <li><a href="../turista">Turista</a></li>
+          <li><a href="../servidor">Servidor</a></li>
+        </ul>
+      </nav>
+      <div class="width-4 last" id="bloco4">
+        <strong>Atendimento</strong>
+        <ul class="box_content">
+            <li><a target="_blank" aria-label="Faça sua Solicitação" href="http://sac.prefeitura.sp.gov.br/">Faça sua Solicitação</a></li>
+        </ul><div class="visualClear"><!-- --></div>
+      </div>
+      <div class="visualClear"><!-- --></div>
+    </section>
+    <section class="width-16 last">
+      <form class="width-4" id="socials" method="GET" action="footer.php">
+        <fieldset class="five columns alpha">
+          <legend class="legend">Prefeitura</legend>
+          <tal:imports tal:define="governoMunicipal python:context.restrictedTraverse('@@governoMunicipal');
+                                   subPrefeituras governoMunicipal/getSubPrefeituras;
+                                   secretarias governoMunicipal/getSecretarias;
+                                   orgaos governoMunicipal/getOrgaos">
+
+            <tal:secretarias tal:replace="structure secretarias"></tal:secretarias>
+            <tal:subPrefeituras tal:replace="structure subPrefeituras"></tal:subPrefeituras>
+            <tal:orgaos tal:replace="structure orgaos"></tal:orgaos>
+          </tal:imports>
+       </fieldset>
+      </form>
+      <div id="bloco2" class="width-4">
+        <strong>Canais Oficiais</strong>
+        <ul class="social_footer" id="social_footer">
+          <li>
+            <a target="_blank" href="https://www.facebook.com/PrefSP"><span id="facebook">Facebook</span></a>
+          </li>
+          <li>
+            <a target="_blank" href="http://www.twitter.com/prefsp"><span id="twitter">Twitter</span></a>
+          </li>
+          <li>
+            <a target="_blank" href="http://www.youtube.com/prefeiturasaopaulo"><span id="youtube">Youtube</span></a>
+          </li>
+          <li style="clear: both;padding-top: 14px;">
+            <a target="_blank" href="http://www.docidadesp.imprensaoficial.com.br"><span id="diario"></span>
+              Diário Oficial
+            </a>
+          </li>
+        </ul>
+      </div>
+      <nav id="bloco3" class="width-4">
+        <strong>Consultas</strong>
+          <ul class="lista">
+            <li><a target="_blank" href="http://www.prefeitura.sp.gov.br/cidade/secretarias/negocios_juridicos/cadastro_de_leis/index.php?p=325">Leis Municipais</a></li>
+            <li><a target="_blank" href="http://www3.prodam.sp.gov.br/simproc/simproc.asp">Pesquisa de Processos</a></li>
+            <li><a target="_blank" href="http://e-negocioscidadesp.prefeitura.sp.gov.br/">Licitações</a></li>
+            <li><a target="_blank" href="http://www.prefeitura.sp.gov.br/cidade/secretarias/planejamento/links/index.php?p=24208">Ata de Registro de Preços</a></li>
+        </ul>
+      </nav>
+      <div role="navigation" class="width-4 last" id="bloco4">
+        <strong>APLICATIVOS</strong>
+        <ul>
+          <li>
+            <a target="_blank" class="app-icone app-iphone" href="https://itunes.apple.com/us/app/prefeitura-sao-paulo/id829248485?mt=8"><img height="45px" width="118px" src="img/icon_appestore_disponivel.png"></a>
+          </li>
+          <li>
+            <a target="_blank" class="app-icone app-android" href="https://play.google.com/store/apps/details?id=br.inf.call.dashboard_sp"><img height="45px" width="118px" src="img/icon_googleplay.png"></a>
+          </li>
+        </ul>
+      </div>
+      <div class="visualClear"><!-- --></div>
+    </section>
+    <div class="visualClear"><!-- --></div>
+  </div>
+</footer>
+
+<div class="footer-texto">
+  <div class="container-wrapper">
+    <section>
+      <div id="logoPB"></div>
+    </section>
+  </div>
+  <div role="contentinfo" class="copyright">
+    <div class="container-wrapper">
+        &copy; COPYRIGHT 2013, Prefeitura Municipal de São Paulo Viaduto do Cha, 15 - Centro - CEP: 01002-020
+    </div>
+  </div>
+</div>
