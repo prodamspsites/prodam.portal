@@ -5,8 +5,8 @@
  <!-- Portlet type registrations -->
  <portlet
    addview="prodam.ocorrencias"
-   title="Últimas ocorrências"
-   description="Portlet com as últimas ocorrências."
+   title="Last events"
+   description="Show last events."
    i18n:attributes="title;
                     description"
    >

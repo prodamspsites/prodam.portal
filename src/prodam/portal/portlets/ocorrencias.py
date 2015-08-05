@@ -109,8 +109,8 @@ class Renderer(base.Renderer):
 
 class AddForm(base.AddForm):
     form_fields = form.Fields(iOcorrencias)
-    label = _(u'Add Ocorrências Portlet')
-    description = _(u'Exibe as últimas ocorrências.')
+    label = _(u'Add Events Portlet')
+    description = _(u'Show last events')
 
     def create(self, data):
         return Assignment(**data)
@@ -118,5 +118,5 @@ class AddForm(base.AddForm):
 
 class EditForm(base.EditForm):
     form_fields = form.Fields(iOcorrencias)
-    label = _(u'Editar portlet de ocorrências')
-    description = _(u'Exibe as últimas ocorrências.')
+    label = _(u'Edit Events Portlet')
+    description = _(u'Show last events')
