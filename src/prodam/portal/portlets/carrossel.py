@@ -23,8 +23,8 @@ class iCarrossel(IPortletDataProvider):
         default=False)
 
     urls = schema.Text(
-        title=_(u'URL dos Vídeos'),
-        description=_(u'Lista com links dos vídeos a serem exibidos'),
+        title=_(u'Youtube URLs'),
+        description=_(u'List of youtube videos'),
         required=True)
 
 
@@ -62,7 +62,7 @@ class Renderer(base.Renderer):
 class AddForm(base.AddForm):
     form_fields = form.Fields(iCarrossel)
     label = _(u'Add carrossel Portlet')
-    description = _(u'Exibe vídeos em carrossel.')
+    description = _(u'Shows videos from youtube.')
 
     def create(self, data):
         return Assignment(**data)
@@ -71,4 +71,4 @@ class AddForm(base.AddForm):
 class EditForm(base.EditForm):
     form_fields = form.Fields(iCarrossel)
     label = _(u'Editar portlet de carrossel')
-    description = _(u'Exibe vídeos em carrossel.')
+    description = _(u'Shows videos from youtube')
