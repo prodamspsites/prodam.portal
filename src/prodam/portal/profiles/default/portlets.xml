@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<portlets
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="prodam.portal">
+ <!-- Portlet type registrations -->
+ <portlet
+   addview="prodam.ocorrencias"
+   title="Last events"
+   description="Show last events."
+   i18n:attributes="title;
+                    description"
+   >
+   <for interface="plone.app.portlets.interfaces.IColumn" />
+   <for interface="plone.app.portlets.interfaces.IDashboard" />
+ </portlet>
+ <portlet
+   addview="prodam.carrossel"
+   title="Carrossel"
+   description="Portlet com carrossel do youtube."
+   i18n:attributes="title;
+                    description"
+   >
+   <for interface="plone.app.portlets.interfaces.IColumn" />
+   <for interface="plone.app.portlets.interfaces.IDashboard" />
+ </portlet>
+
+
+</portlets>

@@ -1,0 +1,26 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:plone="http://namespaces.plone.org/plone">
+
+  <include package="plone.app.portlets" />
+
+    <plone:portlet
+        name="prodam.ocorrencias"
+        interface=".ocorrencias.iOcorrencias"
+        assignment=".ocorrencias.Assignment"
+        renderer=".ocorrencias.Renderer"
+        addview=".ocorrencias.AddForm"
+        editview=".ocorrencias.EditForm"
+        />
+
+    <plone:portlet
+        name="prodam.carrossel"
+        interface=".carrossel.iCarrossel"
+        assignment=".carrossel.Assignment"
+        renderer=".carrossel.Renderer"
+        addview=".carrossel.AddForm"
+        editview=".carrossel.EditForm"
+        />
+
+
+</configure>

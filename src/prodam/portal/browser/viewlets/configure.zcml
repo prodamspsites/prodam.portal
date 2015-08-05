@@ -65,4 +65,13 @@
       layer="prodam.portal.interfaces.IProdamPortal"
       />
 
+  <browser:viewlet
+      name="prodam.prefeitura.footer"
+      manager="plone.app.layout.viewlets.interfaces.IPortalFooter"
+      class=".viewlets.FooterPrefeitura"
+      layer="prodam.portal.interfaces.IProdamPortal"
+      template="templates/footer_prefeitura.pt"
+      permission="zope2.View"
+      />
+
 </configure>

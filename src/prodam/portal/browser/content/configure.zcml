@@ -12,4 +12,13 @@
       layer="prodam.portal.interfaces.IProdamPortal"
       />
 
+  <browser:page
+      name="governoMunicipal"
+      for="*"
+      permission="zope2.View"
+      class=".view.governoMunicipal"
+      template="templates/governo_municipal.pt"
+      layer="prodam.portal.interfaces.IProdamPortal"
+      />
+
 </configure>

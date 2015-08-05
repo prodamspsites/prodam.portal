@@ -13,7 +13,7 @@
           <h1>Notícias</h1>
         </header>
         <article>
-          <header tal:define="portal_url python:'/'.join(context.getPhysicalPath())">
+          <header tal:define="portal_url context/portal_url;">
             <div class="btn_voltar">
               <a href="#" tal:attributes="href python:portal_url + '/noticias'"><span></span> Voltar</a>
             </div>
