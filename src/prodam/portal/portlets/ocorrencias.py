@@ -13,50 +13,50 @@ from zope.interface import implements
 class iOcorrencias(IPortletDataProvider):
 
     header = schema.TextLine(
-        title=_(u"Portlet header"),
-        description=_(u"Title of the rendered portlet"),
+        title=_(u'Portlet header'),
+        description=_(u'Title of the rendered portlet'),
         required=True)
 
     show_header = schema.Bool(
-        title=_(u"Show portlet header"),
-        description=_(u""),
+        title=_(u'Show portlet header'),
+        description=_(u''),
         required=True,
         default=False)
 
     user = schema.TextLine(
-        title=_(u"Twitter user name"),
-        description=_(u""),
+        title=_(u'Twitter user name'),
+        description=_(u''),
         required=False)
 
     count = schema.TextLine(
-        title=_(u"Number of tweets to show"),
-        description=_(u""),
+        title=_(u'Number of tweets to show'),
+        description=_(u''),
         required=False)
 
     consumer_key = schema.TextLine(
-        title=_(u"Twitter Consumer key"),
-        description=_(u"Used by twitter API"),
+        title=_(u'Twitter Consumer key'),
+        description=_(u'Used by twitter API'),
         required=False)
 
     consumer_secret = schema.TextLine(
-        title=_(u"Twitter Consumer secret"),
-        description=_(u"Used by twitter API"),
+        title=_(u'Twitter Consumer secret'),
+        description=_(u'Used by twitter API'),
         required=False)
 
     access_token = schema.TextLine(
-        title=_(u"Access token"),
-        description=_(u"Used by twitter API"),
+        title=_(u'Access token'),
+        description=_(u'Used by twitter API'),
         required=False)
 
     token_secret = schema.TextLine(
-        title=_(u"Access token secret"),
-        description=_(u"Used by twitter API"),
+        title=_(u'Access token secret'),
+        description=_(u'Used by twitter API'),
         required=False)
 
     hide = schema.Bool(
-        title=_(u"Hide portlet"),
-        description=_(u"Tick this box if you want to temporarily hide "
-                      "the portlet without losing your information."),
+        title=_(u'Hide portlet'),
+        description=_(u'Tick this box if you want to temporarily hide '
+                      'the portlet without losing your information.'),
         required=True,
         default=False)
 
@@ -65,7 +65,7 @@ class Assignment(base.Assignment):
 
     implements(iOcorrencias)
 
-    def __init__(self, header=u"", show_header=False, user=None, count=None, consumer_key=None, consumer_secret=None, access_token=None, token_secret=None, fax=None, hide=False):
+    def __init__(self, header=u'', show_header=False, user=None, count=None, consumer_key=None, consumer_secret=None, access_token=None, token_secret=None, fax=None, hide=False):
         self.header = header
         self.show_header = show_header
         self.user = user
@@ -81,7 +81,7 @@ class Assignment(base.Assignment):
         if self.header:
             return self.header
         else:
-            return "Twitter"
+            return 'Twitter'
 
 
 class Renderer(base.Renderer):
@@ -103,14 +103,14 @@ class Renderer(base.Renderer):
         # ser = self.data.user
         # results = twitter.statuses.user_timeline(screen_name=user)
         # for status in results[0:self.data.count]:
-        #     print "(%s) %s" % (status["created_at"], status["text"])
+        #     print '(%s) %s' % (status['created_at'], status['text'])
         return 'ok'
 
 
 class AddForm(base.AddForm):
     form_fields = form.Fields(iOcorrencias)
-    label = _(u"Add Ocorrências Portlet")
-    description = _(u"Exibe as últimas ocorrências.")
+    label = _(u'Add Events Portlet')
+    description = _(u'Show last events')
 
     def create(self, data):
         return Assignment(**data)
@@ -118,5 +118,5 @@ class AddForm(base.AddForm):
 
 class EditForm(base.EditForm):
     form_fields = form.Fields(iOcorrencias)
-    label = _(u"Editar portlet de ocorrências")
-    description = _(u"Exibe as últimas ocorrências.")
+    label = _(u'Edit Events Portlet')
+    description = _(u'Show last events')
