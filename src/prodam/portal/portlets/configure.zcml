@@ -13,4 +13,14 @@
         editview=".ocorrencias.EditForm"
         />
 
+    <plone:portlet
+        name="prodam.carrossel"
+        interface=".carrossel.iCarrossel"
+        assignment=".carrossel.Assignment"
+        renderer=".carrossel.Renderer"
+        addview=".carrossel.AddForm"
+        editview=".carrossel.EditForm"
+        />
+
+
 </configure>
