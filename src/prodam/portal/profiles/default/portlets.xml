@@ -15,8 +15,8 @@
  </portlet>
  <portlet
    addview="prodam.carrossel"
-   title="Carrossel de vídeos"
-   description="Portlet com vídeos em carrossel."
+   title="Carrossel"
+   description="Portlet com carrossel do youtube."
    i18n:attributes="title;
                     description"
    >
