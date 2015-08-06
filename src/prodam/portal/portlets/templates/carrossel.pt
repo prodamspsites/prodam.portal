@@ -4,6 +4,9 @@
       tal:omit-tag=""
       i18n:domain="prodam.portal">
 <dl class="portlet">
-<span tal:replace="structure view/getVideos" />
+    <tal:Videos tal:define="url view/getVideos"
+                tal:repeat="video url">
+        <span tal:content="video">
+    </tal:Videos>
 </dl>
 </html>
