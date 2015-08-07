@@ -62,10 +62,9 @@ class Renderer(base.Renderer):
     def render(self):
         return self._template()
 
-    @property
-    def title(self):
-        if self.header:
-            return self.header
+    def getTitle(self):
+        if self.data.header:
+            return self.data.header
         else:
             return 'Youtube'
 
