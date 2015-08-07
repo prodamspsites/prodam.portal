@@ -14,7 +14,7 @@
              tal:define="videoPrincipal python:urls[0].getObject().docId;
                          videoPrincipal string:https://www.youtube.com/v/${videoPrincipal}">
           <div id="videoCanalYoutube">
-            <ul class="videos">
+            <div class="destaque">
               <object width="290" height="203">
                 <param name="movie"
                        value="https://www.youtube.com/v/StGGAlbHG_0"
@@ -26,7 +26,7 @@
                        width="290" height="203"
                        tal:attributes="src videoPrincipal"></embed>
               </object>
-            </ul>
+            </div>
           </div>
           <h2 id="tituloVideo" tal:content="python:urls[0].Title">Aplicativos aproximam população e Prefeitura de São Paulo</h2>
         </div>
