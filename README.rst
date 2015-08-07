@@ -29,7 +29,7 @@ O estado atual dos testes pode ser visto pela imagem abaixo:
 .. image:: https://travis-ci.org/prodamspsites/prodam.portal.svg
     :target: https://travis-ci.org/prodamspsites/prodam.portal
 
-O estado atual da cobertyra de testes pode ser acompanhado pela imagem abaixo:
+O estado atual da cobertura de testes pode ser acompanhado pela imagem abaixo:
 
 .. image:: https://coveralls.io/repos/prodamspsites/prodam.portal/badge.svg
     :target: https://coveralls.io/r/prodamspsites/prodam.portal 
