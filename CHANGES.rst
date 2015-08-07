@@ -3,6 +3,8 @@ Histórico de Alterações
 
 0.5a1 (unreleased)
 ^^^^^^^^^^^^^^^^^^
+* Adiciona produto ATGoogleVideo [mosesjr]
+* Adiciona portlet de carrossel [mosesjr]
 * Adiciona portlet de ocorrências [mosesjr]
 * Adiciona pasta portlets [mosesjr]
 * Adiciona template boneco para Mapa de Serviços [dadlo]

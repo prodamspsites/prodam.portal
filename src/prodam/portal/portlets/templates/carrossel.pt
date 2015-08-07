@@ -1,12 +1,51 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      tal:omit-tag=""
-      i18n:domain="prodam.portal">
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    tal:omit-tag=""
+    i18n:domain="prodam.portal">
 <dl class="portlet">
-    <tal:Videos tal:define="url view/getVideos"
-                tal:repeat="video url">
-        <span tal:content="video">
-    </tal:Videos>
+  <tal:Videos tal:define="urls view/getVideos">
+    <section class="carrossel" tal:condition="python:urls[0]">
+      <header>
+        <h2>São Paulo na TV</h2>
+      </header>
+      <div class="carrossel-wrapper">
+        <div class="principal-video"
+             tal:define="videoPrincipal python:urls[0].getObject().docId;
+                         videoPrincipal string:https://www.youtube.com/v/${videoPrincipal}">
+          <div id="videoCanalYoutube">
+            <ul class="videos">
+              <object width="290" height="203">
+                <param name="movie"
+                       value="https://www.youtube.com/v/StGGAlbHG_0"
+                       tal:attributes="value videoPrincipal"></param>
+                <param name="allowScriptAccess" value="always"></param>
+                <embed src="https://www.youtube.com/v/StGGAlbHG_0"
+                       type="application/x-shockwave-flash"
+                       allowscriptaccess="always"
+                       width="290" height="203"
+                       tal:attributes="src videoPrincipal"></embed>
+              </object>
+            </ul>
+          </div>
+          <h2 id="tituloVideo" tal:content="python:urls[0].Title">Aplicativos aproximam população e Prefeitura de São Paulo</h2>
+        </div>
+        <footer id="lista-videos">
+          <a href="http://www.youtube.com/user/prefeiturasaopaulo" target="_blank" class="more-links" tal:attributes="href view/getMoreLink">Ver outros vídeos <span class="sprite-arrowright2"></span></a>
+          <ul class="videos"
+              tal:repeat="video urls">
+            <li id="clickVideo" data-urlvideo="http://www.youtube.com/embed/StGGAlbHG_0"
+                tal:define="docId python:video.getObject().docId;
+                            videourl string:https://www.youtube.com/v/${docId}"
+                tal:attributes="data-urlvideo videourl">
+              <a href="#" rel="#" tal:attributes="rel videourl; title video/Title"><img src="https://i.ytimg.com/vi/StGGAlbHG_0/default.jpg" width="105" height="74" tal:attributes="src string:https://i.ytimg.com/vi/${docId}/default.jpg; alt video/Title" /></a>
+            </li>
+          </ul>
+        </footer>
+      </div>
+    </section>
+
+
+  </tal:Videos>
 </dl>
 </html>

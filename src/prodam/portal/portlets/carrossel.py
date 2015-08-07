@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.portlets.portlets import base
@@ -22,9 +23,15 @@ class iCarrossel(IPortletDataProvider):
         required=True,
         default=False)
 
-    urls = schema.Text(
-        title=_(u'Youtube URLs'),
-        description=_(u'List of youtube videos'),
+    count = schema.Int(
+        title=_(u'Number of items to show'),
+        description=_(u'Total itens that should be displayed'),
+        required=True,
+        default=4)
+
+    more = schema.TextLine(
+        title=_(u'Youtube channel URL'),
+        description=_(u'This is the view more link'),
         required=True)
 
 
@@ -32,10 +39,11 @@ class Assignment(base.Assignment):
 
     implements(iCarrossel)
 
-    def __init__(self, header=u'', show_header=False, urls=None):
+    def __init__(self, header=u'', show_header=False, count=4, more=''):
         self.header = header
         self.show_header = show_header
-        self.urls = urls
+        self.count = count
+        self.more = more
 
     @property
     def title(self):
@@ -55,18 +63,21 @@ class Renderer(base.Renderer):
         return self._template()
 
     @property
+    def title(self):
+        if self.header:
+            return self.header
+        else:
+            return 'Youtube'
+
+    def getMoreLink(self):
+        return self.data.more
+
+    @property
     def getVideos(self):
-        terms = [',', ' ', ';']
-        urls = self.data.urls
-        for i in terms:
-            urls = urls.replace(i, '\n')
-        while '\n\n' in urls:
-            urls = urls.replace('\n\n', '\n')
-        self.data.urls = urls
-        urls = urls.split('\n')
-        while u'' in urls:
-            urls.remove(u'')
-        return urls
+        count = self.data.count
+        catalog = getToolByName(self, 'portal_catalog')
+        videos = catalog(portal_type='Google Video', sort_on='Date', sort_order='Descending')[:count]
+        return videos
 
 
 class AddForm(base.AddForm):

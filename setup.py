@@ -51,6 +51,7 @@ setup(
         'sc.social.like',
         'five.pt',
         'Pillow',
+	'Products.ATGoogleVideo',
         'plone.api',
         'plone.app.contenttypes',
         'plone.app.transmogrifier',
