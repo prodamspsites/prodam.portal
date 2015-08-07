@@ -56,7 +56,17 @@ class Renderer(base.Renderer):
 
     @property
     def getVideos(self):
-        return self.data.urls
+        terms = [',', ' ', ';']
+        urls = self.data.urls
+        for i in terms:
+            urls = urls.replace(i, '\n')
+        while '\n\n' in urls:
+            urls = urls.replace('\n\n', '\n')
+        self.data.urls = urls
+        urls = urls.split('\n')
+        while u'' in urls:
+            urls.remove(u'')
+        return urls
 
 
 class AddForm(base.AddForm):
