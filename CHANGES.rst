@@ -3,8 +3,8 @@ Histórico de Alterações
 
 0.5a1 (unreleased)
 ^^^^^^^^^^^^^^^^^^
-* Customiza template do ATGoogleVideo [mosesjr]
-* Adiciona produto ATGoogleVideo [mosesjr]
+* Adiciona nova view para o ATGoogleVideo [mosesjr]
+* Adiciona produto ATGoogleVideo como dependência  [mosesjr]
 * Adiciona portlet de carrossel [mosesjr]
 * Adiciona portlet de ocorrências [mosesjr]
 * Adiciona pasta portlets [mosesjr]
