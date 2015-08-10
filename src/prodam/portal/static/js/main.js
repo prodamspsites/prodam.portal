@@ -9,6 +9,21 @@
         $('.destaque').html(video);
         $('#tituloVideo').text(thisTitle)
      })
+     $("#tab-cid").bind("click", function(){
+        event.preventDefault();
+        $(".secoesServicos").hide();
+        $("#home-secoes-cidadao").show();
+     })
+     $("#tab-emp").bind("click", function(){
+        event.preventDefault();
+        $(".secoesServicos").hide();
+        $("#home-secoes-empresa").show();
+     })
+     $("#tab-tur").bind("click", function(){
+        event.preventDefault();
+        $(".secoesServicos").hide();
+        $("#home-secoes-turista").show();
+     })
      $(".noticias_actions a").bind("click", function () {
         event.preventDefault();
         var size = parseInt($('.contentBody').css("font-size"));
