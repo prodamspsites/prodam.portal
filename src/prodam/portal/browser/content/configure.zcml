@@ -21,4 +21,11 @@
       layer="prodam.portal.interfaces.IProdamPortal"
       />
 
+  <browser:page
+      name="chamadaView"
+      for="*"
+      class=".chamada.chamadaView"
+      template="templates/chamada.pt"
+      permission="zope2.View"
+      />
 </configure>

@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="example.conference">
+<body>
+
+<metal:main fill-slot="main">
+    <tal:main-macro metal:define-macro="main"
+        tal:define="toLocalizedTime nocall:context/@@plone/toLocalizedTime">
+        <strong>Título: </strong><span tal:replace="context/title" /><br />
+        <strong>Descrição: </strong><span tal:replace="context/Description" /><br />
+        <strong>URL: </strong><span tal:content="context/url" /><br />
+        <strong>Target: </strong><span tal:content="context/target" /><br />
+        <tal:hasImage tal:condition="python:context.image">
+            <strong>Imagem: </strong><img src="imagem.jpeg" tal:replace="structure python:view.getImage('mini')" />
+        </tal:hasImage>
+    </tal:main-macro>
+</metal:main>
+
+</body>
+</html>

@@ -3,7 +3,9 @@ Histórico de Alterações
 
 0.5a1 (unreleased)
 ^^^^^^^^^^^^^^^^^^
-* Adiciona produto ATGoogleVideo [mosesjr]
+* Adiciona tipo de item chamadas [wblima]
+* Adiciona nova view para o ATGoogleVideo [mosesjr]
+* Adiciona produto ATGoogleVideo como dependência  [mosesjr]
 * Adiciona portlet de carrossel [mosesjr]
 * Adiciona portlet de ocorrências [mosesjr]
 * Adiciona pasta portlets [mosesjr]
