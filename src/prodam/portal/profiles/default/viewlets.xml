@@ -6,6 +6,7 @@
   </order>
   <order manager="plone.portalheader" skinname="*" purge="True">
     <viewlet name="plone.global_sections" />
+    <viewlet name="prodam.prefeitura.spaberta" />
   </order>
   <order manager="plone.plonefooter" skinname="*">
     <viewlet name="prodam.portal.topo" before="doormat.footer"/>
