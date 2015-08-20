@@ -1,0 +1,302 @@
+<aside id="externos" role="complementary">
+  <header class="dash-header">
+    São Paulo agora:
+    <button class="e-fechar"> </button>
+  </header>
+  <ul id="servicos-externos">
+    <li class="ex-clima">
+      <div class="dash-border">
+        <strong class="titulo-dash">Tempo </strong>
+        <div class="tempo-g nb"></div>
+        <div class="t-media">
+          <span>Média</span>
+          <span id="CGE-media" class="amarelo bold"> 24º</span>
+        </div>
+        <div class="tempestade">
+          <span>Potencial <div class="raio"></div></span>
+          <span id="status-temp" class="amarelo">Baixo</span>
+        </div>
+      </div>
+      <div class="ex-hover"></div>
+    </li>
+    <!-- AR -->
+    <li class="ex-ar">
+      <div class="dash-border">
+        <strong class="titulo-dash">Qualidade do Ar</strong>
+        <div class="dash-img o2quali"></div>
+        <b class="bullet-verde em2">Boa</b>
+      </div>
+      <div class="ex-hover"></div>
+    </li>
+
+    <!-- Aeroportos -->
+    <li class="ex-aero">
+      <div class="dash-border">
+        <strong class="titulo-dash">Aeroportos</strong>
+        <div class="dash-img"></div>
+        <span id="aero-status">Consulte situação</span>
+      </div>
+      <div class="ex-hover"></div>
+    </li>
+
+    <!-- Transporte público -->
+    <li class="ex-publico">
+      <div class="dash-border">
+        <strong class="titulo-dash">Transporte Público</strong>
+        <div class="dash-img"></div>
+        <a href="http://www.sptrans.com.br/itinerarios/" target="_blank" class="azul-pq">Busca de itinerários</a>
+      </div>
+      <div class="ex-hover"></div>
+    </li>
+
+    <!-- Trânsito-->
+    <li class="ex-transito">
+      <div class="dash-border">
+        <strong class="titulo-dash">Trânsito</strong>
+        <div class="dash-img semaforo"></div>
+        <b class="amarelo em15" id="lento">11km</b><br />
+        <span class="em09 bold">de lentidão</span><br />
+        <span class="kmStatus verde"><i class="ball-status verde"></i>livre</span>
+      </div>
+      <div class="ex-hover"></div>
+    </li>
+
+    <!-- Rodizio -->
+    <li class="ex-rodizio">
+      <div class="dash-border">
+        <strong class="titulo-dash">Rodízio</strong>
+        <div class="dash-img"></div>
+        <b id="rodizio_hoje"></b>
+        Placas final <br />
+        <b class="azul-gd">5 e 6</b>
+      </div>
+      <div class="ex-hover"></div>
+    </li>
+  </ul>
+
+  <a href="/portal/mapa"><div id="mapa-serv"></div></a>
+
+  <div id="call-aero" class="dash">
+    <h3>Aeroportos <em class="em08 fonte">Fonte: Infraero e GRU</em></h3>
+    <button class="fechar-dash">X</button>
+    <ul id="aero-lista">
+      <li class="cgh">
+        <strong class="aeronome"><abbr>CGH</abbr> - Congonhas</strong>
+        <small>
+          <span class="verde">
+            <b class="ball-status verde"></b>Aberto
+          </span><br />
+          <span class="txt-right">Vôos atrasados:</span>
+          <span class="txt-left azul-pq">2</span>
+        </small>
+        <small>
+          <span class="txt-right">Vôos cancelados:</span>
+          <span class="txt-left azul-pq">0</span>
+        </small>
+      </li>
+      <li class="gru">
+        <strong class="aeronome"><abbr>GRU</abbr> - Guarulhos</strong>
+        <small>
+          <span class="verde">
+            <b class="ball-status verde"></b>Aberto
+          </span><br />
+          <a href="http://www.gru.com.br/pt-br" class="link-aero" target="_blank">Clique e consulte</a>
+        </small>
+      </li>
+      <li class="mae">
+        <small>
+          <strong class="aeronome"><abbr>MAE</abbr> - Cpo. de Marte</strong>
+          <small>
+            <span class="verde">
+              <b class="ball-status verde"></b>Aberto
+            </span><br />
+            <a href="http://www.infraero.gov.br/index.php/aeroportos/sao-paulo/aeroporto-campo-de-marte.html" class="link-aero" target="_blank">Clique e consulte</a>
+          </small>
+        </small>
+      </li>
+      <li class="vcp">
+        <small>
+          <small>
+            <strong class="aeronome"><abbr>VCP</abbr>- Viracopos</strong>
+            <small>
+              <span class="verde">
+                <b class="ball-status verde"></b>Aberto
+              </span><br />
+              <a href="http://www.viracopos.com/passageiros/voos/" class="link-aero" target="_blank">Clique e consulte</a>
+            </small>
+          </small>
+        </small>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Clima detalhe -->
+  <div id="call-clima" class="dash">
+    <h3>Tempo <em class="fonte">Fonte: CGE</em></h3>
+    <button class="fechar-dash">X</button>
+    <div id="temp-bloco">
+      <div id="t-agora" class="tempo-g nb"></div>
+      <div id="t-media">
+        <small class="em08">Temperatura Média</small><br />
+        <span id="temp-media" class="amarelo em18"> 24º</span>
+      </div>
+      <div id="minXmax">
+        <div id="new-max">
+          <span class="tmax"></span>25º
+        </div>
+        <div id="new-min">
+          <span class="tmin"></span>14º
+        </div>
+      </div>
+    </div>
+  </div>
+  <ul id="dia-todo">
+    <li>
+      <strong class="azul-pq em08">Manhâ</strong>
+      <div class="tempo-p pn-pq"></div>
+      <div class="raio"></div>
+      <span class="em07 bold amarelo">Baixo</span>
+    </li>
+    <li>
+      <strong class="azul-pq em08">Tarde</strong>
+      <div class="tempo-p pn-pq"></div>
+      <div class="raio"></div>
+      <span class="em07 bold amarelo">Baixo</span>
+    </li>
+    <li>
+      <strong class="azul-pq em08">Noite</strong>
+      <div class="tempo-p pn-pq-noite"></div>
+      <div class="raio"></div>
+      <span class="em07 bold amarelo">Baixo</span>
+    </li>
+    <li>
+      <strong class="azul-pq em08">Madrugada</strong>
+      <div class="tempo-p nb-pq-noite"></div>
+      <div class="raio"></div>
+      <span class="em07 bold amarelo">Baixo</span>
+    </li>
+  </ul>
+  <div id="tempor-outras">
+    <div class="a-40 bold">
+      <small class="em07">
+        <span id="div" class="gotas"></span>Umidade relativa do ar
+      </small>
+      <div class="a-half em13">
+        <span class="tmax"></span> 95%
+      </div>
+      <div class="a-half em13">
+        <span class="tmin"></span> 45%
+      </div>
+    </div>
+    <div class="sol-box">
+      <div id="sol"></div>
+      <div class="a-half">
+        <small class="amarelo em14">07h47</small>
+        <small class="em07">Nascer do sol</small>
+      </div>
+      <div class="a-half">
+        <small class="amarelo em14">18h27</small>
+        <small class="em07">Pôr do sol</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Transporte público detalhe -->
+  <div id="call-publi" class="dash">
+    <h3>Transporte Público</h3>
+    <button class="fechar-dash">X</button>
+    <ul>
+      <li>
+        <div class="status"><i class="verde"></i></div>
+        <div class="mini Mbus"></div>
+        <span id="spT-twitter">Quer saber o itinerário e os horários programados das partidas das linhas que você utiliza? Acesse "Linha de Ônibus": <a href="http://www.sptrans.co" target="_blank">Mais</a></span>
+      </li>
+      <li>
+        <div class="status"><i class="amarelo"></i></div>
+        <div class="mini Mmetro"></div>
+        <span id="t-metro">Circulação normal</span>
+      </li>
+      <li>
+        <div class="status"><i class="vermelho"></i></div>
+        <div class="mini Mcptm"></div>
+        <span id="t-cptm">Alterações na circulação de 3 linha(s) <a href="http://www.cptm.sp.gov.br/Pages/Home.aspx" target="_blank"> Veja mais</a> </span>
+      </li>
+    </ul>
+    <a href="http://www.sptrans.com.br/itinerarios/" target="_blank" class="link-amarelo">Consultar itinerários</a>
+  </div>
+
+  <!-- Trânsito detalhe -->
+  <div id="call-trans" class="dash">
+    <h3>Trânsito</h3>
+    <button class="fechar-dash">X</button>
+    <div class="tran-total">
+      <div class="ttotal">
+        <span class="amarelo em14 bold">11 km</span><br />
+        <small class="bold em09">de lentidão</small>
+      </div>
+      <div class="ttotal amarelo"><br />
+        <span class="amarelo bolinha"></span>livre
+      </div>
+    </div>
+    <hr class="pont" />
+    <div id="sp-mapa">
+      <ul id="lentidao">
+        <li id="kmOeste" class="amarelo">1 km</li>
+        <li id="kmNorte" class="amarelo">0 km</li>
+        <li id="kmLeste" class="amarelo">0 km</li>
+        <li id="kmSul" class="amarelo">4 km</li>
+      </ul>
+    </div>
+    <div class="bloco-linha">
+      <a href="http://www.cetsp.com.br/transito-agora/mapa-de-fluidez.aspx" class="azul-pq" target="_blank">Mapa de fluidez</a>
+      <a href="http://www.cetsp.com.br/transito-agora/transito-nas-principais-vias.aspx" target="_blank" class="azul-pq">Lentidão por corredor</a>
+    </div>
+  </div>
+
+  <!-- rodízio-->
+  <div id="call-rodizio" class="dash">
+    <h3>Rodízio</h3>
+    <button class="fechar-dash">X</button>
+    <div id="mapa-rodizio"></div>
+    <ul class="rod-3col">
+      <li>
+        <span class="em08 bold">Placas final:</span><br />
+        <span class="amarelo em15">5 e 6</span>
+      </li>
+      <li>
+        <span class="em08 bold">Horário:</span><br />
+        <small class="amarelo em1">7h às 10h</small><br />
+        <small class="amarelo em1">17h às 20h</small>
+      </li>
+      <li>
+        <span class="em08 bold">Penalidade:</span><br />
+        <small class="amarelo em10">R$85,13</small>
+        <small class="amarelo em08"> e 4pts na carteira</small>
+      </li>
+    </ul>
+  </div>
+  <div id="call-ar" class="dash">
+    <h3>Qualidade do Ar <em class="fonte">Fonte: CETESB</em></h3>
+    <button class="fechar-dash">X</button>
+    <div class="O2"></div>
+    <div id="o2mapa">
+      <div class="kineticjs-content" role="presentation">
+        <canvas width="300" height="160" style="padding: 0px; margin: 0px; border: 0px; position: absolute; top: 0px; left: 0px; width: 300px; height: 160px; background: transparent;"></canvas>
+      </div>
+    </div>
+    <ol id="dica">
+      <li>
+        <i></i> Pessoas com doenças respiratórias podem apresentar sintomas como tosse seca e cansaço
+      </li>
+      <li>
+        <i></i>Pessoas com doenças cardíacas ou pulmonares, procurem reduzir esforço pesado ao ar livre
+      </li>
+      <li>
+        <i></i> Reduzir o esforço físico pesado ao ar livre, principalmente pessoas com doenças cardíacas ou pulmonares, idosos e crianças.
+      </li>
+      <li>
+        <i></i> População em geral pode apresentar sintomas como ardor nos olhos, nariz e garganta, tosse seca e cansaço.
+      </li>
+    </ol>
+  </div>
+</aside>
