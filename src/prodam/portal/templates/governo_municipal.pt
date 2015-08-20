@@ -1,0 +1,3 @@
+<div class="governo-lista" tal:define="governoMunicipal python:context.restrictedTraverse('governoMunicipal')">
+  <span tal:replace="structure governoMunicipal"></span>
+</div>
