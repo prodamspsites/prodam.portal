@@ -7,6 +7,13 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="prodam.portal">
 
+  <genericsetup:importStep
+      name="plone-final"
+      handler=".setuphandlers.importSteps"
+      title="Initial configuration"
+      description="Initial configuration">
+  </genericsetup:importStep>
+
   <!-- Layer skin registry -->
   <cmf:registerDirectory name="templates" directory="templates" recursive="True" />
 
