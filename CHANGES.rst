@@ -3,7 +3,8 @@ Histórico de Alterações
 
 0.5a1 (unreleased)
 ^^^^^^^^^^^^^^^^^^
-* Adiciona template de governo municipal [mosesjr]
+* Configura criação inicial de conteúdos via setuphandlers [mosesjr]
+* Adiciona setuphandlers [mosesjr]
 * Adiciona viewlet de São Paulo Agora [mosesjr]
 * Adiciona tipo de item chamadas [wblima]
 * Adiciona nova view para o ATGoogleVideo [mosesjr]
