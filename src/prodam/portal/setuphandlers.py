@@ -4,24 +4,32 @@
 def importSteps(context):
     site = context.getSite()
 
-    createObject(site, site, 'governo_municipal', 'Folder')
-
-    createObject(site, site, 'consultas', 'Folder')
-
-    createObject(site, 'governo_municipal', 'secretarias', 'Folder')
-
-    createObject(site, 'governo_municipal', 'sub-prefeituras', 'Folder')
-    createObject(site, 'governo_municipal', 'outros-orgaos', 'Folder')
+    createObj(site, 'exemplo-de-subpasta', 'Exemplo de subpasta', 'Folder', 'governo_municipal/secretarias')
+    createLinkObject(site, 'exemplo-de-link', 'Exemplo de link', '', 'http://localhost:8080/Prefeitura/secretaria-de-esportes')
 
 
-def createObject(site, parent, id, portal_type):
-    parent = site.restrictedTraverse(parent)
-    if id not in parent.objectIds():
-        parent.invokeFactory(portal_type, id)
+def createObj(site, objId, title, type, path):
+    try:
+        parent = site.restrictedTraverse(path)
+        if objId not in parent.objectIds():
+            parent.invokeFactory(type, objId, title=title)
+            obj = parent[objId]
+            parent.portal_workflow.doActionFor(obj, 'publish')
+            parent.portal_catalog.reindexObject(obj)
+    except:
+        pass
 
 
-def updateLinkObject(id, title, url):
-    pass
+def createLinkObject(site, objId, title, path, url):
+    try:
+        parent = site.restrictedTraverse(path)
+        if objId not in parent.objectIds():
+            parent.invokeFactory('Link', objId, title=title, remoteUrl=url)
+            obj = parent[objId]
+            parent.portal_workflow.doActionFor(obj, 'publish')
+            parent.portal_catalog.reindexObject(obj)
+    except:
+        pass
 
 
 def updateDefaultObject(id, title):
