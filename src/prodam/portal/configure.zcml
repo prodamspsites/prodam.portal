@@ -8,7 +8,7 @@
     i18n_domain="prodam.portal">
 
   <genericsetup:importStep
-      name="plone-final"
+      name="prodam-content"
       handler=".setuphandlers.importSteps"
       title="Initial configuration"
       description="Initial configuration">
