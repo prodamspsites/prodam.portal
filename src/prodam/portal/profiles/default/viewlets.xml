@@ -14,8 +14,8 @@
   <hidden manager="plone.portalheader" skinname="*" purge="True">
     <viewlet name="plone.global_sections" remove="true" />
   </hidden>
-  <hidden manager="plone.plonefooter" skinname="*" purge="True">
+  <hidden manager="plone.plonefooter" skinname="*" remove="True" purge="True">
     <viewlet name="plone.footer" />
   </hidden>
-  <hidden manager="plone.plonefooter" skinname="*" remove="True" />
+  <hidden manager="plone.plonefooter" skinname="*" remove="True" purge="True" />
 </object>

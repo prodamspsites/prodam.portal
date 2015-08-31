@@ -87,10 +87,10 @@
         <strong>APLICATIVOS</strong>
         <ul>
           <li>
-            <a target="_blank" class="app-icone app-iphone" href="https://itunes.apple.com/us/app/prefeitura-sao-paulo/id829248485?mt=8"><img height="45px" width="118px" src="img/icon_appestore_disponivel.png"></a>
+            <a target="_blank" class="app-icone app-iphone" href="https://itunes.apple.com/us/app/prefeitura-sao-paulo/id829248485?mt=8"><img height="45px" width="118px" src="++resource++prodam.portal/img/icon_appestore_disponivel.png"></a>
           </li>
           <li>
-            <a target="_blank" class="app-icone app-android" href="https://play.google.com/store/apps/details?id=br.inf.call.dashboard_sp"><img height="45px" width="118px" src="img/icon_googleplay.png"></a>
+            <a target="_blank" class="app-icone app-android" href="https://play.google.com/store/apps/details?id=br.inf.call.dashboard_sp"><img height="45px" width="118px" src="++resource++prodam.portal/img/icon_googleplay.png"></a>
           </li>
         </ul>
       </div>
