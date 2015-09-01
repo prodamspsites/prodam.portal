@@ -3,6 +3,7 @@ Histórico de Alterações
 
 0.5a1 (unreleased)
 ^^^^^^^^^^^^^^^^^^
+* Cria page template de mais buscados [wblima]
 * Configura criação inicial de conteúdos via setuphandlers [mosesjr]
 * Adiciona setuphandlers [mosesjr]
 * Adiciona viewlet de São Paulo Agora [mosesjr]

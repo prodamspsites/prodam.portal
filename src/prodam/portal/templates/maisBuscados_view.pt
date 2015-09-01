@@ -1,0 +1,19 @@
+<h3 class="maisBuscadosTitulo">Mais Buscados
+  <span class="maisBuscadosLupa"></span>
+</h3>
+
+<tal:maisBuscados tal:define="portal context/portal_url/getPortalObject;
+                              maisBuscados python:portal.restrictedTraverse('mais-buscados');
+                              chamadas python:maisBuscados.listFolderContents();">
+<ul class="maisBuscadosLista">
+  <tal:lista tal:repeat="item chamadas">
+    <tal:chamadas define="type item/Type;" condition="python:type=='Prodam Chamadas'">
+        <li>
+          <span tal:content="repeat/item/number"></span>
+          <a href="#" tal:content="item/Title" tal:attributes="href python:item.url"></a>
+        </li>
+
+    </tal:chamadas>
+  </tal:lista>
+</ul>
+</tal:maisBuscados>
