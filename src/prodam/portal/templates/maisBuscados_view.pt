@@ -9,8 +9,7 @@
   <tal:lista tal:repeat="item chamadas">
     <tal:chamadas define="type item/Type;" condition="python:type=='Prodam Chamadas'">
         <li>
-          <span tal:content="repeat/item/number"></span>
-          <a href="#" tal:content="item/Title" tal:attributes="href python:item.url"></a>
+          <a href="#" tal:attributes="href python:item.url"><span tal:content="repeat/item/number"/><span tal:replace="structure item/Title"/></a>
         </li>
 
     </tal:chamadas>
