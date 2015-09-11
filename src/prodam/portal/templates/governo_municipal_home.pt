@@ -1,0 +1,14 @@
+<div class="tile-header">
+                <h1>
+                  GOVERNO MUNICIPAL
+                </h1>
+</div>
+<div class="governo-lista" tal:define="governoMunicipal python:context.restrictedTraverse('governoMunicipal')">
+  <h2> Encontre as secretarias</h2>
+  <span tal:replace="structure governoMunicipal/getSecretarias"></span>
+  <h2> Encontre as subprefeituras</h2>
+  <span tal:replace="structure governoMunicipal/getSubPrefeituras"></span>
+  <div class="tile-footer">
+    <a href="/Prefeitura/noticias">Agenda do prefeito <span class="iconeMais"></span></a>
+  </div>
+</div>
