@@ -7,22 +7,28 @@
         var thisLink = $(thisItem).attr('rel');
         var video = '<object width="290" height="203"><param name="movie" value="'+thisLink+'"><param name="allowScriptAccess" value="always"><embed src="'+thisLink+'" type="application/x-shockwave-flash" allowscriptaccess="always" width="290" height="203"></object>';
         $('.destaque').html(video);
-        $('#tituloVideo').text(thisTitle)
+        $('#tituloVideo').text(thisTitle);
      })
      $("#tab-cid").bind("click", function(){
-        event.preventDefault();
+        $(".secao-pai a").removeClass("menuAtivo");
+        $("#tab-cid a").addClass("menuAtivo");
         $(".secoesServicos").hide();
         $("#home-secoes-cidadao").show();
+        return false;
      })
      $("#tab-emp").bind("click", function(){
-        event.preventDefault();
+        $(".secao-pai a").removeClass("menuAtivo");
+        $("#tab-emp a").addClass("menuAtivo");
         $(".secoesServicos").hide();
         $("#home-secoes-empresa").show();
+        return false;
      })
      $("#tab-tur").bind("click", function(){
-        event.preventDefault();
+        $(".secao-pai a").removeClass("menuAtivo");
+        $("#tab-tur a").addClass("menuAtivo");
         $(".secoesServicos").hide();
         $("#home-secoes-turista").show();
+        return false;
      })
      $(".noticias_actions a").bind("click", function () {
         event.preventDefault();
