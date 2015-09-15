@@ -1,5 +1,9 @@
 (function($) {
    $(document).ready(function() {
+     $('select').change(function(){
+        var url = $(this).val();
+        window.location = url;
+     });
      $("#clickVideo a").bind("click", function () {
         event.preventDefault();
         var thisItem = $(this);
