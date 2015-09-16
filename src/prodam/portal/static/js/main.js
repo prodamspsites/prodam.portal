@@ -13,21 +13,21 @@
         $('.destaque').html(video);
         $('#tituloVideo').text(thisTitle);
      })
-     $("#tab-cid").bind("click", function(){
+     $("#tab-cid a").bind("click", function(){
         $(".secao-pai a").removeClass("menuAtivo");
         $("#tab-cid a").addClass("menuAtivo");
         $(".secoesServicos").hide();
         $("#home-secoes-cidadao").show();
         return false;
      })
-     $("#tab-emp").bind("click", function(){
+     $("#tab-emp a").bind("click", function(){
         $(".secao-pai a").removeClass("menuAtivo");
         $("#tab-emp a").addClass("menuAtivo");
         $(".secoesServicos").hide();
         $("#home-secoes-empresa").show();
         return false;
      })
-     $("#tab-tur").bind("click", function(){
+     $("#tab-tur a").bind("click", function(){
         $(".secao-pai a").removeClass("menuAtivo");
         $("#tab-tur a").addClass("menuAtivo");
         $(".secoesServicos").hide();
