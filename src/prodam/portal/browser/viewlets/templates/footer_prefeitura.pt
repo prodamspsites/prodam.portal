@@ -12,15 +12,15 @@
             <strong>Equipe de Governo</strong></a></li>
         </ul>
         <ul class="lista">
-          <li><a href="/portal/evento/agenda/PREFEITO">Agenda do prefeito</a></li>
+          <li><a href="/Prefeitura/agenda/prefeito">Agenda do prefeito</a></li>
         </ul>
       </nav>
       <nav role="navigation" class="width-4" id="bloco2">
         <strong>Acontece na Cidade</strong>
         <ul class="lista">
-          <li><a href="/portal/noticia">ÚLTIMAS NOTÍCIAS</a></li>
+          <li><a href="/Prefeitura/noticia">ÚLTIMAS NOTÍCIAS</a></li>
           <li><a target="_blank" href="http://www.sptrans.com.br/itinerarios/">Itinerários de ônibus</a></li>
-          <li><a target="_blank" href="/portal/mapa">Mapa de serviços</a></li>
+          <li><a target="_blank" href="/Prefeitura/mapa">Mapa de serviços</a></li>
         </ul>
       </nav>
       <nav role="navigation" class="width-4" id="bloco3">
