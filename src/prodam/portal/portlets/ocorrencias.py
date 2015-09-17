@@ -106,6 +106,12 @@ class Renderer(base.Renderer):
         #     print '(%s) %s' % (status['created_at'], status['text'])
         return 'ok'
 
+    def getTitle(self):
+        if self.data.header:
+            return self.data.header
+        else:
+            return 'Youtube'
+
 
 class AddForm(base.AddForm):
     form_fields = form.Fields(iOcorrencias)
