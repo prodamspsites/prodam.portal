@@ -1,6 +1,6 @@
 (function($) {
    $(document).ready(function() {
-     $('select').change(function(){
+     $('select.lista-institucionais').change(function(){
         var url = $(this).val();
         window.location = url;
      });
