@@ -19,7 +19,7 @@
             </div>
             <h1 tal:content="context/Title | nothing">Template de notícias</h1>
             <h2 tal:content="context/Description | nothing">Descrição</h2>
-            <div class="noticias_media" tal:define="date context/Date;
+            <div class="noticias_media" tal:define="date context/EffectiveDate;
                                                     data python:context.toLocalizedTime();
                                                     hora python:date[11:16]">
               <time tal:content="python:hora + ' ' + data" />
