@@ -15,13 +15,13 @@
         <article>
           <header tal:define="portal_url context/portal_url;">
             <div class="btn_voltar">
-              <a href="#" tal:attributes="href python:portal_url + '/noticias'"><span></span> Voltar</a>
+              <a href="#" tal:attributes="href python:portal_url + '/noticia'"><span></span> Voltar</a>
             </div>
             <h1 tal:content="context/Title | nothing">Template de notícias</h1>
             <h2 tal:content="context/Description | nothing">Descrição</h2>
             <div class="noticias_media" tal:define="date context/EffectiveDate;
-                                                    data python:context.toLocalizedTime();
-                                                    hora python:date[11:16]">
+                                                    data python:DateTime(date).strftime('%d/%m/%Y');
+                                                    hora python:DateTime(date).strftime('%H:%M')">
               <time tal:content="python:hora + ' ' + data" />
               <div class="autor">De <strong tal:content="context/Creator | nothing" /></div>
               <div class="noticias_media_col2">
