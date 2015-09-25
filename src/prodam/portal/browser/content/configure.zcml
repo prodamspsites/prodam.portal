@@ -22,6 +22,15 @@
       />
 
   <browser:page
+      name="spAgora"
+      for="*"
+      permission="zope2.View"
+      class=".spagora.SpAgora"
+      template="templates/spagora.pt"
+      layer="prodam.portal.interfaces.IProdamPortal"
+      />
+
+  <browser:page
       name="chamadaView"
       for="*"
       class=".chamada.chamadaView"
