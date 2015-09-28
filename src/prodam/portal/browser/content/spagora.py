@@ -3,7 +3,7 @@
 from Products.Five import BrowserView
 
 
-class governoMunicipal(BrowserView):
+class SpAgora(BrowserView):
 
     def getTransito(self):
         secretarias = ''
