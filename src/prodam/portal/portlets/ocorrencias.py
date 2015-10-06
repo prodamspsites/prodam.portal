@@ -8,6 +8,7 @@ from plone.portlets.interfaces import IPortletDataProvider
 from zope import schema
 from zope.formlib import form
 from zope.interface import implements
+from twitter import Api
 
 
 class iOcorrencias(IPortletDataProvider):
@@ -97,20 +98,23 @@ class Renderer(base.Renderer):
     def available(self):
         return not self.data.hide
 
-    @property
     def getTweets(self):
-        # twitter = Twitter(auth=OAuth(self.data.access_key, self.data.access_secret, self.data.consumer_key, self.data.consumer_secret))
-        # ser = self.data.user
-        # results = twitter.statuses.user_timeline(screen_name=user)
-        # for status in results[0:self.data.count]:
-        #     print '(%s) %s' % (status['created_at'], status['text'])
-        return 'ok'
+        api = Api(consumer_key=self.data.consumer_key, consumer_secret=self.data.consumer_secret, access_token_key=self.data.access_token, access_token_secret=self.data.token_secret)
+        api.VerifyCredentials()
+        statuses = api.GetUserTimeline(screen_name=self.data.user)[:int(self.data.count)]
+        ocorrencias = []
+
+        for i in statuses:
+            status = '<a href="https://twitter.com/' + self.data.user + '/statuses/' + str(i.id) + '" target="_blank">'
+            status += '<time>' + str(i.relative_created_at) + '</time><p>' + str(i.text) + '</p></a>'
+            ocorrencias.append(status)
+        return ocorrencias
 
     def getTitle(self):
         if self.data.header:
             return self.data.header
         else:
-            return 'Youtube'
+            return 'Twitter'
 
 
 class AddForm(base.AddForm):
