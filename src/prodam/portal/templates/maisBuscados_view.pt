@@ -2,14 +2,14 @@
   <span class="maisBuscadosLupa"></span>
 </h3>
 
-<tal:maisBuscados tal:define="portal context/portal_url/getPortalObject;
-                              maisBuscados python:portal.restrictedTraverse('mais-buscados');
-                              chamadas python:maisBuscados.listFolderContents();">
+<tal:maisBuscados tal:define="maisBuscados python:context.restrictedTraverse('mais-buscados');
+                              path python:'/'.join(maisBuscados.getPhysicalPath());
+                              chamadas python:context.portal_catalog(path=path, sort_on='getObjPositionInParent');">
 <ul class="maisBuscadosLista">
   <tal:lista tal:repeat="item chamadas">
     <tal:chamadas define="type item/Type;" condition="python:type=='Prodam Chamadas'">
         <li>
-          <a href="#" tal:attributes="href python:item.url"><span tal:content="repeat/item/number"/><span tal:replace="structure item/Title"/></a>
+          <a href="#" tal:attributes="href python:item.getObject().url"><span tal:content="repeat/item/number"/><span tal:replace="structure item/Title"/></a>
         </li>
 
     </tal:chamadas>
