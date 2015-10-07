@@ -61,6 +61,8 @@ setup(
         'Products.PloneFormGen',
         'setuptools',
         'transmogrify.dexterity',
+        'collective.twitter.portlets',
+        'python-oauth2',
         'z3c.unconfigure',
     ],
     extras_require={
