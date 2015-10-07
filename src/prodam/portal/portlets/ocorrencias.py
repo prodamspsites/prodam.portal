@@ -100,15 +100,18 @@ class Renderer(base.Renderer):
 
     def getTweets(self):
         api = Api(consumer_key=self.data.consumer_key, consumer_secret=self.data.consumer_secret, access_token_key=self.data.access_token, access_token_secret=self.data.token_secret)
-        api.VerifyCredentials()
-        statuses = api.GetUserTimeline(screen_name=self.data.user)[:int(self.data.count)]
-        ocorrencias = []
+        try:
+            api.VerifyCredentials()
+            statuses = api.GetUserTimeline(screen_name=self.data.user)[:int(self.data.count)]
+            ocorrencias = []
 
-        for i in statuses:
-            status = '<a href="https://twitter.com/' + self.data.user + '/statuses/' + str(i.id) + '" target="_blank">'
-            status += '<time>' + str(i.relative_created_at) + '</time><p>' + str(i.text) + '</p></a>'
-            ocorrencias.append(status)
-        return ocorrencias
+            for i in statuses:
+                status = '<a href="https://twitter.com/' + self.data.user + '/statuses/' + str(i.id) + '" target="_blank">'
+                status += '<time>' + str(i.relative_created_at) + '</time><p>' + str(i.text) + '</p></a>'
+                ocorrencias.append(status)
+            return ocorrencias
+        except:
+            return False
 
     def getTitle(self):
         if self.data.header:

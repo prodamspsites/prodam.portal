@@ -8,7 +8,7 @@
       <h3 class="maisBuscadosTitulo"><span tal:content="view/getTitle" /></h3>
     </header>
     <div class="news-list twitter-list" tal:define="statuses view/getTweets">
-      <ul>
+      <ul tal:condition="statuses">
         <tal:statuses repeat="status statuses">
           <li>
             <a tal:replace="structure status" />
