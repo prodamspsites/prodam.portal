@@ -1,48 +1,75 @@
 (function($) {
   $(document).ready(function() {
-    if ($('body').hasClass('section-agenda')) {
-      year = $('#calendar-previous').data('year');
-      month = parseInt($('#calendar-previous').data('month')) +1;
-      prevMonth = 0;
-      nextMonth = 0;
+    if ($('body').hasClass('subsection-prefeito')) {
+      calendarUrl = portal_url + '/agenda/';
 
-      function getPrevMonth() {
-        prevMonth = month -1;
-        url = window.location.href + '?month=' + prevMonth + '&year=' + year;
-        _prevDays = $('.ploneCalendar tbody tr:first td:empty');
-        $.ajax({url: url, success: function(result){
-          prevDays = $(result).find('.ploneCalendar tbody tr:last td:not(:empty)');
-        }}).done(function() {
-          $(_prevDays).each(function(i) {
-            $(this).html($(prevDays[i]).html())
-          })
-        });
-      };
+      function getCalendar(calendarUrl) {
+          $.ajax({url: calendarUrl, success: function(calendar) {
 
-      function getNextMonth() {
-        nextMonth = month +1;
-        url = window.location.href + '?month=' + nextMonth + '&year=' + year;
-        _nextDays = $('.ploneCalendar tbody tr:last td:empty')
+          calendar = $(calendar).find('dl.portletCalendar');
+          $(calendar).find('*').each(function() {$(this).removeClass()});
+          $(calendar).find('#calendar-previous').removeAttr('id').addClass('prev-month');
+          $(calendar).find('#calendar-next').removeAttr('id').addClass('next-month');
 
-        $.ajax({url: url, success: function(result){
-          nextDays = $(result).find('.ploneCalendar tbody tr:first td:not(:empty)');
-          _nextDays ? tr = 'tr:first' : tr = 'tr:nth-child(2)';
-          getNextWeek = $(result).find('.ploneCalendar tbody '+ tr);
-        }}).done(function() {
-          $(_nextDays).each(function(i) {
-            $(this).html($(nextDays[i]).html());
-          })
-          $('.ploneCalendar tbody').append(getNextWeek);
-        });
-      };
+          year = $(calendar).find('.prev-month').data('year');
+          month = parseInt($(calendar).find('.prev-month').data('month')) +1;
+          prevMonth = 0;
+          nextMonth = 0;
 
-      getNextMonth();
-      getPrevMonth();
-      $('.portletCalendar').show();
 
-      function changeMonth(value) {
-        month = month + value;
+          function getPrevMonth() {
+            prevMonth = month -1;
+            url = portal_url + '/agenda/?month=' + prevMonth + '&year=' + year;
+            _prevDays = $(calendar).find('tbody tr:first td:empty');
+            $.ajax({url: url, success: function(result){
+              prevDays = $(result).find('tbody tr:last td:not(:empty)');
+            }}).done(function() {
+              $(_prevDays).each(function(i) {
+                $(this).html($(prevDays[i]).html())
+              })
+              $('#agendaPrefeito').html(calendar);
+            });
+          };
+
+          function getNextMonth() {
+            nextMonth = month +1;
+            url = portal_url + '/agenda/?month=' + nextMonth + '&year=' + year;
+            _nextDays = $(calendar).find('tbody tr:last td:empty');
+
+            $.ajax({url: url, success: function(result){
+              nextDays = $(result).find('tbody tr:first td:not(:empty)');
+              _nextDays.length > 0 ? tr = 'tr:nth-child(2)' : tr = 'tr:first';
+              getNextWeek = $(result).find('tbody '+ tr);
+            }}).done(function() {
+              $(_nextDays).each(function(i) {
+                $(this).html($(nextDays[i]).html());
+              })
+              $('tbody', calendar).append(getNextWeek);
+            });
+          };
+
+          getNextMonth();
+          getPrevMonth();
+
+          function changeMonth(value) {
+            month = month + value;
+          }
+
+        }})
       }
+
+      $(document).on('click', 'a.prev-month, a.next-month', function(e) {
+        e.preventDefault()
+        thisMonth = $(this).data('month');
+        thisYear = $(this).data('year');
+        url = portal_url + '/agenda/' + '?month:int='+thisMonth+'&year:int='+thisYear;
+        getCalendar(url);
+
+        return false
+      });
+
+      getCalendar(calendarUrl);
+
     }
 
     $('select.lista-institucionais').change(function(){
