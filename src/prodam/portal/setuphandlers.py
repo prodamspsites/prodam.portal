@@ -67,6 +67,9 @@ def createFooter(site):
     createSaoPauloPara(site)
     createAtendimento(site)
     createPrefeitura(site)
+    createCanaisOficiais(site)
+    createConsultas(site)
+    createAplicativos(site)
 
 
 def createGovernoMunicipal(site):
@@ -216,6 +219,24 @@ def createPrefeitura(site):
     createLinkObject(site, 'sao-paulo-urbanismo', 'São Paulo Urbanismo - SPUrbanismo', 'rodape/prefeitura/outros-orgaos', 'http://www.prefeitura.sp.gov.br/cidade/secretarias/desenvolvimento_urbano/sp_urbanismo/')
     createLinkObject(site, 'servico-funerario-do-municipio-de São de Paulo', 'Serviço Funerário do Município de São de Paulo - SFMSP', 'rodape/prefeitura/outros-orgaos', 'http://www.prefeitura.sp.gov.br/cidade/secretarias/servicos/servico_funerario/')
     createLinkObject(site, 'supervisao-geral-de-abastecimento', 'Supervisão Geral de Abastecimento - SGA', 'rodape/prefeitura/outros-orgaos', 'http://www.prefeitura.sp.gov.br/cidade/secretarias/trabalho/abastecimento/')
+
+
+def createCanaisOficiais(site):
+    createObj(site, 'canais-oficiais', 'Canais Oficiais', 'Folder', 'rodape', exclude_from_nav=True)
+    createDoc(site, 'canais-oficiais', 'Canais Oficiais', 'rodape/canais-oficiais', '<ul class="social_footer" id="social_footer"><li><a target="_blank" href="https://www.facebook.com/PrefSP"><span id="facebook">Facebook</span></a></li><li><a target="_blank" href="http://www.twitter.com/prefsp"><span id="twitter">Twitter</span></a></li><li><a target="_blank" href="http://www.youtube.com/prefeiturasaopaulo"><span id="youtube">Youtube</span></a></li><li style="clear: both;padding-top: 14px;"><a target="_blank" href="http://www.docidadesp.imprensaoficial.com.br"><span id="diario"></span>Diário Oficial</a></li></ul>')
+
+
+def createConsultas(site):
+    createObj(site, 'consultas', 'Consultas', 'Folder', 'rodape', exclude_from_nav=True)
+    createLinkObject(site, 'leis-municipais', 'Leis Municipais', 'rodape/consultas', 'http://www.prefeitura.sp.gov.br/cidade/secretarias/negocios_juridicos/cadastro_de_leis/index.php?p=325')
+    createLinkObject(site, 'pesquisa-de-processos', 'Pesquisa de Processos', 'rodape/consultas', 'http://www3.prodam.sp.gov.br/simproc/simproc.asp')
+    createLinkObject(site, 'licitacoes', 'Licitações', 'rodape/consultas', 'http://e-negocioscidadesp.prefeitura.sp.gov.br/')
+    createLinkObject(site, 'ata-de-registro-de-precos', 'Ata de Registro de Preços', 'rodape/consultas', 'http://www.prefeitura.sp.gov.br/cidade/secretarias/planejamento/links/index.php?p=24208')
+
+
+def createAplicativos(site):
+    createObj(site, 'aplicativos', 'Aplicativos', 'Folder', 'rodape', exclude_from_nav=True)
+    createDoc(site, 'aplicativos', 'Aplicativos', 'rodape/aplicativos', '<ul><li><a target="_blank" class="app-icone app-iphone" href="https://itunes.apple.com/us/app/prefeitura-sao-paulo/id829248485?mt=8"><img height="45px" width="118px" src="++resource++prodam.portal/img/icon_appestore_disponivel.png"></a></li><li><a target="_blank" class="app-icone app-android" href="https://play.google.com/store/apps/details?id=br.inf.call.dashboard_sp"><img height="45px" width="118px" src="++resource++prodam.portal/img/icon_googleplay.png"></a></li></ul>')
 
 
 def createMaisBuscados(site):
