@@ -3,7 +3,6 @@ from Products.Five import BrowserView
 from StringIO import StringIO
 from bs4 import BeautifulSoup
 from cookielib import CookieJar
-# from lxml import etree
 try:
     import cPickle as pickle
 except ImportError:
@@ -11,6 +10,7 @@ except ImportError:
 import gzip
 import urllib
 import urllib2
+import time
 
 
 url_direct = {'pref-sp': 'http://www.capital.sp.gov.br/portal/',
@@ -90,6 +90,66 @@ class SpAgora(BrowserView):
             response = handle.read()
         # return response.decode('utf-8')
         return response
+
+    """
+    ##########################################################################
+                                  SpAgora capa
+    ##########################################################################
+    """
+    def getCapaSPAgora(self):
+        """
+        return content head apresentation ['in the morning','in the afternoon','in the evening','at night']
+        """
+        self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima-media")))
+        temp_media = self.getTempMedia()
+        hour = time.localtime(time.time()).tm_hour
+
+        if int(hour) >= 6 and int(hour) < 13:
+            prevision = self.getPrevManha()
+        elif int(hour) >= 13 and int(hour) < 19:
+            prevision = self.getPrevTarde()
+        elif int(hour) >= 19 and int(hour) <= 23:
+            prevision = self.getPrevNoite()
+        elif int(hour) >= 0 and int(hour) < 6:
+            prevision = self.getPrevMadrugada()
+
+        content = '<ul id="servicos-externos" style="display: block;">' \
+                  '<li class="ex-clima"><div class="dash-border"><strong class="titulo-dash">Tempo' \
+                  '</strong><div class="tempo-g nb"></div><div class="t-media"><span>Média</span>' \
+                  '<span id="CGE-media" class="amarelo bold">%s</span></div><div class="tempestade">' + temp_media + \
+                  '<span>Potencial <div class="raio"></div></span>' \
+                  '<span id="status-temp" class="amarelo">%s</span></div></div>' + prevision + \
+                  '<div class="ex-hover"><div></div></div></li>'
+
+        content += '<!-- AR -->' \
+                   '<li class="ex-ar"><div class="dash-border"><strong class="titulo-dash">Qualidade do Ar</strong>'\
+                   '<div class="dash-img o2quali"></div><b class="bullet-verde em2">Boa</b></div>' \
+                   '<div class="ex-hover"><div></div></div></li>' \
+                   '<!-- Aeroportos -->' \
+                   '<li class="ex-aero">' \
+                   '<div class="dash-border"><strong class="titulo-dash">Aero</strong>' \
+                   '<br>Não foi possível carregar informações</div>' \
+                   '</li>' \
+                   '<!-- Transporte público -->' \
+                   '<li class="ex-publico">' \
+                   '<div class="dash-border">' \
+                   '<strong class="titulo-dash">Transporte Público</strong>' \
+                   '<div class="dash-img"></div>' \
+                   '<a href="http://www.sptrans.com.br/itinerarios/" target="_blank" class="azul-pq">Busca de itinerários</a>' \
+                   '</div>' \
+                   '<div class="ex-hover"><div></div></div>' \
+                   '</li>' \
+                   '<!-- Trânsito-->' \
+                   '<li class="ex-transito"><div class="dash-border"><strong class="titulo-dash">' \
+                   'Trânsito</strong><div class="dash-img semaforo"></div>' \
+                   '<b class="amarelo em15" id="lento">30km</b><br>' \
+                   '<span class="em09 bold">de lentidão</span><br><span class="kmStatus verde">' \
+                   '<i class="ball-status verde"></i>livre</span></div><div class="ex-hover"><div></div></div></li>' \
+                   '<!-- Rodizio -->' \
+                   '<li class="ex-rodizio">' \
+                   '<div class="dash-border"><strong class="titulo-dash">Rodizio</strong>' \
+                   '<br>Não foi possível carregar informações</div>' \
+                   '</li></ul>'
 
     """
     ##########################################################################
@@ -505,7 +565,6 @@ class SpAgora(BrowserView):
         for metro in transp_metro:
             status_metro.append({'nomeDaLinha': transp_metro.find('nomeDaLinha'),
                                  'statusDaLinha': transp_metro.find('statusDaLinha')})
-
             status_metro.append(metro.text.split('\n')[4].strip())
         return transp_metro
 
@@ -548,6 +607,7 @@ class SpAgora(BrowserView):
         return transit in zone oeste
         """
         BeautifulSoup(self.getContent(url_direct.get('transito-agora')))
+
         return None
 
     def getTransZonaNorte(self):
