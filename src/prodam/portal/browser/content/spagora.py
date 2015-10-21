@@ -577,7 +577,7 @@ class SpAgora(BrowserView):
 
     def getTransito(self):
         """
-        return: content transtito
+        return: content transtito.
         """
         transito_zona_oeste = self.getTransZonaOeste()
         transito_zona_norte = self.getTransZonaNorte()
