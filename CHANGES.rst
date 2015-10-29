@@ -3,6 +3,7 @@ Histórico de Alterações
 
 0.5a1 (unreleased)
 ^^^^^^^^^^^^^^^^^^
+* Incluí produtos de twitter [mosesjr]
 * Ajusta title do portlet de últimas ocorrências [wblima]
 * Cria page template de mais buscados [wblima]
 * Configura criação inicial de conteúdos via setuphandlers [mosesjr]
