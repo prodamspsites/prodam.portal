@@ -10,7 +10,7 @@
       <metal:block define-macro="main">
         <header>
           <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
-          <script type="text/javascript" src="++resource++prodam.portal/js/jquery-ui.custom.min.js"></script>
+          <script type="text/javascript" src="++resource++prodam.portal/javascript/jquery-ui.custom.min.js"></script>
           <script type="text/javascript" src="++resource++prodam.portal/js/map.js"></script>
           <h1 class="documentFirstHeading" tal:content="context/Title | nothing">Mapa de Serviços</h1>
         </header>
@@ -46,7 +46,7 @@
         <div class="menuItens">
           <ul>
             <li>
-              <img src="img/icoCasa.png" width="40" height="40" alt="" />
+              <img src="++theme++capa/img/icoCasa.png" width="40" height="40" alt="" />
               <a class="tituloMenu">Casa e Moradia</a>
               <ul class="subItens" id="casa">
                 <li><input type="checkbox" name="centros" value="Centros de Acolhida" class="item1"> Centros de Acolhida</li>
@@ -55,7 +55,7 @@
               </ul>
             </li>
             <li>
-              <img src="img/icoRua.png" width="40" height="40" alt="" />
+              <img src="++theme++capa/img/icoRua.png" width="40" height="40" alt="" />
               <a class="tituloMenu">Rua e Bairro</a>
               <ul class="subItens" id="rua">
                 <li><input type="checkbox" name="ferias" value="Feiras Livres" class="item1"> Feiras Livres</li>
