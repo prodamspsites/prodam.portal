@@ -10,14 +10,13 @@
       <metal:block define-macro="main">
         <header>
           <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
-          <script type="text/javascript" src="++resource++prodam.portal/js/jquery.min.js"></script>
           <script type="text/javascript" src="++resource++prodam.portal/js/jquery-ui.custom.min.js"></script>
           <script type="text/javascript" src="++resource++prodam.portal/js/map.js"></script>
           <h1 class="documentFirstHeading" tal:content="context/Title | nothing">Mapa de Serviços</h1>
         </header>
 
 
-        <form class="rotaForm" methodx="post" action="maps_view" tal:attributes="action string:${context/portal_url}/maps_view">
+        <form class="rotaForm" method="post" action="maps_view" tal:attributes="action string:${context/portal_url}/maps_view">
           <fieldset>
             <legend>Traçar rota</legend>
             <div class="roteOption">
@@ -61,7 +60,7 @@
               <ul class="subItens" id="rua">
                 <li><input type="checkbox" name="ferias" value="Feiras Livres" class="item1"> Feiras Livres</li>
                 <li><input type="checkbox" name="subprefeituras" value="Subprefeituras" class="item2"> Subprefeituras</li>
-                <li><input type="checkbox" name="casas" value="Casa de entretenimento" class="item3"> Casa de entretenimento</li
+                <li><input type="checkbox" name="casas" value="Casa de entretenimento" class="item3"> Casa de entretenimento</li>
               </ul>
             </li>
           </ul>
