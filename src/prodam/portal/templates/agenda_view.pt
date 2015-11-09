@@ -10,8 +10,9 @@
     <metal:content-core fill-slot="main">
       <metal:block define-macro="main">
         <section class="ten columns diary-list">
+          <h2 id="agendaPrefeitura">Prefeito <span id="mayorName">Fernando Haddad</span></h2>
           <header>
-              <strong id="dateCalendar">HOJE: Segunda-Feira, 9 de Novembro de 2015</strong>
+              <strong id="dateCalendar">HOJE: Terça-feira, 10 de Novembro de 2015</strong>
           </header>
           <div id="listEventos" tal:define="path python:'/'.join(context.getPhysicalPath());
                                             start python:DateTime();
@@ -20,7 +21,7 @@
             <ul tal:condition="events">
               <tal:events tal:repeat="event events">
                 <li>
-                  <article tal:define="date event/EffectiveDate;
+                  <article tal:define="date event/start;
                                        hora python:DateTime(date).strftime('%H:%M')">
                     <time tal:content="hora">09:30</time>
                     <h3 tal:content="event/Title">Despacho com os secretários Francisco Macena (Governo), José Américo (Relações Governamentais) e Nunzio Briguglio (Comunicação), a secretária-adjunta Leila Suwwan (Comunicação)</h3>
