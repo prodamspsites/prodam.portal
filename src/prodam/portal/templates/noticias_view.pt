@@ -19,10 +19,17 @@
             </div>
             <h1 tal:content="context/Title | nothing">Template de notícias</h1>
             <h2 tal:content="context/Description | nothing">Descrição</h2>
-            <div class="noticias_media" tal:define="date context/EffectiveDate;
-                                                    data python:DateTime(date).strftime('%d/%m/%Y');
-                                                    hora python:DateTime(date).strftime('%H:%M')">
-              <time tal:content="python:hora + ' ' + data" />
+            <div class="noticias_media">
+
+              <tal:published tal:define="wtool context/portal_workflow;
+                                         state context/review_state | python: wtool.getInfoFor(context, 'review_state', '')"
+                             tal:condition="python:state == 'published'">
+                <time tal:define="date context/EffectiveDate;
+                                  data python:DateTime(date).strftime('%d/%m/%Y');
+                                  hora python:DateTime(date).strftime('%H:%M')"
+                      tal:content="python:hora + ' ' + data" />
+              </tal:published>
+
               <div class="autor">De <strong tal:content="context/Creator | nothing" /></div>
               <div class="noticias_media_col2">
                 <div class="noticias_actions">
