@@ -1,0 +1,32 @@
+[
+   {
+      "lat": 40.632263,
+      "lng": -8.728280,
+      "nome": "Gafanha",
+      "morada1":"Gafanha da Nazaré",
+      "morada2": "Portugal",
+      "codPostal": "3830-000 Gafanha da Nazaré",
+	   "cat": "item1",
+	   "nome": "Feiras Livres"
+   },
+   {
+      "lat": 40.633200,
+      "lng": -8.729112,
+      "nome": "Estrada de Zona Portuária",
+      "morada1":"Zona Portuária",
+      "morada2": "Estrada",
+      "codPostal": "3830-111 Zona Portuária",
+	   "cat": "item2",
+	  "nome": "Subprefeituras"
+   },
+   {
+      "lat": 40.637802,
+      "lng": -8.723869,
+      "nome": "Nuevo endereço",
+      "morada1":"Zona Portuária",
+      "morada2": "Estrada",
+      "codPostal": "1010-111 Zona Portuária",
+      "cat": "item2",
+     "nome": "Casa de entretenimento"
+   }
+]

@@ -1,0 +1,42 @@
+[
+   {
+      "lat": 40.6386333,
+      "lng": -8.745,
+      "nome": "Parque de Campismo Praia da Barra",
+      "morada1":"Rua Diogo Cão, 125",
+      "morada2": "Praia da Barra",
+      "codPostal": "3830-772 Gafanha da Nazaré",
+	   "cat": "item1",
+	   "nome": "Centros de Acolhida"
+   },
+   {
+      "lat": 40.59955,
+      "lng": -8.7498167,
+      "nome": "Parque de Campismo da Costa Nova",
+      "morada1":"Quinta dos Patos, n.º 2",
+      "morada2": "Praia da Costa Nova",
+      "codPostal": "3830-453 Gafanha da Encarnação",
+	   "cat": "item2",
+	  "nome": "Creches"
+   },
+   {
+      "lat": 40.6247167,
+      "lng": -8.7129167,
+      "nome": "Parque de Campismo da Gafanha da Nazaré",
+      "morada1":"Rua dos Balneários do Complexo Desportivo",
+      "morada2": "Gafanha da Nazaré",
+      "codPostal": "3830-225 Gafanha da Nazaré",
+	   "cat": "item2",
+	  "nome": "Creches"
+   },
+   {
+      "lat": 40.642480,
+      "lng": -8.728307,
+      "nome": "Outro endereço",
+      "morada1":"Rua dos Balneários do Complexo Desportivo",
+      "morada2": "Gafanha da Nazaré",
+      "codPostal": "3810-225 Gafanha da Nazaré",
+      "cat": "item3",
+     "nome": "Casas noturnas"
+   }
+]
