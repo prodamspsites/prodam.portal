@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="prodam.portal">
+
+  <body>
+    <metal:content-core fill-slot="main">
+      <metal:block define-macro="main">
+        <section class="ten columns diary-list">
+          <header>
+              <strong id="dateCalendar">HOJE: Segunda-Feira, 9 de Novembro de 2015</strong>
+          </header>
+          <div id="listEventos" tal:define="path python:'/'.join(context.getPhysicalPath());
+                                            start python:DateTime();
+                                            events python:context.portal_catalog(path=path, portal_type='Event', start={'query': (start),
+                        'range': 'min'})">
+            <ul tal:condition="events">
+              <tal:events tal:repeat="event events">
+                <li>
+                  <article tal:define="date event/EffectiveDate;
+                                       hora python:DateTime(date).strftime('%H:%M')">
+                    <time tal:content="hora">09:30</time>
+                    <h3 tal:content="event/Title">Despacho com os secretários Francisco Macena (Governo), José Américo (Relações Governamentais) e Nunzio Briguglio (Comunicação), a secretária-adjunta Leila Suwwan (Comunicação)</h3>
+                    <p tal:content="event/Description">e o chefe de gabinete Paulo Dallari (Comunicação)</p>
+                    </article>
+                </li>
+              </tal:events>
+            </ul>
+          </div>
+        </section>
+
+      </metal:block>
+    </metal:content-core>
+  </body>
+
+</html>
