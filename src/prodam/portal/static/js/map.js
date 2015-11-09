@@ -88,14 +88,14 @@ $(document).ready(function(){
     $('ul#casa li input').click(function() {
                 categoriaInput = $(this).attr('class');
         if ($(this).is(':checked')) {
-                        urlJson = 'js/casa.json';
+                        urlJson = '++resource++prodam.portal/js/casa.json';
             displayPontos();
                 }
         });
     $('ul#rua li input').click(function(){
         categoriaInput = $(this).attr('class');
         if ($(this).is(':checked')) {
-                        urlJson = 'js/rua.json';
+                        urlJson = '++resource++prodam.portal/js/rua.json';
             displayPontos();
                 }
     });
