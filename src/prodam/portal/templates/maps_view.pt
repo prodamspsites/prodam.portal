@@ -10,12 +10,39 @@
       <metal:block define-macro="main">
         <header>
           <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
-          <script type="text/javascript" src="++resource++prodam.portal/javascript/jquery-ui.custom.min.js"></script>
+          <script type="text/javascript" src="++resource++prodam.portal/js/jquery-ui.custom.min.js"></script>
           <script type="text/javascript" src="++resource++prodam.portal/js/map.js"></script>
           <h1 class="documentFirstHeading" tal:content="context/Title | nothing">Mapa de Serviços</h1>
         </header>
+        <section class="wrap-events">
+          <div class="op-stripes">
+          </div>
+        <div class="eventBanner">
+          <div class="aba-left"></div>
+          <div class="aba-right"></div>
+          <form class="eventForm" method="post" action="maps_view" tal:attributes="action string:${context/portal_url}/maps_view">
+            <!-- <fieldset></fieldset> -->
+          <ul class="event-list" style="margin-right: 0px;">
+            <li>
+              <input type="checkbox" value="PONTOS_ALAGAMENTO" id="PONTOS_ALAGAMENTO" name="event" class="ocorrencia"> <label="" for="PONTOS_ALAGAMENTO">Pontos de alagamento<span class="number-events"></span>
+            </li>
+            <li>
+              <input type="checkbox" value="ARVORES_CAIDAS" id="ARVORES_CAIDAS" name="event" class="ocorrencia"> <label="" for="ARVORES_CAIDAS">Árvores caídas<span class="number-events"></span>
+            </li>
+            <li>
+              <input type="checkbox" value="SEMAFOROS_QUEIMADOS" id="SEMAFOROS_QUEIMADOS" name="event" class="ocorrencia"> <label="" for="SEMAFOROS_QUEIMADOS">Semáforos em Manutenção<span class="number-events"></span>
+            </li>
+            <li>
+              <input type="checkbox" value="OBRAS_DE_CONTENTACOES_ENCHENTES" id="OBRAS_DE_CONTENTACOES_ENCHENTES" name="event" class="ocorrencia" ><label="" for="OBRAS_DE_CONTENTACOES_ENCHENTES">Obras de contenção de enchentes<span class="number-events"></span>
+            </li>
+            <li>
+              <input type="checkbox" value="OUTROS" id="OUTROS" name="event" class="ocorrencia" ><label="" for="OUTROS">Outros<span class="number-events"></span>
+            </li>
+          </ul>
+          </form>
 
-
+        </div>
+      </section>
         <form class="rotaForm" method="post" action="maps_view" tal:attributes="action string:${context/portal_url}/maps_view">
           <fieldset>
             <legend>Traçar rota</legend>
