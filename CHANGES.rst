@@ -3,6 +3,7 @@ Histórico de Alterações
 
 0.5a1 (unreleased)
 ^^^^^^^^^^^^^^^^^^
+* Altera versão do collective.transmogrifier para dev [mosesjr]
 * Incluí produtos de twitter [mosesjr]
 * Ajusta title do portlet de últimas ocorrências [wblima]
 * Cria page template de mais buscados [wblima]
