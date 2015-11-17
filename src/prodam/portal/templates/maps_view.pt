@@ -9,20 +9,90 @@
     <metal:content-core fill-slot="main">
       <metal:block define-macro="main">
         <header>
+          <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+          <script type="text/javascript" src="++resource++prodam.portal/js/jquery-ui.custom.min.js"></script>
+          <script type="text/javascript" src="++resource++prodam.portal/js/map.js"></script>
           <h1 class="documentFirstHeading" tal:content="context/Title | nothing">Mapa de Serviços</h1>
         </header>
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false&amp;libraries=places"></script>
-        <script type="text/javascript">
-          function initialize() {
-            var mapOptions = {
-              center: { lat: -23.32, lng: -46.38},
-              zoom: 10
-            };
-            var map = new google.maps.Map(document.getElementById('map-canvas'),
-                mapOptions);
-          }
-          google.maps.event.addDomListener(window, 'load', initialize);
-        </script>
+        <section class="wrap-events">
+          <div class="op-stripes">
+          </div>
+        <div class="eventBanner">
+          <div class="aba-left"></div>
+          <div class="aba-right"></div>
+          <form class="eventForm" method="post" action="maps_view" tal:attributes="action string:${context/portal_url}/maps_view">
+            <!-- <fieldset></fieldset> -->
+          <ul class="event-list" style="margin-right: 0px;">
+            <li>
+              <input type="checkbox" value="PONTOS_ALAGAMENTO" id="PONTOS_ALAGAMENTO" name="event" class="ocorrencia"> <label="" for="PONTOS_ALAGAMENTO">Pontos de alagamento<span class="number-events"></span>
+            </li>
+            <li>
+              <input type="checkbox" value="ARVORES_CAIDAS" id="ARVORES_CAIDAS" name="event" class="ocorrencia"> <label="" for="ARVORES_CAIDAS">Árvores caídas<span class="number-events"></span>
+            </li>
+            <li>
+              <input type="checkbox" value="SEMAFOROS_QUEIMADOS" id="SEMAFOROS_QUEIMADOS" name="event" class="ocorrencia"> <label="" for="SEMAFOROS_QUEIMADOS">Semáforos em Manutenção<span class="number-events"></span>
+            </li>
+            <li>
+              <input type="checkbox" value="OBRAS_DE_CONTENTACOES_ENCHENTES" id="OBRAS_DE_CONTENTACOES_ENCHENTES" name="event" class="ocorrencia" ><label="" for="OBRAS_DE_CONTENTACOES_ENCHENTES">Obras de contenção de enchentes<span class="number-events"></span>
+            </li>
+            <li>
+              <input type="checkbox" value="OUTROS" id="OUTROS" name="event" class="ocorrencia" ><label="" for="OUTROS">Outros<span class="number-events"></span>
+            </li>
+          </ul>
+          </form>
+
+        </div>
+      </section>
+        <form class="rotaForm" method="post" action="maps_view" tal:attributes="action string:${context/portal_url}/maps_view">
+          <fieldset>
+            <legend>Traçar rota</legend>
+            <div class="roteOption">
+              <input class="mode-tr" id="rb-car" type="radio" name="transporte" value="1" checked="checked">
+              <label for="rb-car" class="routetype-labels">Carro</label>
+                <br>
+              <input class="mode-tr" id="rb-trans" type="radio" name="transporte" value="2">
+              <label for="rb-trans" class="routetype-labels">Transporte Público</label>
+                <br>
+              <input class="mode-tr" id="rb-pe" type="radio" name="transporte" value="3">
+              <label for="rb-pe" class="routetype-labels">A pé</label>
+            </div>
+            <div class="rotaPartida">
+              <label for="txtEnderecoPartida">A</label>
+              <input type="text" placeholder="Digite uma consulta" class="txtEndereco" id="txtEnderecoPartida" name="txtEnderecoPartida" />
+            </div>
+            <div class="rotaChegada">
+              <label for="txtEnderecoChegada">B</label>
+              <input type="text" placeholder="Digite uma consulta" class="txtEndereco" id="txtEnderecoChegada" name="txtEnderecoChegada" />
+            </div>
+
+            <div class="rotaEnviar">
+              <input type="submit" id="btnEnviar" name="btnEnviar" value="Ok" />
+            </div>
+          </fieldset>
+        </form>
+        <div class="menuItens">
+          <ul>
+            <li>
+              <img src="++theme++capa/img/icoCasa.png" width="40" height="40" alt="" />
+              <a class="tituloMenu">Casa e Moradia</a>
+              <ul class="subItens" id="casa">
+                <li><input type="checkbox" name="centros" value="Centros de Acolhida" class="item1"> Centros de Acolhida</li>
+                <li><input type="checkbox" name="creches" value="Creches" class="item2"> Creches</li>
+                <li><input type="checkbox" name="casas" value="Casas noturnas" class="item3"> Casas noturnas</li>
+              </ul>
+            </li>
+            <li>
+              <img src="++theme++capa/img/icoRua.png" width="40" height="40" alt="" />
+              <a class="tituloMenu">Rua e Bairro</a>
+              <ul class="subItens" id="rua">
+                <li><input type="checkbox" name="ferias" value="Feiras Livres" class="item1"> Feiras Livres</li>
+                <li><input type="checkbox" name="subprefeituras" value="Subprefeituras" class="item2"> Subprefeituras</li>
+                <li><input type="checkbox" name="casas" value="Casa de entretenimento" class="item3"> Casa de entretenimento</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
         <div id="map-canvas"></div>
       </metal:block>
     </metal:content-core>
