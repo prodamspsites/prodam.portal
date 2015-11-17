@@ -5,7 +5,7 @@
     i18n:domain="prodam.portal">
 <dl class="portlet">
   <tal:Videos tal:define="urls view/getVideos">
-    <section class="carrossel" tal:condition="python:urls[0]">
+    <section class="carrossel" tal:condition="urls">
       <header>
         <h2 tal:content="view/getTitle">São Paulo na TV</h2>
       </header>
