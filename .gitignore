@@ -25,6 +25,7 @@ local.cfg
 Makefile
 parts/
 src/collective.cover/
+src/collective.transmogrifier/
 src/prodam.tema
 src/prodam.tiles
 src/prodam.secoes
