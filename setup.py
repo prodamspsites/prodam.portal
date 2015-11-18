@@ -58,6 +58,8 @@ setup(
         'Products.Doormat<0.8',
         'Products.PloneFormGen',
         'setuptools',
+        'transmogrify.dexterity',
+        'collective.transmogrifier',
         'collective.twitter.portlets',
         'python-oauth2',
         'z3c.unconfigure',

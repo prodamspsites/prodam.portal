@@ -27,6 +27,9 @@
       <element>Estilo 3|estilo3</element>
       <element>Estilo 4|estilo4</element>
       <element>Estilo 5|estilo5</element>
+      <element>Border|tile.edge</element>
+      <element>Imageh2|tile-image-h2</element>
+      <element>Destaque|destaque</element>
     </value>
   </record>
 

@@ -1,5 +1,11 @@
 (function($) {
   $(document).ready(function() {
+
+    if ($('body').hasClass('section-cidadao') || $('body').hasClass('section-empresa') || $('body').hasClass('section-turista')) {
+      console.log('teste');
+    }
+
+
     if ($('body').hasClass('subsection-prefeito')) {
       calendarUrl = portal_url + '/agenda/';
 

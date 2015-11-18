@@ -3,6 +3,10 @@ Histórico de Alterações
 
 0.5a1 (unreleased)
 ^^^^^^^^^^^^^^^^^^
+* Atualiza versão do plone.app.blocks [mosesjr]
+* Adiciona a pasta src/collective.transmogrifier/ no gitignore [mosesjr]
+* Altera versão do collective.transmogrifier para dev [mosesjr]
+* Incluí produtos de twitter [mosesjr]
 * Ajusta title do portlet de últimas ocorrências [wblima]
 * Cria page template de mais buscados [wblima]
 * Configura criação inicial de conteúdos via setuphandlers [mosesjr]
