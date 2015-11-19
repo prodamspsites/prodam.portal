@@ -60,6 +60,7 @@ setup(
         'setuptools',
         'transmogrify.dexterity',
         'collective.transmogrifier',
+        'beautifulsoup4',
         'collective.twitter.portlets',
         'python-oauth2',
         'z3c.unconfigure',
