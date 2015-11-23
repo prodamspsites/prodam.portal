@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="example.conference">
+<body>
+
+<metal:main fill-slot="main">
+  <tal:main-macro metal:define-macro="main">
+
+    <aside id="externos" role="complementary" style="height: 450px;">
+      <header class="dash-header">
+        São Paulo agora:
+        <button class="e-fechar"> </button>
+      </header>
+
+      <ul id="servicos-externos">
+        <tal:servicos replace="structure view/getPrincipal" />
+      </ul>
+
+      <a href="/portal/mapa"><div id="mapa-serv"></div></a>
+      <div class="tweets" tal:condition="view/getTweets">
+        <tal:tweets replace="structure view/getTweets" />
+      </div>
+    </aside>
+  </tal:main-macro>
+</metal:main>
+
+</body>
+</html>

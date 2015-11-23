@@ -22,7 +22,7 @@
       />
 
   <browser:page
-      name="spAgora"
+      name="sp-agora"
       for="*"
       permission="zope2.View"
       class=".spagora.SpAgora"
