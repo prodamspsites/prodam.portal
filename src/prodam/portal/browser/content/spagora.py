@@ -3,14 +3,22 @@ from Products.Five import BrowserView
 from StringIO import StringIO
 from bs4 import BeautifulSoup
 from cookielib import CookieJar
+from gzip import GzipFile
+from lxml import etree
+from plone.memoize import ram
+from time import localtime
+from time import time
+from twitter import Api
+from urllib import urlencode
+from urllib2 import HTTPCookieProcessor
+from urllib2 import HTTPError
+from urllib2 import ProxyHandler
+from urllib2 import Request
+from urllib2 import build_opener
 try:
     import cPickle as pickle
 except ImportError:
     import pickle
-import gzip
-import urllib
-import urllib2
-import time
 
 
 url_direct = {'pref-sp': 'http://www.capital.sp.gov.br/portal/',
@@ -37,12 +45,15 @@ class SpAgora(BrowserView):
     return: content to site url_direct
     """
     soup = None
+    tree = None
 
-    def __init__(self, state=None, proxy=None, max_retries=3):
+    def __init__(self, context, request, state=None, proxy=None, max_retries=3):
         """Classe para fazer scrap class spagora args:
         @state: Estado de scrapper anterior obtido via .get_state()
         @proxy: Proxy HTTP
         """
+        self.context = context
+        self.request = request
         self.max_retries = max_retries
         if state:
             self._form_data = state['form_data']
@@ -50,18 +61,18 @@ class SpAgora(BrowserView):
         else:
             self._cj = StringCookieJar()
 
-        cookie_handler = urllib2.HTTPCookieProcessor(self._cj)
+        cookie_handler = HTTPCookieProcessor(self._cj)
         if proxy is None:
-            self._opener = urllib2.build_opener(cookie_handler)
+            self._opener = build_opener(cookie_handler)
         else:
-            proxy_handler = urllib2.ProxyHandler({'http': proxy, })
-            self._opener = urllib2.build_opener(cookie_handler, proxy_handler)
+            proxy_handler = ProxyHandler({'http': proxy, })
+            self._opener = build_opener(cookie_handler, proxy_handler)
 
     def getContent(self, url, data=None, referer=None):
         """
         return content cookie html in response decode utf-8 to BeautifulSoup
         """
-        encoded_data = urllib.urlencode(data) if data else None
+        encoded_data = urlencode(data) if data else None
         # if referer is None: url
         default_headers = {'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.9) Gecko/20100824 Firefox/3.6.9 ( .NET CLR 3.5.30729; .NET4.0E)',
                            'Accept-Language': 'pt-br;q=0.5',
@@ -72,19 +83,19 @@ class SpAgora(BrowserView):
                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
                            'Referer': referer}
 
-        req = urllib2.Request(url, encoded_data, default_headers, origin_req_host=referer)
+        req = Request(url, encoded_data, default_headers, origin_req_host=referer)
 
         retries = 0
         try:
             handle = self._opener.open(req)
-        except urllib2.HTTPError:
+        except HTTPError:
             retries += 1
             if retries > self.max_retries:
                 raise
         if handle.info().get('Content-Encoding') == 'gzip':
             data = handle.read()
             buf = StringIO(data)
-            f = gzip.GzipFile(fileobj=buf)
+            f = GzipFile(fileobj=buf)
             response = f.read()
         else:
             response = handle.read()
@@ -96,41 +107,45 @@ class SpAgora(BrowserView):
                                   SpAgora capa
     ##########################################################################
     """
-    def getCapaSPAgora(self):
+    @ram.cache(lambda *args: time() // (60 * 15))
+    def getPrincipal(self):
         """
         return content head apresentation ['in the morning','in the afternoon','in the evening','at night']
         """
-        self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima-media")))
-        temp_media = self.getTempMedia()
-        hour = time.localtime(time.time()).tm_hour
+        try:
+            self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima-media")))
+            temp_media = self.getTempMedia()
+            hour = localtime(time()).tm_hour
+            self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima")))
+            prevision = self.getHour(hour)
 
-        if int(hour) >= 6 and int(hour) < 13:
-            prevision = self.getPrevManha()
-        elif int(hour) >= 13 and int(hour) < 19:
-            prevision = self.getPrevTarde()
-        elif int(hour) >= 19 and int(hour) <= 23:
-            prevision = self.getPrevNoite()
-        elif int(hour) >= 0 and int(hour) < 6:
-            prevision = self.getPrevMadrugada()
+            content = '<ul id="servicos-externos" style="display: block;">' \
+                      '<li class="ex-clima"><div class="dash-border"><strong class="titulo-dash">Tempo' \
+                      '</strong><div class="tempo-g nb"></div><div class="t-media"><span>Média</span>' \
+                      '<span id="CGE-media" class="amarelo bold">' + temp_media + '</span></div><div class="tempestade">' \
+                      '<span>Potencial <div class="raio"></div></span>' \
+                      '<span id="status-temp" class="amarelo">' + prevision + '</span></div></div>' \
+                      '<div class="ex-hover"><div></div></div></li>'
+        except:
+            content = self.getContentExcept(class_li='ex-clima', text_div='CGEb')
 
-        content = '<ul id="servicos-externos" style="display: block;">' \
-                  '<li class="ex-clima"><div class="dash-border"><strong class="titulo-dash">Tempo' \
-                  '</strong><div class="tempo-g nb"></div><div class="t-media"><span>Média</span>' \
-                  '<span id="CGE-media" class="amarelo bold">%s</span></div><div class="tempestade">' + temp_media + \
-                  '<span>Potencial <div class="raio"></div></span>' \
-                  '<span id="status-temp" class="amarelo">%s</span></div></div>' + prevision + \
-                  '<div class="ex-hover"><div></div></div></li>'
+        try:
+            self.soup = BeautifulSoup(self.getContent(url_direct.get('qualidade-oxigenio')))
+            qualidade_ar = self.getDescQualidade()
+            content += '<!-- AR -->' \
+                       '<li class="ex-ar"><div class="dash-border"><strong class="titulo-dash">Qualidade do Ar</strong>'\
+                       '<div class="dash-img o2quali"></div><b class="bullet-verde em2">' + qualidade_ar + '</b></div>' \
+                       '<div class="ex-hover"><div></div></div></li>'
+        except:
+            content += self.getContentExcept(class_li='ex-ar', text_div='Qualidade do Ar')
 
-        content += '<!-- AR -->' \
-                   '<li class="ex-ar"><div class="dash-border"><strong class="titulo-dash">Qualidade do Ar</strong>'\
-                   '<div class="dash-img o2quali"></div><b class="bullet-verde em2">Boa</b></div>' \
-                   '<div class="ex-hover"><div></div></div></li>' \
-                   '<!-- Aeroportos -->' \
+        content += '<!-- Aeroportos -->' \
                    '<li class="ex-aero">' \
                    '<div class="dash-border"><strong class="titulo-dash">Aero</strong>' \
-                   '<br>Não foi possível carregar informações</div>' \
-                   '</li>' \
-                   '<!-- Transporte público -->' \
+                   '<br>Consultar situação</div>' \
+                   '</li>'
+
+        content += '<!-- Transporte público -->' \
                    '<li class="ex-publico">' \
                    '<div class="dash-border">' \
                    '<strong class="titulo-dash">Transporte Público</strong>' \
@@ -138,18 +153,53 @@ class SpAgora(BrowserView):
                    '<a href="http://www.sptrans.com.br/itinerarios/" target="_blank" class="azul-pq">Busca de itinerários</a>' \
                    '</div>' \
                    '<div class="ex-hover"><div></div></div>' \
-                   '</li>' \
-                   '<!-- Trânsito-->' \
-                   '<li class="ex-transito"><div class="dash-border"><strong class="titulo-dash">' \
-                   'Trânsito</strong><div class="dash-img semaforo"></div>' \
-                   '<b class="amarelo em15" id="lento">30km</b><br>' \
-                   '<span class="em09 bold">de lentidão</span><br><span class="kmStatus verde">' \
-                   '<i class="ball-status verde"></i>livre</span></div><div class="ex-hover"><div></div></div></li>' \
-                   '<!-- Rodizio -->' \
-                   '<li class="ex-rodizio">' \
-                   '<div class="dash-border"><strong class="titulo-dash">Rodizio</strong>' \
-                   '<br>Não foi possível carregar informações</div>' \
-                   '</li></ul>'
+                   '</li>'
+
+        try:
+            self.soup = BeautifulSoup(self.getContent(url_direct.get('transito-agora')))
+            lentidao = self.getLentidao()
+            content += '<!-- Trânsito-->' \
+                       '<li class="ex-transito"><div class="dash-border"><strong class="titulo-dash">' \
+                       'Trânsito</strong><div class="dash-img semaforo"></div>' \
+                       '<b class="amarelo em15" id="lento">' + lentidao + 'km</b><br>' \
+                       '<span class="em09 bold">de lentidão</span><br><span class="kmStatus verde">' \
+                       '<i class="ball-status verde"></i>livre</span></div><div class="ex-hover"><div></div></div></li>'
+        except:
+            content += self.getContentExcept(class_li='ex-transito', text_div='Transito')
+
+        try:
+            self.soup = BeautifulSoup(self.getContent(url_direct.get('dash-rodisio')))
+            placa_rodisio = self.getRestricaoPlacaFinal()
+            content += '<!-- Rodizio -->' \
+                       '<li class="ex-rodizio">' \
+                       '<div class="dash-border"><strong class="titulo-dash">Rodízio</strong>' \
+                       '<div class="dash-img"></div><b id="rodizio_hoje"></b>Placas final <br>' \
+                       '<b class="azul-gd">' + placa_rodisio + '</b> </div><div class="ex-hover">' \
+                       '<div></div></div>' \
+                       '</li></ul>'
+        except:
+            content += self.getContentExcept(class_li='ex-rodizio', text_div='Rodízio')
+        return content
+
+    def getHour(self, hour):
+        if int(hour) >= 6 and int(hour) < 13:
+            return self.getPrevManha()
+        elif int(hour) >= 13 and int(hour) < 19:
+            return self.getPrevTarde()
+        elif int(hour) >= 19 and int(hour) <= 23:
+            return self.getPrevNoite()
+        elif int(hour) >= 0 and int(hour) < 6:
+            return self.getPrevMadrugada()
+
+    def getContentExcept(self, class_li, text_div):
+        """
+        return content to except in case error
+        """
+        content = '<li class="' + class_li + '">' \
+                  '<div class="dash-border"><strong class="titulo-dash">' + text_div + '</strong>' \
+                  '<br>Não foi possível carregar informações</div>' \
+                  '</li>'
+        return content
 
     """
     ##########################################################################
@@ -162,6 +212,7 @@ class SpAgora(BrowserView):
                  'PC': 'Pancadas Chuvas',
                  'CV': 'Chuva'}
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getClima(self):
         """
         return: content clima and details
@@ -269,6 +320,7 @@ class SpAgora(BrowserView):
                      '</div>'
         return clima_html
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getTempMedia(self):
         """
         return temperature median in moment
@@ -277,6 +329,7 @@ class SpAgora(BrowserView):
         temperature = str(int(round(temp_media)))
         return temperature
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getPrevision(self, period=None):
         """
         :return: prevision time in day
@@ -288,12 +341,14 @@ class SpAgora(BrowserView):
         except:
             print('Type of weather forecasting not set ')
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getWeather(self, type):
         """
         :return: weather condicion in day
         """
         return self.soup.dia.findAll(type)[0].text
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getTempMaxima(self):
         """
         return time morning
@@ -301,6 +356,7 @@ class SpAgora(BrowserView):
         temp_max = str(self.getWeather('temp-max')[:-2])
         return temp_max
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getTempMinima(self):
         """
         return temperature minimo
@@ -308,48 +364,56 @@ class SpAgora(BrowserView):
         temp_min = str(self.getWeather('temp-min')[:-2])
         return temp_min
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getPrevManha(self):
         """
         return prevision time morning
         """
         return self.getPrevision('Manhã')
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getPrevTarde(self):
         """
         return time afternoon
         """
         return self.getPrevision('Tarde')
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getPrevNoite(self):
         """
         return time night
         """
         return self.getPrevision('Noite')
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getPrevMadrugada(self):
         """
         return time dawn
         """
         return self.getPrevision('Madrugada')
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getUmidadeArMax(self):
         """
         return unit ar max
         """
         return str(self.getWeather('umid-max')[:2]) + '%'
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getUmidadeArMin(self):
         """
         return unit ar min
         """
         return str(self.getWeather('umid-min')[:2]) + '%'
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getHoraNascerSol(self):
         """
         return hour sunrise
         """
         return str(self.getWeather('sunrise')[:-1])
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getHoraPorSol(self):
         """
         return sunset time
@@ -361,6 +425,7 @@ class SpAgora(BrowserView):
                                Qualidade do Ar
     ##########################################################################
     """
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getQualidadeAr(self):
         """
         return: content qualidade do ar
@@ -388,6 +453,7 @@ class SpAgora(BrowserView):
         quality_ar_html += '</ol> </div>'
         return quality_ar_html
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getEfeitoSaude(self):
         """
         return list efect quality life
@@ -399,6 +465,24 @@ class SpAgora(BrowserView):
             if _quality != '--':
                 list_quality.append({'quality': _quality})
         return list_quality
+
+    @ram.cache(lambda *args: time() // (60 * 15))
+    def getDescQualidade(self, local='Itaquera'):
+        """
+        return type description qualidaty atmosfera
+        """
+        quality = int(self.soup.find('td', text=local).parent.find('td', width=50).text)
+        if quality >= 0 and quality <= 40:
+            descript = 'Boa'
+        elif quality >= 41 and quality <= 80:
+            descript = 'Moderado'
+        elif quality >= 81 and quality <= 120:
+            descript = 'Ruim'
+        elif quality >= 121 and quality <= 200:
+            descript = 'Muito Ruim'
+        elif quality >= 200:
+            descript = 'Pessimo'
+        return descript
 
     """
     ##########################################################################
@@ -427,6 +511,7 @@ class SpAgora(BrowserView):
                         'pontoVermelho': 'Fechado operações',
                         'pontoBranco': 'Indisponivel no momento'}
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getAeroporto(self):
         """
         return: content situation aeroport and conditional voo
@@ -469,6 +554,7 @@ class SpAgora(BrowserView):
         aeport_html += '</ul></div>'
         return aeport_html
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getSituacaoAeroporto(self):
         """
         return situation status retrict conditional aeport
@@ -488,6 +574,7 @@ class SpAgora(BrowserView):
                                    'site': list_aeport.get('site')})
         return list_situation
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getSituacaoAeroportoVoo(self, list_aeport=[]):
         """
         return situation voo in aeport
@@ -510,16 +597,17 @@ class SpAgora(BrowserView):
                        Transporte Publico CPTM e Metro
     ##########################################################################
     """
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getTransportePublico(self):
         """
         return content transporte publico
         """
-        line_metro = []
+        # line_metro = []
         # transp_cptm = self.getStatusCptm()
-        transp_metro = self.getStatusMetro()
+        # transp_metro = self.getStatusMetro()
 
-        for metro in transp_metro:
-            line_metro.append(metro.text.split('\n')[4].strip())
+        # for metro in transp_metro:
+        #     line_metro.append(metro.text.split('\n')[4].strip())
         circulacao_metro = None
         circulacao_cptm = None
         transp_publica_html = '<div id="call-publi" class="dash" style="display: block;">' \
@@ -546,6 +634,7 @@ class SpAgora(BrowserView):
                               '</div>'
         return transp_publica_html
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getStatusCptm(self):
         """
         return situation transport public cptm
@@ -555,17 +644,18 @@ class SpAgora(BrowserView):
         situacao = [tag for tag in transp_cptm if "status_normal" in tag.attrs['class']]
         return situacao[0].text
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getStatusMetro(self):
         """
         return situation transport public
         """
         status_metro = []
         soup = BeautifulSoup(self.getContent(url_direct.get('transp-metro')))
+        # import pdb; pdb.set_trace()
         transp_metro = soup.find('ul', {'id': 'statusLinhaMetro'}).findAll('div')
         for metro in transp_metro:
-            status_metro.append({'nomeDaLinha': transp_metro.find('nomeDaLinha'),
-                                 'statusDaLinha': transp_metro.find('statusDaLinha')})
-            status_metro.append(metro.text.split('\n')[4].strip())
+            status_metro.append(metro)
+            # status_metro.append(metro.text.split('\n')[4].strip())
         return transp_metro
 
     """
@@ -573,12 +663,12 @@ class SpAgora(BrowserView):
                                 Transito por zona
     ##########################################################################
     """
-    transito = {}
-
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getTransito(self):
         """
         return: content transtito.
         """
+        self.tree = etree.HTML(self.getContent(url_direct.get('transito-agora')))
         transito_zona_oeste = self.getTransZonaOeste()
         transito_zona_norte = self.getTransZonaNorte()
         transito_zona_leste = self.getTransZonaLeste()
@@ -592,7 +682,7 @@ class SpAgora(BrowserView):
                         '<div class="ttotal amarelo"><br>' \
                         '<span class="amarelo bolinha"></span>regular</div></div>' \
                         '<hr class="pont"><div id="sp-mapa"><ul id="lentidao">' \
-                        '<li id="kmOeste" class="amarelo">%s</li>' % transito_zona_oeste + \
+                        '<li id="kmOeste" class="amarelo">%s</li>' + transito_zona_oeste + \
                         '<li id="kmNorte" class="amarelo">%s</li>' % transito_zona_norte + \
                         '<li id="kmLeste" class="amarelo">%s</li>' % transito_zona_leste + \
                         '<li id="kmSul" class="amarelo">%s</li>' % transito_zona_sul + \
@@ -602,45 +692,74 @@ class SpAgora(BrowserView):
                         '</div></div>'
         return transito_html
 
-    def getTransZonaOeste(self):
+    @ram.cache(lambda *args: time() // (60 * 15))
+    def getContentTransito(self, chave):
         """
-        return transit in zone oeste
+        return content transit with parameters id
         """
-        BeautifulSoup(self.getContent(url_direct.get('transito-agora')))
+        content = self.tree.xpath("string(//div[@id='%s'])" % chave).split(' ')[0]
+        return content
 
-        return None
+    @ram.cache(lambda *args: time() // (60 * 15))
+    def getLentidao(self):
+        """
+        return showness in zone
+        """
+        lentidao = self.getContentTransito('lentidao')
+        return lentidao
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getTransZonaNorte(self):
         """
         return transit in zone norte
         """
-        BeautifulSoup(self.getContent(url_direct.get('transito-agora')))
-        return None
+        trans_zona_norte = self.getContentTransito('NorteLentidao')
+        return trans_zona_norte
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getTransZonaLeste(self):
         """
         return transit in zone leste
         """
-        BeautifulSoup(self.getContent(url_direct.get('transito-agora')))
-        return None
+        trans_zona_leste = self.getContentTransito('LesteLentidao')
+        return trans_zona_leste
 
+    @ram.cache(lambda *args: time() // (60 * 15))
+    def getTransZonaCentro(self):
+        """
+        return transit in zone center
+        """
+        trans_zona_centro = self.getContentTransito('CentroLentidao')
+        return trans_zona_centro
+
+    @ram.cache(lambda *args: time() // (60 * 15))
+    def getTransZonaOeste(self):
+        """
+        return transit in zone oeste
+        """
+        trans_zona_oeste = self.getContentTransito('OesteLentidao')
+        return trans_zona_oeste
+
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getTransZonaSul(self):
         """
         return transit in zone sul
         """
-        BeautifulSoup(self.getContent(url_direct.get('transito-agora')))
-        return None
+        trans_zona_sul = self.getContentTransito('SulLentidao')
+        return trans_zona_sul
 
     """
     ##########################################################################
                            Rodizio e Área de restrição
     ##########################################################################
     """
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getRodisio(self):
         """
         return: content rodozio
         """
-        planas_final = self.getListPlaca()
+        self.soup = BeautifulSoup(self.getContent(url_direct.get('dash-rodisio')))
+        planas_final = self.getRestricaoPlacaFinal()
         placa_horario_inicio = self.getPlacaHorarioInicio()
         placa_horario_final = self.getPlacaHorarioFinal()
         rodizio_html = '<div id="call-rodizio" class="dash" style="display: block;">' \
@@ -657,20 +776,49 @@ class SpAgora(BrowserView):
                        '<small class="amarelo em08"> e 4pts na carteira</small></li></ul></div>'
         return rodizio_html
 
-    def getListPlaca(self):
+    @ram.cache(lambda *args: time() // (60 * 15))
+    def getRestricaoPlacaFinal(self):
         """
-        return list placa final restrict
+        return restrict placa final
         """
-        return None
+        import ast
+        restricao_placa_final = ast.literal_eval(self.soup.text).get('Rotation').get('desc')
+        return restricao_placa_final
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getPlacaHorarioInicio(self):
         """
         return placa horario inicio
         """
-        return None
+        placa_horario_inicio = '7h às 10h'
+        return placa_horario_inicio
 
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getPlacaHorarioFinal(self):
         """
         return placa horario final
         """
-        return None
+        placa_horario_final = '17h às 20h'
+        return placa_horario_final
+
+    """
+    ##########################################################################
+                           Tweets
+    ##########################################################################
+    """
+
+    @ram.cache(lambda *args: time() // (60 * 15))
+    def getTweets(self, consumer_key='OOXF8haUGyWq2YNoSciDTLGXd', consumer_secret='sZfagT290goGqJG94H0Nng2gsEStqvpEbz3wEw0UTHgboxrUmh', access_token_secret='A0DEgOpSCTu44NZcyMHCtXdNBFq8vsFwMKSv7Neenl7AY', access_token='3397165841-g80Y2QqVEEjhzqMsQTDBpyWiz1Mcm0pwv519GfN', screen_name='saopaulo_agora', count=5):
+        api = Api(consumer_key=consumer_key, consumer_secret=consumer_secret, access_token_key=access_token, access_token_secret=access_token_secret)
+        try:
+            api.VerifyCredentials()
+            statuses = api.GetUserTimeline(screen_name=screen_name)[:int(count)]
+            ocorrencias = []
+
+            for i in statuses:
+                status = '<h4>Alertas <a href="https://twitter.com/%s">@%s</a></h4>' % (screen_name, screen_name)
+                status += '<a href="https://twitter.com/' + screen_name + '/statuses/' + str(i.id) + '" target="_blank">' + str(i.text) + '<time>' + str(i.relative_created_at) + '</time></a>'
+                ocorrencias.append(status)
+            return ocorrencias
+        except:
+            return False
