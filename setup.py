@@ -62,6 +62,7 @@ setup(
         'setuptools',
         'transmogrify.dexterity',
         'collective.transmogrifier',
+        'collective.geolocationbehavior',
         'collective.twitter.portlets',
         'python-oauth2',
         'z3c.unconfigure',
