@@ -31,7 +31,24 @@
   <element value="plone.app.versioningbehavior.behaviors.IVersionable"/>
  </property>
  <property name="schema"></property>
- <property name="model_source"></property>
+ <property
+    name="model_source">&lt;model xmlns:i18n="http://xml.zope.org/namespaces/i18n" xmlns:security="http://namespaces.plone.org/supermodel/security" xmlns:marshal="http://namespaces.plone.org/supermodel/marshal" xmlns:form="http://namespaces.plone.org/supermodel/form" xmlns="http://namespaces.plone.org/supermodel/schema"&gt;
+    &lt;schema&gt;
+      &lt;field name="autor" type="zope.schema.Choice"&gt;
+        &lt;default&gt;Secretaria Executiva de Comunica&amp;#231;&amp;#227;o&lt;/default&gt;
+        &lt;description/&gt;
+        &lt;title&gt;Autor&lt;/title&gt;
+        &lt;values&gt;
+          &lt;element&gt;Secretaria Executiva de Comunica&amp;#231;&amp;#227;o&lt;/element&gt;
+        &lt;/values&gt;
+      &lt;/field&gt;
+      &lt;field name="text" type="plone.app.textfield.RichText"&gt;
+        &lt;description/&gt;
+        &lt;required&gt;False&lt;/required&gt;
+        &lt;title&gt;Text&lt;/title&gt;
+      &lt;/field&gt;
+    &lt;/schema&gt;
+  &lt;/model&gt;</property>
  <property
     name="model_file">plone.app.contenttypes.schema:news_item.xml</property>
  <property name="schema_policy">dexterity</property>
