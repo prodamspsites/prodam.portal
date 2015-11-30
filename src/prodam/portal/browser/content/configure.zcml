@@ -31,6 +31,15 @@
       />
 
   <browser:page
+      name="agenda-prefeito"
+      for="*"
+      permission="zope2.View"
+      class=".agenda.Agenda"
+      template="templates/agenda.pt"
+      layer="prodam.portal.interfaces.IProdamPortal"
+      />
+
+  <browser:page
       name="chamadaView"
       for="*"
       class=".chamada.chamadaView"
