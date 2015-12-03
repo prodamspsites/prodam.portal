@@ -5,11 +5,12 @@
   </header>
 
   <ul id="servicos-externos">
-    <tal:servicos replace="structure python:spagora.getPrincipal" />
+    <tal:servicos replace="structure python:spagora.getPrincipal()"></tal:servicos>
   </ul>
 
   <a href="/portal/mapa"><div id="mapa-serv"></div></a>
-  <div class="tweets" tal:condition="python:spagora.getTweets">
-    <tal:tweets replace="structure python:spagora.getTweets" />
+
+  <div class="tweets" tal:condition="python:spagora.getTweets()">
+    <tal:tweets replace="structure python:spagora.getTweets()" />
   </div>
 </aside>
