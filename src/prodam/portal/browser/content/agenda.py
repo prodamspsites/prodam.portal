@@ -7,19 +7,17 @@ class Agenda(BrowserView):
 
     def getDay(self):
         try:
-            return self.form["date"]
+            date = self.request.form['date']
+            return date
         except:
             return DateTime().strftime('%m/%d/%Y')
 
     def getEvents(self):
         requested_date = self.getDay()
         start_date = DateTime(requested_date)
-        end_date = DateTime(requested_date + ' 23:59:59')
         events = self.context.portal_catalog(portal_type='Event',
                                              start={'query': start_date,
                                                     'range': 'min'},
-                                             end={'query': end_date,
-                                                  'range': 'max'},
                                              sort_on='start',
                                              review_state='published')
         return events
