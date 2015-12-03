@@ -602,12 +602,12 @@ class SpAgora(BrowserView):
         """
         return content transporte publico
         """
-        # line_metro = []
-        # transp_cptm = self.getStatusCptm()
-        # transp_metro = self.getStatusMetro()
+        line_metro = []
+#        transp_cptm = self.getStatusCptm()
+        transp_metro = self.getStatusMetro()
 
-        # for metro in transp_metro:
-        #     line_metro.append(metro.text.split('\n')[4].strip())
+        for metro in transp_metro:
+            line_metro.append(metro.text.split('\n')[4].strip())
         circulacao_metro = None
         circulacao_cptm = None
         transp_publica_html = '<div id="call-publi" class="dash" style="display: block;">' \

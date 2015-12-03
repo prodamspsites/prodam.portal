@@ -1,1 +1,2 @@
 <h1 tal:content="view/getDate" />
+<h1 tal:content="view/getDay" />
