@@ -11,6 +11,8 @@
   <a href="/portal/mapa"><div id="mapa-serv"></div></a>
 
   <div class="tweets" tal:condition="python:spagora.getTweets()">
-    <tal:tweets replace="structure python:spagora.getTweets()" />
+    <tal:tweets define="tweets python:spagora.getTweets()" repeat="tweet tweets">
+      <span tal:replace="structure tweet" />
+    </tal:tweets>
   </div>
 </aside>
