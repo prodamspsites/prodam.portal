@@ -15,7 +15,7 @@
       <div class="prefeito">
         <h2 id="agendaPrefeitura" tal:content="context/Title"></h2>
       </div>
-      <header>
+      <header class="agendaHeader">
         <strong id="agendaDia" tal:content="view/getTitle">HOJE: Quinta-Feira, 3 de Dezembro de 2015</strong>
       </header>
 
