@@ -77,7 +77,7 @@
       // getCalendar(calendarUrl);
 
 
-      $(document).on('click', '.ploneCalendar td.event a', function(e) {
+      $(document).on('click', '.ploneCalendar td a', function(e) {
         e.preventDefault()
         year = $('#calendar-previous').data('year');
         month = parseInt($('#calendar-previous').data('month')) +1;
