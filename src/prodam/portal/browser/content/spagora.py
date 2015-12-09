@@ -856,9 +856,8 @@ class SpAgora(BrowserView):
             api.VerifyCredentials()
             statuses = api.GetUserTimeline(screen_name=screen_name)[:int(count)]
             ocorrencias = []
-
+            status = ''
             for i in statuses:
-                status = '<h4>Alertas <a href="https://twitter.com/%s">@%s</a></h4>' % (screen_name, screen_name)
                 status += '<a href="https://twitter.com/' + screen_name + '/statuses/' + str(i.id) + '" target="_blank">' + str(i.text) + '<time>' + str(i.relative_created_at) + '</time></a>'
                 ocorrencias.append(status)
             return ocorrencias
