@@ -102,91 +102,85 @@ class SpAgora(BrowserView):
             response = handle.read()
         return response
 
-    """
-    ##########################################################################
-                                  SpAgora capa
-    ##########################################################################
-    """
     @ram.cache(lambda *args: time() // (60 * 15))
     def getPrincipal(self):
-        """
-        return content head apresentation ['in the morning','in the afternoon','in the evening','at night']
-        """
-        try:
-            self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima-media")))
-            temp_media = self.getTempMedia()
-            hour = localtime(time()).tm_hour
-            self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima")))
-            prevision = self.getHour(hour)
+        content = ''
 
-            content = '<ul id="servicos-externos" style="display: block;">' \
-                      '<li class="ex-clima"><div class="dash-border"><strong class="titulo-dash">Tempo' \
-                      '</strong><div class="tempo-g nb"></div><div class="t-media"><span>Média</span>' \
-                      '<span id="CGE-media" class="amarelo bold">' + temp_media + '</span></div><div class="tempestade">' \
-                      '<span>Potencial <div class="raio"></div></span>' \
-                      '<span id="status-temp" class="amarelo">' + prevision + '</span></div></div>' \
-                      '<div class="ex-hover"><div></div></div></li>'
-        except:
-            content = self.getContentExcept(class_li='ex-clima', text_div='CGEb')
+        self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima-media")))
+        hour = localtime(time()).tm_hour
+        temp_media = self.getTempMedia()
+        prevision = self.getHour(hour)
+        content += '<li class="ex-clima">' \
+                   '<div class="dash-border">' \
+                   '<strong class="titulo-dash">Tempo</strong>' \
+                   '<div class="tempo-g nb"></div>' \
+                   '<div class="t-media"><span>Média</span><span id="CGE-media" class="amarelo bold">' + temp_media + '°</span></div>' \
+                   '<div class="tempestade">' \
+                   '<span>Potencial <div class="raio"></div></span>' \
+                   '<span id="status-temp" class="amarelo">' + str(prevision) + '</span>' \
+                   '</div>' \
+                   '</div>' \
+                   '<div class="ex-hover"><div></div></div>' \
+                   '</li>'
 
-        try:
-            self.soup = BeautifulSoup(self.getContent(url_direct.get('qualidade-oxigenio')))
-            qualidade_ar = self.getDescQualidade()
-            content += '<!-- AR -->' \
-                       '<li class="ex-ar"><div class="dash-border"><strong class="titulo-dash">Qualidade do Ar</strong>'\
-                       '<div class="dash-img o2quali"></div><b class="bullet-verde em2">' + qualidade_ar + '</b></div>' \
-                       '<div class="ex-hover"><div></div></div></li>'
-        except:
-            content += self.getContentExcept(class_li='ex-ar', text_div='Qualidade do Ar')
+        content += '<li class="ex-ar">' \
+                   '<div class="dash-border">' \
+                   '<strong class="titulo-dash">Qualidade do Ar</strong>' \
+                   '<div class="dash-img o2quali"></div>' \
+                   '<b class="bullet-verde em2">' + self.getAirQuality() + '</b>' \
+                   '</div>' \
+                   '<div class="ex-hover"><div></div></div>' \
+                   '</li>'
 
-        content += '<!-- Aeroportos -->' \
-                   '<li class="ex-aero">' \
+        content += '<li class="ex-aero">' \
                    '<div class="dash-border">' \
                    '<strong class="titulo-dash">Aeroportos</strong>' \
                    '<div class="dash-img"></div>' \
                    '<span id="aero-status">Consulte situação</span>' \
                    '</div>' \
-                   '<div class="ex-hover"><div>' \
-                   '</div>' \
-                   '</div>' \
+                   '<div class="ex-hover"><div></div></div>' \
                    '</li>'
 
-        html_transporte_publico = self.getTransportePublico()
-
-        content += '<!-- Transporte público -->' \
-                   '<li class="ex-publico">' \
+        content += '<li class="ex-publico">' \
                    '<div class="dash-border">' \
                    '<strong class="titulo-dash">Transporte Público</strong>' \
                    '<div class="dash-img"></div>' \
-                   '<a href="http://www.sptrans.com.br/itinerarios/" target="_blank" class="azul-pq">Consultar itinerários</a>' \
+                   '<a href="http://www.sptrans.com.br/itinerarios/" target="_blank" class="azul-pq">Busca de itinerários</a>' \
                    '</div>' \
-                   '<div class="ex-hover"><div>%s</div></div>' \
-                   '</li>' % html_transporte_publico
+                   '<div class="ex-hover"><div></div></div>' \
+                   '</li>'
 
-        try:
-            quantidade_km_transito = self.getTransito()
+        self.soup = BeautifulSoup(self.getContent(url_direct.get('transito-agora')))
 
-            content += '<!-- Trânsito-->' \
-                       '<li class="ex-transito"><div class="dash-border"><strong class="titulo-dash">' \
-                       'Trânsito</strong><div class="dash-img semaforo"></div>' \
-                       '<b class="amarelo em15" id="lento">' + quantidade_km_transito + '</b><br>' \
-                       '<span class="em09 bold">de lentidão</span><br><span class="kmStatus verde">' \
-                       '<i class="ball-status verde"></i>livre</span></div><div class="ex-hover"><div></div></div></li>'
+        total_km_lentidao = self.soup.find('div', {"id": 'lentidao'}).string
 
-        except:
-            content += self.getContentExcept(class_li='ex-transito', text_div='Transito')
+        content += '<li class="ex-transito">' \
+                   '<div class="dash-border">' \
+                   '<strong class="titulo-dash">Trânsito</strong>' \
+                   '<div class="dash-img semaforo"></div>' \
+                   '<div id="call-trans" class="dash" style="display: block;">' \
+                   '<div class="tran-total">' \
+                   '<div class="ttotal"><span class="amarelo em14 bold"> ' + total_km_lentidao + '</span> km<br>' \
+                   '<small class="bold em09">de lentidão</small></div>' \
+                   '<span class="kmStatus verde"><i class="ball-status verde"></i>livre</span></div>' \
+                   '<div class="ex-hover"></div></div></div>' \
+                   '</li>'
 
-        try:
-            placas_rodozio = self.getRodizio()
-            content += '<!-- Rodizio -->' \
-                       '<li class="ex-rodizio">' \
-                       '<div class="dash-border"><strong class="titulo-dash">Rodízio</strong>' \
-                       '<div class="dash-img"></div><b id="rodizio_hoje"></b>Placas final <br>' \
-                       '<b class="azul-gd">' + placas_rodozio + '</b> </div><div class="ex-hover">' \
-                       '<div></div></div>' \
-                       '</li></ul>'
-        except:
-            content += self.getContentExcept(class_li='ex-rodizio', text_div='Rodízio')
+        url_rodizio = url_direct.get('dash-rodizio')
+        placas_final_url_return = urllib.urlopen(url_rodizio)
+        data_result = json.loads(placas_final_url_return.read())
+        placa = data_result['Rotation']['desc']
+
+        content += '<li class="ex-rodizio">' \
+                   '<div class="dash-border">' \
+                   '<strong class="titulo-dash">Rodízio</strong>' \
+                   '<div class="dash-img"></div>' \
+                   '<ul class="rod-3col">' \
+                   '<li><span class="em08 bold"><small>Placas final:</small></span><br><span class="amarelo em15">' + str(placa) + '</span></li:' \
+                   '</ul></div>' \
+                   '<div class="ex-hover"><div></div></div>' \
+                   '</li>'
+
         return content
 
     def getHour(self, hour):
@@ -475,7 +469,7 @@ class SpAgora(BrowserView):
         return list_quality
 
     @ram.cache(lambda *args: time() // (60 * 15))
-    def getDescQualidade(self, local='Itaquera'):
+    def getDescQualidade(self, local='Congonhas'):
         """
         return type description qualidaty atmosfera
         """
@@ -518,6 +512,36 @@ class SpAgora(BrowserView):
                         'pontoAmarelo': 'Restrições meteorológicas',
                         'pontoVermelho': 'Fechado operações',
                         'pontoBranco': 'Indisponivel no momento'}
+
+    # @ram.cache(lambda *args: time() // (60 * 15))
+    # def testeAeroporto(self):
+    #     soup = BeautifulSoup(self.getContent(url_direct.get('dash-aero-situacao')))
+    #     retorno = {}
+    #     content = ''
+    #     for aeroporto in self.list_aeport:
+    #         aeroporto_congonhas = soup.find(id=aeroporto)
+    #         situacao_aeroporto = self.situation_aeport[aeroporto_congonhas['class'][0]]
+    #         retorno[aeroporto] = {'aeroporto': self.list_aeport[aeroporto]['local'],'status': situacao_aeroporto}
+
+    #     for x in retorno:
+    #         content += '<p> %s </p>' % retorno[x]['aeroporto']
+    #         content += '<p> %s </p>' % retorno[x]['status']
+
+    #     return content
+
+    # @ram.cache(lambda *args: time() // (60 * 15))
+    # def testeAeroportoVoo(self):
+    #     soup = BeautifulSoup(self.getContent(url_direct.get('dash-aero')))
+    #     content = ''
+    #     for x in self.list_aeport:
+    #         local = self.list_aeport[x]['local']
+    #         situacao = soup.find('td', text=local)
+    #         if situacao:
+    #             voos = situacao.parent.findAll('span')
+    #             content += '<p>cancelado: %s e atrasado %s</p>' % (voos[8].text,voos[0].text)
+    #         else:
+    #             content += '<p>Consulte situação</p>'
+    #     return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
     def getAeroporto(self):
@@ -569,6 +593,7 @@ class SpAgora(BrowserView):
         """
         soup = BeautifulSoup(self.getContent(url_direct.get('dash-aero-situacao')))
         list_situation = []
+        return self.list_aeport.keys()
         for aeport in self.list_aeport.keys():
             element = soup.findAll('li', {'id': aeport})[0]
             name_class = element.get('class')[0]
@@ -610,6 +635,8 @@ class SpAgora(BrowserView):
         """
         return: Informações do Transporte Público
         """
+        status_metro_sp = self.getStatusMetro()
+        status_trens_sp = self.getStatusMetro()
         transp_publica_html = '<div id="call-publi" class="dash" style="display: block;">' \
                               '<h3>Transporte Público</h3> <button class="fechar-dash">X</button>' \
                               '<ul>' \
@@ -622,12 +649,12 @@ class SpAgora(BrowserView):
                               '<li>' \
                               '<div class="status"><i class="amarelo"></i></div>' \
                               '<div class="mini Mmetro"></div>' \
-                              '<span id="t-metro">%s</span>' % 'normal' + \
+                              '<span id="t-metro">%s</span>' % status_metro_sp + \
                               '</li>' \
                               '<li>' \
                               '<div class="status"><i class="vermelho"></i></div>' \
                               '<div class="mini Mcptm"></div>' \
-                              '<span id="t-cptm">%s</span>' % 'normal' + \
+                              '<span id="t-cptm">%s</span>' % status_trens_sp + \
                               '</li>' \
                               '</ul>' \
                               '<a href="http://www.sptrans.com.br/itinerarios/" target="_blank" class="link-amarelo">Consultar itinerários</a>' \
@@ -639,10 +666,30 @@ class SpAgora(BrowserView):
         """
         return Informações CPTM da cidade de São Paulo
         """
-        soup = BeautifulSoup(self.getContent(url_direct.get('transp-cptm')))
-        transp_cptm = soup.find('div', attrs={'class': 'situacao_linhas'}).findAll('span')
-        situacao = [tag for tag in transp_cptm if "status_normal" in tag.attrs['class']]
-        return situacao[0].text
+        retorno = BeautifulSoup(self.getContent(url_direct.get('transp-cptm')))
+        transp_metro = retorno.findAll('span', {'class': 'nome_linha'})
+        linhas_cptm = []
+        linhas_com_problemas = {}
+        for x in transp_metro:
+            linhas_cptm.append(x.string.lower())
+
+        content = ''
+        for key, x in enumerate(linhas_cptm):
+            for div in retorno.find_all(class_=x):
+                contador = 0
+                for childdiv in div.find_all('span'):
+                    if contador % 2:
+                        if childdiv.string.lower().find('normal') == int(-1):
+                            linhas_com_problemas[key] = {'situacao': childdiv.string, 'linha': x}
+                    contador = contador + 1
+
+        content = ''
+        if len(linhas_com_problemas) > 0:
+            for x in linhas_com_problemas.values():
+                content += '<p>Linha:%s - Status: %s' % (x['linha'], x['situacao'])
+        else:
+            content += 'Circulação normal'
+        return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
     def getStatusMetro(self):
@@ -652,7 +699,7 @@ class SpAgora(BrowserView):
         retorno = BeautifulSoup(self.getContent(url_direct.get('transp-metro')))
         transp_metro = retorno.find('ul', {'id': 'statusLinhaMetro'}).findAll('div')
 
-        linhas = {}
+        linhas_com_problemas = {}
         nome_da_linha = ''
         for key, value in enumerate(transp_metro):
             if key % 2:
@@ -660,12 +707,15 @@ class SpAgora(BrowserView):
                 situacao = situacao.lower()
                 situacao_linha = situacao.strip(' \t\n\r')
                 if situacao.find('normal') == int(-1):
-                    linhas[key] = {'situacao': situacao_linha, 'linha': nome_da_linha}
+                    linhas_com_problemas[key] = {'situacao': situacao_linha, 'linha': nome_da_linha}
             else:
                 nome_da_linha = value.find('span').string
         content = ''
-        for x in linhas.values():
-            content += '<p>Linha:%s - Status: %s' % (x['linha'], x['situacao'])
+        if len(linhas_com_problemas) > 0:
+            for x in linhas_com_problemas.values():
+                content += '<p>Linha:%s - Status: %s' % (x['linha'], x['situacao'])
+        else:
+            content += 'Circulação normal'
 
         return content
 
@@ -674,66 +724,70 @@ class SpAgora(BrowserView):
                     Transito Zonas da cidade de São Paulo
     ##########################################################################
     """
-    @ram.cache(lambda *args: time() // (60 * 15))
-    def getTransito(self):
-        """
-        return: Trânsito em São Paulo agrupado por zonas da cidade
-        """
-        self.soup = BeautifulSoup(self.getContent(url_direct.get('transito-agora')))
-        lista_zonas_sp = ('OesteLentidao', 'NorteLentidao',
-                          'LesteLentidao', 'SulLentidao', 'lentidao')
-        km_lentidao = []
-        for zonas_sp in lista_zonas_sp:
-            km_lentidao.append(self.soup.find('div', {"id": zonas_sp}).string)
+    # @ram.cache(lambda *args: time() // (60 * 15))
+    # def getTransito(self):
+    #     """
+    #     return: Trânsito em São Paulo agrupado por zonas da cidade
+    #     """
+    #     self.soup = BeautifulSoup(self.getContent(url_direct.get('transito-agora')))
+    #     lista_zonas_sp = ('OesteLentidao', 'NorteLentidao',
+    #                       'LesteLentidao', 'SulLentidao', 'lentidao')
+    #     km_lentidao = []
+    #     for zonas_sp in lista_zonas_sp:
+    #         km_lentidao.append(self.soup.find('div', {"id": zonas_sp}).string)
 
-        transito_html = '<div id="call-trans" class="dash" style="display: block;">' \
-                        '<h3>Trânsito</h3>' \
-                        '<button class="fechar-dash">X</button><div class="tran-total">' \
-                        '<div class="ttotal"><span class="amarelo em14 bold"> %s </span>' % str(km_lentidao[4]) + ' km' + \
-                        '<br><small class="bold em09">de lentidão</small></div>' \
-                        '<div class="ttotal amarelo"><br>' \
-                        '<hr class="pont"><div id="sp-mapa"><ul id="lentidao">' \
-                        '<li id="kmOeste" class="amarelo"> %s ' % km_lentidao[0] + '</li>' \
-                        '<li id="kmNorte" class="amarelo"> %s ' % km_lentidao[1] + '</li>' \
-                        '<li id="kmLeste" class="amarelo"> %s ' % km_lentidao[2] + '</li>' \
-                        '<li id="kmSul"   class="amarelo"> %s ' % km_lentidao[3] + '</li>'   \
-                        '</ul></div> <div class="bloco-linha">' \
-                        '<a href="http://www.cetsp.com.br/transito-agora/mapa-de-fluidez.aspx" class="azul-pq" target="_blank">Mapa de fluidez</a>' \
-                        '<a href="http://www.cetsp.com.br/transito-agora/transito-nas-principais-vias.aspx" target="_blank" class="azul-pq">Lentidão por corredor</a>' \
-                        '</div></div>'
+    #     transito_html = '<div id="call-trans" class="dash" style="display: block;">' \
+    #                     '<h3>Trânsito</h3>' \
+    #                     '<button class="fechar-dash">X</button><div class="tran-total">' \
+    #                     '<div class="ttotal"><span class="amarelo em14 bold"> %s </span>' % str(km_lentidao[4]) + ' km' + \
+    #                     '<br><small class="bold em09">de lentidão</small></div>' \
+    #                     '<div class="ttotal amarelo"><br>' \
+    #                     '<hr class="pont"><div id="sp-mapa"><ul id="lentidao">' \
+    #                     '<li id="kmOeste" class="amarelo"> %s ' % km_lentidao[0] + '</li>' \
+    #                     '<li id="kmNorte" class="amarelo"> %s ' % km_lentidao[1] + '</li>' \
+    #                     '<li id="kmLeste" class="amarelo"> %s ' % km_lentidao[2] + '</li>' \
+    #                     '<li id="kmSul"   class="amarelo"> %s ' % km_lentidao[3] + '</li>'   \
+    #                     '</ul></div> <div class="bloco-linha">' \
+    #                     '<a href="http://www.cetsp.com.br/transito-agora/mapa-de-fluidez.aspx" class="azul-pq" target="_blank">Mapa de fluidez</a>' \
+    #                     '<a href="http://www.cetsp.com.br/transito-agora/transito-nas-principais-vias.aspx" target="_blank" class="azul-pq">Lentidão por corredor</a>' \
+    #                     '</div></div>'
+    #     transito_html = '%s - %s - %s - %s - %s' % (str(km_lentidao[4]),km_lentidao[0],km_lentidao[1],km_lentidao[2],km_lentidao[3])
 
-        return transito_html
+    #     return transito_html
 
     """
     ##########################################################################
                             Rodizio e Área de restrição
     ##########################################################################
     """
-    @ram.cache(lambda *args: time() // (60 * 15))
-    def getRodizio(self):
-        """
-        return: Informações rodízio de automóveis da cidade de São Paulo
-        """
-        url_rodizio = url_direct.get('dash-rodizio')
-        placas_final_url_return = urllib.urlopen(url_rodizio)
-        data_result = json.loads(placas_final_url_return.read())
-        placa = data_result['Rotation']['desc']
-        placa_horario_inicio = self.getPlacaHorarioInicio()
-        placa_horario_final = self.getPlacaHorarioFinal()
+    # @ram.cache(lambda *args: time() // (60 * 15))
+    # def getRodizio(self):
+    #     """
+    #     return: Informações rodízio de automóveis da cidade de São Paulo
+    #     """
+    #     url_rodizio = url_direct.get('dash-rodizio')
+    #     placas_final_url_return = urllib.urlopen(url_rodizio)
+    #     data_result = json.loads(placas_final_url_return.read())
+    #     placa = data_result['Rotation']['desc']
+    #     placa_horario_inicio = self.getPlacaHorarioInicio()
+    #     placa_horario_final = self.getPlacaHorarioFinal()
 
-        rodizio_html = '<div id="call-rodizio" class="dash" style="display: block;">' \
-                       '<h3>Rodízio</h3> ' \
-                       '<button class="fechar-dash">X</button>' \
-                       '<div id="mapa-rodizio"></div><ul class="rod-3col"><li>' \
-                       '<span class="em08 bold">Placas final:</span><br>' \
-                       '<span class="amarelo em15">%s</span></li><li>' % placa + \
-                       '<span class="em08 bold">Horário:</span><br>' \
-                       '<small class="amarelo em1">%s</small><br>' % placa_horario_inicio + \
-                       '<small class="amarelo em1">%s</small></li>' % placa_horario_final + \
-                       '<li><span class="em08 bold">Penalidade:</span><br>' \
-                       '<small class="amarelo em10">R$85,13</small>' \
-                       '<small class="amarelo em08"> e 4pts na carteira</small></li></ul></div>'
-        return rodizio_html
+    #     rodizio_html = '<div id="call-rodizio" class="dash" style="display: block;">' \
+    #                    '<h3>Rodízio</h3> ' \
+    #                    '<button class="fechar-dash">X</button>' \
+    #                    '<div id="mapa-rodizio"></div><ul class="rod-3col"><li>' \
+    #                    '<span class="em08 bold">Placas final:</span><br>' \
+    #                    '<span class="amarelo em15">%s</span></li><li>' % placa + \
+    #                    '<span class="em08 bold">Horário:</span><br>' \
+    #                    '<small class="amarelo em1">%s</small><br>' % placa_horario_inicio + \
+    #                    '<small class="amarelo em1">%s</small></li>' % placa_horario_final + \
+    #                    '<li><span class="em08 bold">Penalidade:</span><br>' \
+    #                    '<small class="amarelo em10">R$85,13</small>' \
+    #                    '<small class="amarelo em08"> e 4pts na carteira</small></li></ul></div>'
+
+    #     rodizio_html = ' %s - %s - %s ' % (placa,placa_horario_inicio,placa_horario_final)
+
+    #     return rodizio_html
 
     @ram.cache(lambda *args: time() // (60 * 15))
     def getRestricaoPlacaFinal(self):
