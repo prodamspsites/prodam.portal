@@ -103,6 +103,16 @@ class SpAgora(BrowserView):
         return response
 
     @ram.cache(lambda *args: time() // (60 * 15))
+    def getAirQuality(self):
+        try:
+            self.soup = BeautifulSoup(self.getContent(url_direct.get('qualidade-oxigenio')))
+            qualidade_ar = self.getDescQualidade()
+            content = qualidade_ar
+        except:
+            content = self.getContentExcept(class_li='ex-ar', text_div='Qualidade do Ar')
+        return content
+
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getPrincipal(self):
         content = ''
 
