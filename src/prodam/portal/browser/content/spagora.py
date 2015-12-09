@@ -120,7 +120,8 @@ class SpAgora(BrowserView):
         temp_media = self.getTempMedia()
         hour = localtime(time()).tm_hour
         self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima")))
-        prevision = self.getHour(hour)
+        dia = self.soup.findAll('dia')
+        potencial = dia[0].parent.find('ct', {'periodo': self.getPeriod(hour)})
 
         content += '<li class="ex-clima ver-mais">' \
                    '<a href="#verMais">' \
@@ -130,7 +131,7 @@ class SpAgora(BrowserView):
                    '<div class="t-media"><span>Média</span><span id="CGE-media" class="amarelo bold">' + temp_media + '°</span></div>' \
                    '<div class="tempestade">' \
                    '<span>Potencial <div class="raio"></div></span>' \
-                   '<span id="status-temp" class="amarelo">' + str(prevision) + '</span>' \
+                   '<span id="status-temp" class="amarelo">' + str(potencial['pt']) + '</span>' \
                    '</div>' \
                    '</div>' \
                    '</a>' \
@@ -200,6 +201,16 @@ class SpAgora(BrowserView):
                    '</li>'
 
         return content
+
+    def getPeriod(self, hour):
+        if int(hour) >= 6 and int(hour) < 13:
+            return 'Manhã'
+        elif int(hour) >= 13 and int(hour) < 19:
+            return 'Tarde'
+        elif int(hour) >= 19 and int(hour) <= 23:
+            return 'Noite'
+        elif int(hour) >= 0 and int(hour) < 6:
+            return 'Madrugada'
 
     def getHour(self, hour):
         if int(hour) >= 6 and int(hour) < 13:
