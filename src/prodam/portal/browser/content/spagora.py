@@ -172,36 +172,44 @@ class SpAgora(BrowserView):
     def getPrincipal(self):
         content = ''
 
-        self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima-media")))
-        temp_media = self.getTempMedia()
-        hour = localtime(time()).tm_hour
-        self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima")))
-        dia = self.soup.findAll('dia')
-        potencial = dia[0].parent.find('ct', {'periodo': self.getPeriod(hour)})
+        try:
+            self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima-media")))
+            temp_media = self.getTempMedia()
+            hour = localtime(time()).tm_hour
+            self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima")))
+            dia = self.soup.findAll('dia')
+            potencial = dia[0].parent.find('ct', {'periodo': self.getPeriod(hour)})
 
-        content += '<li class="ex-clima ver-mais">' \
-                   '<a href="#verMais">' \
-                   '<div class="dash-border">' \
-                   '<strong class="titulo-dash">Tempo</strong>' \
-                   '<div class="tempo-g nb"></div>' \
-                   '<div class="t-media"><span>Média</span><span id="CGE-media" class="amarelo bold">' + temp_media + '°</span></div>' \
-                   '<div class="tempestade">' \
-                   '<span>Potencial <div class="raio"></div></span>' \
-                   '<span id="status-temp" class="amarelo">' + str(potencial['pt']) + '</span>' \
-                   '</div>' \
-                   '</div>' \
-                   '</a>' \
-                   '</li>'
+            content += '<li class="ex-clima ver-mais">' \
+                       '<a href="#verMais">' \
+                       '<div class="dash-border">' \
+                       '<strong class="titulo-dash">Tempo</strong>' \
+                       '<div class="tempo-g nb"></div>' \
+                       '<div class="t-media"><span>Média</span><span id="CGE-media" class="amarelo bold">' + temp_media + '°</span></div>' \
+                       '<div class="tempestade">' \
+                       '<span>Potencial <div class="raio"></div></span>' \
+                       '<span id="status-temp" class="amarelo">' + str(potencial['pt']) + '</span>' \
+                       '</div>' \
+                       '</div>' \
+                       '</a>' \
+                       '</li>'
+        except:
+            content += self.getContentExcept(class_li='ex-ar', text_div='Qualidade do Ar')
 
-        content += '<li class="ex-ar ver-mais">' \
-                   '<a href="#verMais">' \
-                   '<div class="dash-border">' \
-                   '<strong class="titulo-dash">Qualidade do Ar</strong>' \
-                   '<div class="dash-img o2quali"></div>' \
-                   '<b class="bullet-verde em2">' + self.getAirQuality() + '</b>' \
-                   '</div>' \
-                   '</a>' \
-                   '</li>'
+        try:
+            self.soup = BeautifulSoup(self.getContent(url_direct.get('qualidade-oxigenio')))
+            qualidade_ar = self.getDescQualidade()
+            content += '<li class="ex-ar ver-mais">' \
+                       '<a href="#verMais">' \
+                       '<div class="dash-border">' \
+                       '<strong class="titulo-dash">Qualidade do Ar</strong>' \
+                       '<div class="dash-img o2quali"></div>' \
+                       '<b class="bullet-verde em2">' + qualidade_ar + '</b>' \
+                       '</div>' \
+                       '</a>' \
+                       '</li>'
+        except:
+            content += self.getContentExcept(class_li='ex-ar', text_div='Qualidade do Ar')
 
         content += '<li class="ex-aero ver-mais">' \
                    '<a href="#verMais">' \
@@ -222,39 +230,44 @@ class SpAgora(BrowserView):
                    '</div>' \
                    '</a>' \
                    '</li>'
+        try:
+            self.soup = BeautifulSoup(self.getContent(url_direct.get('transito-agora')))
 
-        self.soup = BeautifulSoup(self.getContent(url_direct.get('transito-agora')))
+            total_km_lentidao = self.soup.find('div', {"id": 'lentidao'}).string
 
-        total_km_lentidao = self.soup.find('div', {"id": 'lentidao'}).string
+            content += '<li class="ex-transito ver-mais">' \
+                       '<a href="#verMais">' \
+                       '<div class="dash-border">' \
+                       '<strong class="titulo-dash">Trânsito</strong>' \
+                       '<div class="dash-img semaforo"></div>' \
+                       '<div id="call-trans" class="dash" style="display: block;">' \
+                       '<div class="tran-total">' \
+                       '<div class="ttotal"><span class="amarelo em14 bold"> ' + total_km_lentidao + 'km</span><br>' \
+                       '<small class="bold em09">de lentidão</small></div>' \
+                       '<span class="kmStatus verde"><i class="ball-status verde"></i>livre</span></div>' \
+                       '</div></div>' \
+                       '</a>' \
+                       '</li>'
+        except:
+            content += self.getContentExcept(class_li='ex-ar', text_div='Qualidade do Ar')
 
-        content += '<li class="ex-transito ver-mais">' \
-                   '<a href="#verMais">' \
-                   '<div class="dash-border">' \
-                   '<strong class="titulo-dash">Trânsito</strong>' \
-                   '<div class="dash-img semaforo"></div>' \
-                   '<div id="call-trans" class="dash" style="display: block;">' \
-                   '<div class="tran-total">' \
-                   '<div class="ttotal"><span class="amarelo em14 bold"> ' + total_km_lentidao + 'km</span><br>' \
-                   '<small class="bold em09">de lentidão</small></div>' \
-                   '<span class="kmStatus verde"><i class="ball-status verde"></i>livre</span></div>' \
-                   '</div></div>' \
-                   '</a>' \
-                   '</li>'
+        try:
+            url_rodizio = url_direct.get('dash-rodizio')
+            placas_final_url_return = urllib.urlopen(url_rodizio)
+            data_result = json.loads(placas_final_url_return.read())
+            placa = data_result['Rotation']['desc']
 
-        url_rodizio = url_direct.get('dash-rodizio')
-        placas_final_url_return = urllib.urlopen(url_rodizio)
-        data_result = json.loads(placas_final_url_return.read())
-        placa = data_result['Rotation']['desc']
-
-        content += '<li class="ex-rodizio ver-mais">' \
-                   '<div class="dash-border">' \
-                   '<strong class="titulo-dash">Rodízio</strong>' \
-                   '<div class="dash-img"></div>' \
-                   '<ul class="rod-3col">' \
-                   '<li><span class="em08 bold"><small>Placas final:</small></span><br><span class="azul-pq em15">' + str(placa) + '</span></li:' \
-                   '</ul></div>' \
-                   '</a>' \
-                   '</li>'
+            content += '<li class="ex-rodizio ver-mais">' \
+                       '<div class="dash-border">' \
+                       '<strong class="titulo-dash">Rodízio</strong>' \
+                       '<div class="dash-img"></div>' \
+                       '<ul class="rod-3col">' \
+                       '<li><span class="em08 bold"><small>Placas final:</small></span><br><span class="azul-pq em15">' + str(placa) + '</span></li:' \
+                       '</ul></div>' \
+                       '</a>' \
+                       '</li>'
+        except:
+            content += self.getContentExcept(class_li='ex-ar', text_div='Qualidade do Ar')
 
         return content
 
