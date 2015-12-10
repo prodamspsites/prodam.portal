@@ -113,6 +113,62 @@ class SpAgora(BrowserView):
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
+    def getMeansOfTransportation(self):
+        content = ''
+        try:
+            html_transporte_publico = self.getTransportePublico()
+            content += html_transporte_publico
+        except:
+            content += self.getContentExcept(class_li='ex-transito', text_div='Transito')
+        return content
+
+    @ram.cache(lambda *args: time() // (60 * 15))
+    def getTraffic(self):
+        content = ''
+        try:
+            quantidade_km_transito = self.getTransito()
+            content += quantidade_km_transito
+        except:
+            content += self.getContentExcept(class_li='ex-transito', text_div='Transito')
+        return content
+
+    @ram.cache(lambda *args: time() // (60 * 15))
+    def getCarRotation(self):
+        content = ''
+        try:
+            rodizio = self.getRodizio()
+            content += rodizio
+        except:
+            content += self.getContentExcept(class_li='ex-rodizio', text_div='Rodízio')
+        return content
+
+    @ram.cache(lambda *args: time() // (60 * 15))
+    def getAirportStatus(self):
+        pass
+
+    @ram.cache(lambda *args: time() // (60 * 15))
+    def getAirportFlights(self):
+        pass
+
+    # @ram.cache(lambda *args: time() // (60 * 15))
+    # def getWeatherSp(self):
+    #   content = ''
+    #   try:
+    #       self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima-media")))
+    #       temp_media = self.getTempMedia()
+    #       hour = localtime(time()).tm_hour
+    #       self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima")))
+    #       prevision = self.getHour(hour)
+    #       content += "<h5>Temperatura</h5>"
+    #       content += 'Temperatura média: %s e Previsao: %s' % (temp_media, prevision)
+    #       clima = self.getClima()
+    #       content += "<h2>Clima</h2>"
+    #       content += "<p>Clima: %s" % clima
+    #   except:
+    #       content = self.getContentExcept(class_li='ex-clima', text_div='CGEb')
+    #   return content
+
+    @ram.cache(lambda *args: time() // (60 * 15))
     def getPrincipal(self):
         content = ''
 
