@@ -25,6 +25,7 @@
       <a href="/portal/mapa"><div id="mapa-serv"></div></a>
       <div class="tweets" tal:condition="view/getTweets">
         <tal:tweets replace="structure view/getTweets" />
+
       </div>
     </aside>
   </tal:main-macro>

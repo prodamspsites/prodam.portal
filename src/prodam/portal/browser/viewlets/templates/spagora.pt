@@ -15,5 +15,6 @@
     <tal:tweets define="tweets python:spagora.getTweets()" repeat="tweet tweets">
       <span tal:replace="structure tweet" />
     </tal:tweets>
+
   </div>
 </aside>
