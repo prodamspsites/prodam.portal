@@ -4,11 +4,7 @@
     <button class="e-fechar"> </button>
   </header>
 
-<ul id="servicos-externos">
-    <tal:servicos replace="structure python:spagora.getWeatherSp()"></tal:servicos>
-  </ul>
-
-<!--   <ul id="servicos-externos">
+  <ul id="servicos-externos">
     <tal:servicos replace="structure python:spagora.getPrincipal()"></tal:servicos>
   </ul>
 
@@ -19,5 +15,5 @@
     <tal:tweets define="tweets python:spagora.getTweets()" repeat="tweet tweets">
       <span tal:replace="structure tweet" />
     </tal:tweets>
-  </div> -->
+  </div>
 </aside>

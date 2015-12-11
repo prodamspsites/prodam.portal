@@ -106,40 +106,112 @@ class SpAgora(BrowserView):
     def getAirQuality(self):
         try:
             self.soup = BeautifulSoup(self.getContent(url_direct.get('qualidade-oxigenio')))
-            qualidade_ar = self.getDescQualidade()
-            content = qualidade_ar
+            # qualidade_ar = self.getDescQualidade()
+            content = """
+                      <div id="call-ar" class="dash" style="display: block;">
+                      <h3>Qualidade do Ar <em class="fonte">Fonte: CETESB</em></h3>
+                      <button class="fechar-dash">X</button>
+                      <div class="O2"></div>
+                      <div id="o2mapa">
+                      <div class="kineticjs-content" role="presentation" style="position: relative; display: inline-block; width: 300px; height: 160px;">
+                      <canvas width="300" height="160" style="padding: 0px; margin: 0px; border: 0px; position: absolute; top: 0px; left: 0px; width: 300px; height: 160px; background: transparent;"></canvas>
+                      </div>
+                      </div>
+                      <ol id="dica">
+                      <li><i></i> Pessoas com doenças respiratórias podem apresentar sintomas como tosse seca e cansaço</li>
+                      <li><i></i>Pessoas com doenças cardíacas ou pulmonares, procurem reduzir esforço pesado ao ar livre.</li>
+                      <li><i></i> Reduzir o esforço físico pesado ao ar livre, principalmente pessoas com doenças cardíacas ou pulmonares, idosos e crianças.</li>
+                      <li><i></i> População em geral pode apresentar sintomas como ardor nos olhos, nariz e garganta, tosse seca e cansaço.</li>
+                      </ol>
+                      </div>
+                      """
         except:
             content = self.getContentExcept(class_li='ex-ar', text_div='Qualidade do Ar')
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
     def getMeansOfTransportation(self):
-        content = ''
         try:
-            html_transporte_publico = self.getTransportePublico()
-            content += html_transporte_publico
+            # html_transporte_publico = self.getTransportePublico()
+            content = """
+                      <div id="call-publi" class="dash" style="display: block;">
+                      <h3>Transporte Público</h3> <button class="fechar-dash">X</button>
+                      <ul>
+                      <li>
+                      <div class="status"><i class="verde"></i></div>
+                      <div class="mini Mbus"></div>
+                      <span id="spT-twitter"></span>
+                      </li>
+                      <li>
+                      <div class="status"><i class="amarelo"></i></div>
+                      <div class="mini Mmetro"></div>
+                      <span id="t-metro">Circulação normal</span>
+                      </li>
+                      <li>
+                      <div class="status"><i class="vermelho"></i></div>
+                      <div class="mini Mcptm"></div>
+                      <span id="t-cptm"></span>
+                      </li>
+                      </ul>
+                      <a href="http://www.sptrans.com.br/itinerarios/" target="_blank" class="link-amarelo">Consultar itinerários</a>
+                      </div>
+                       """
         except:
             content += self.getContentExcept(class_li='ex-transito', text_div='Transito')
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
     def getTraffic(self):
-        content = ''
         try:
-            quantidade_km_transito = self.getTransito()
-            content += quantidade_km_transito
+            self.soup = BeautifulSoup(self.getContent(url_direct.get('transito-agora')))
+            lista_zonas_sp = ('OesteLentidao', 'NorteLentidao',
+                              'LesteLentidao', 'SulLentidao', 'lentidao')
+            km_lentidao = []
+            for zonas_sp in lista_zonas_sp:
+                km_lentidao.append(self.soup.find('div', {"id": zonas_sp}).string)
+
+            content = """
+                      <div id="call-trans" class="dash" style="display: block;">
+                      <h3>Trânsito</h3>
+                      <button class="fechar-dash">X</button>
+                      <div class="tran-total">
+                      <div class="ttotal"><span class="amarelo em14 bold">74 km</span><br><small class="bold em09">de lentidão</small></div>
+                      <div class="ttotal amarelo"><br><span class="amarelo bolinha"></span>regular</div>
+                      </div>
+                      <hr class="pont">
+                      <div id="sp-mapa">
+                      <ul id="lentidao">
+                      <li id="kmOeste" class="amarelo">38 km</li>
+                      <li id="kmNorte" class="amarelo">8 km</li>
+                      <li id="kmLeste" class="amarelo">5 km</li>
+                      <li id="kmSul" class="amarelo">12 km</li>
+                      </ul>
+                      </div>
+                      <div class="bloco-linha"><a href="http://www.cetsp.com.br/transito-agora/mapa-de-fluidez.aspx" class="azul-pq" target="_blank">Mapa de fluidez</a> <a href="http://www.cetsp.com.br/transito-agora/transito-nas-principais-vias.aspx" target="_blank" class="azul-pq">Lentidão por corredor</a></div>
+                      </div>
+                      """
         except:
-            content += self.getContentExcept(class_li='ex-transito', text_div='Transito')
+            content = self.getContentExcept(class_li='ex-transito', text_div='Transito')
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
     def getCarRotation(self):
-        content = ''
         try:
-            rodizio = self.getRodizio()
-            content += rodizio
+            # rodizio = self.getRodizio()
+            content = """
+                      <div id="call-rodizio" class="dash" style="display: block;">
+                      <h3>Rodízio</h3>
+                      <button class="fechar-dash">X</button>
+                      <div id="mapa-rodizio"></div>
+                      <ul class="rod-3col">
+                      <li><span class="em08 bold">Placas final:</span><br><span class="amarelo em15">9 e 0</span></li>
+                      <li><span class="em08 bold">Horário:</span><br><small class="amarelo em1">7h às 10h</small><br><small class="amarelo em1">17h às 20h</small></li>
+                      <li><span class="em08 bold">Penalidade:</span><br><small class="amarelo em10">R$85,13</small><small class="amarelo em08"> e 4pts na carteira</small></li>
+                      </ul>
+                      </div>
+                      """
         except:
-            content += self.getContentExcept(class_li='ex-rodizio', text_div='Rodízio')
+            content = self.getContentExcept(class_li='ex-rodizio', text_div='Rodízio')
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
@@ -148,7 +220,19 @@ class SpAgora(BrowserView):
 
     @ram.cache(lambda *args: time() // (60 * 15))
     def getAirportFlights(self):
-        pass
+        content = """
+                  <div id="call-aero" class="dash" style="display: block;">
+                  <h3>Aeroportos <em class="em08 fonte">Fonte: Infraero e GRU</em></h3>
+                  <button class="fechar-dash">X</button>
+                  <ul id="aero-lista">
+                  <li class="cgh"><strong class="aeronome"><abbr>CGH</abbr> - Congonhas</strong><small><span class="verde"><b class="ball-status verde"></b>Aberto</span><br><span class="txt-right">Vôos atrasados:</span> <span class="txt-left azul-pq">1</span></small><small><span class="txt-right">Vôos cancelados:</span> <span class="txt-left azul-pq">0</span></small></li>
+                  <li class="gru"><strong class="aeronome"><abbr>GRU</abbr> - Guarulhos</strong><small><span class="verde"><b class="ball-status verde"></b>Aberto</span><br><a href="http://www.gru.com.br/pt-br" class="link-aero" target="_blank">Clique e consulte</a> </small></li>
+                  <li class="mae"><small><strong class="aeronome"><abbr>MAE</abbr> - Cpo. de Marte</strong><small><span class="verde"><b class="ball-status verde"></b>Aberto</span><br><a href="http://www.infraero.gov.br/index.php/aeroportos/sao-paulo/aeroporto-campo-de-marte.html" class="link-aero" target="_blank">Clique e consulte</a></small></small></li>
+                  <li class="vcp"><small><small><strong class="aeronome"><abbr>VCP</abbr>- Viracopos</strong><small><span class="verde"><b class="ball-status verde"></b>Aberto</span><br><a href="http://www.viracopos.com/passageiros/voos/" class="link-aero" target="_blank">Clique e consulte</a></small></small></small></li>
+                  </ul>
+                  </div>
+                  """
+        return content
 
     # @ram.cache(lambda *args: time() // (60 * 15))
     # def getWeatherSp(self):
