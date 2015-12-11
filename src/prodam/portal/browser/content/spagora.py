@@ -152,21 +152,75 @@ class SpAgora(BrowserView):
 
     # @ram.cache(lambda *args: time() // (60 * 15))
     # def getWeatherSp(self):
-    #   content = ''
-    #   try:
-    #       self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima-media")))
-    #       temp_media = self.getTempMedia()
-    #       hour = localtime(time()).tm_hour
-    #       self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima")))
-    #       prevision = self.getHour(hour)
-    #       content += "<h5>Temperatura</h5>"
-    #       content += 'Temperatura média: %s e Previsao: %s' % (temp_media, prevision)
-    #       clima = self.getClima()
-    #       content += "<h2>Clima</h2>"
-    #       content += "<p>Clima: %s" % clima
-    #   except:
-    #       content = self.getContentExcept(class_li='ex-clima', text_div='CGEb')
-    #   return content
+    #     content = ''
+    #     try:
+    #         self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima-media")))
+    #         temp_media = self.getTempMedia()
+    #         hour = localtime(time()).tm_hour
+    #         self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima")))
+    #         prevision = self.getHour(hour)
+    #         # content += "<h5>Temperatura</h5>"
+    #         content += 'Temperatura média: %s e Previsao: %s' % (temp_media, prevision)
+    #         clima = self.getClima()
+    #         # content += "<h2>Clima</h2>"
+    #         content += "<p>Clima: %s </p>" % clima
+    #     except:
+    #         content = self.getContentExcept(class_li='ex-clima', text_div='CGEb')
+    #     return content
+
+    @ram.cache(lambda *args: time() // (60 * 15))
+    def getWeatherSp(self):
+        content = """
+                  <div id="call-clima" class="dash" style="display: block;">
+                  <h3>Tempo <em class="fonte">Fonte: CGE</em></h3>
+                  <button class="fechar-dash">X</button>
+                  <div id="temp-bloco">
+                  <div id="t-agora" class="tempo-g nb"></div>
+                  <div id="t-media"><small class="em08">Temperatura Media</small><br><span id="temp-media" class="amarelo em18">%(media)s</span></div>
+                  <div id="minXmax">
+                  <div id="new-max"><span class="tmax"></span>28</div>
+                  <div id="new-min"><span class="tmin"></span>20</div>
+                  </div>
+                  </div>
+                  <ul id="dia-todo">
+                  <li>
+                  <strong class="azul-pq em08">Manha</strong>
+                  <div class="tempo-p pn-pq"></div>
+                  <div class="raio"></div>
+                  <span class="em07 bold amarelo">Baixo</span>
+                  </li>
+                  <li>
+                  <strong class="azul-pq em08">Tarde</strong>
+                  <div class="tempo-p pi-pq"></div>
+                  <div class="raio"></div>
+                  <span class="em07 bold amarelo">Moderado</span>
+                  </li>
+                  <li>
+                  <strong class="azul-pq em08">Noite</strong>
+                  <div class="tempo-p pi-pq-noite"></div>
+                  <div class="raio"></div>
+                  <span class="em07 bold amarelo">Baixo</span>
+                  </li>
+                  <li>
+                  <strong class="azul-pq em08">Madrugada</strong>
+                  <div class="tempo-p nb-pq-noite"></div>
+                  <div class="raio"></div>
+                  <span class="em07 bold amarelo">Baixo</span>
+                  </li>
+                  </ul>
+                  <div id="tempor-outras">
+                  <div class="a-40 bold">
+                  <small class="em07"><span id="div" class="gotas"></span>Umidade relativa do ar</small>
+                  <div class="a-half em13"><span class="tmax"></span> 90</div>
+                  <div class="a-half em13"><span class="tmin"></span> 55</div>
+                  </div>
+                  <div class="sol-box">
+                  <div id="sol"></div>
+                  <div class="a-half"><small class="amarelo em14">06h12</small> <small class="em07">Nascer do sol</small></div>
+                  <div class="a-half"><small class="amarelo em14">19h47</small> <small class="em07">Por do sol</small></div>
+                  </div></div></div>
+                  """ % {'media': "27"}
+        return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
     def getPrincipal(self):
