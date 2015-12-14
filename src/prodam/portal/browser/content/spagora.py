@@ -224,18 +224,8 @@ class SpAgora(BrowserView):
 
     @ram.cache(lambda *args: time() // (60 * 15))
     def getAirportFlights(self):
-        content = """
-                  <div id="call-aero" class="dash" style="display: block;">
-                  <h3>Aeroportos <em class="em08 fonte">Fonte: Infraero e GRU</em></h3>
-                  <button class="fechar-dash">X</button>
-                  <ul id="aero-lista">
-                  <li class="cgh"><strong class="aeronome"><abbr>CGH</abbr> - Congonhas</strong><small><span class="verde"><b class="ball-status verde"></b>Aberto</span><br><span class="txt-right">Vôos atrasados:</span> <span class="txt-left azul-pq">1</span></small><small><span class="txt-right">Vôos cancelados:</span> <span class="txt-left azul-pq">0</span></small></li>
-                  <li class="gru"><strong class="aeronome"><abbr>GRU</abbr> - Guarulhos</strong><small><span class="verde"><b class="ball-status verde"></b>Aberto</span><br><a href="http://www.gru.com.br/pt-br" class="link-aero" target="_blank">Clique e consulte</a> </small></li>
-                  <li class="mae"><small><strong class="aeronome"><abbr>MAE</abbr> - Cpo. de Marte</strong><small><span class="verde"><b class="ball-status verde"></b>Aberto</span><br><a href="http://www.infraero.gov.br/index.php/aeroportos/sao-paulo/aeroporto-campo-de-marte.html" class="link-aero" target="_blank">Clique e consulte</a></small></small></li>
-                  <li class="vcp"><small><small><strong class="aeronome"><abbr>VCP</abbr>- Viracopos</strong><small><span class="verde"><b class="ball-status verde"></b>Aberto</span><br><a href="http://www.viracopos.com/passageiros/voos/" class="link-aero" target="_blank">Clique e consulte</a></small></small></small></li>
-                  </ul>
-                  </div>
-                  """
+        aeroporto = self.testeAeroporto()
+        content = aeroporto
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
@@ -331,7 +321,7 @@ class SpAgora(BrowserView):
                        '<span id="status-temp" class="amarelo">' + str(potencial['pt']) + '</span>' \
                        '</div>' \
                        '</div>' \
-                       '<span class="img-plus"></span>' \
+                       '<div class="ex-hover"><div></div></div>' \
                        '</a>' \
                        '</li>'
         except:
@@ -347,7 +337,7 @@ class SpAgora(BrowserView):
                        '<div class="dash-img o2quali"></div>' \
                        '<b class="bullet-verde em2">' + qualidade_ar + '</b>' \
                        '</div>' \
-                       '<span class="img-plus"></span>' \
+                       '<div class="ex-hover"><div></div></div>' \
                        '</a>' \
                        '</li>'
         except:
@@ -360,7 +350,7 @@ class SpAgora(BrowserView):
                    '<div class="dash-img"></div>' \
                    '<span id="aero-status">Consulte situação</span>' \
                    '</div>' \
-                   '<span class="img-plus"></span>' \
+                   '<div class="ex-hover"><div></div></div>' \
                    '</a>' \
                    '</li>'
 
@@ -371,7 +361,7 @@ class SpAgora(BrowserView):
                    '<div class="dash-img"></div>' \
                    'Busca de itinerários' \
                    '</div>' \
-                   '<span class="img-plus"></span>' \
+                   '<div class="ex-hover"><div></div></div>' \
                    '</a>' \
                    '</li>'
         try:
@@ -390,7 +380,7 @@ class SpAgora(BrowserView):
                        '<small class="bold em09">de lentidão</small></div>' \
                        '<span class="kmStatus verde"><i class="ball-status verde"></i>livre</span></div>' \
                        '</div></div>' \
-                       '<span class="img-plus"></span>' \
+                       '<div class="ex-hover"><div></div></div>' \
                        '</a>' \
                        '</li>'
         except:
@@ -410,7 +400,7 @@ class SpAgora(BrowserView):
                        '<ul class="rod-3col">' \
                        '<li><span class="em08 bold"><small>Placas final:</small></span><br><span class="azul-pq em15">' + str(placa) + '</span></li:' \
                        '</ul></div>' \
-                       '<span class="img-plus"></span>' \
+                       '<div class="ex-hover"><div></div></div>' \
                        '</a>' \
                        '</li>'
         except:
@@ -727,21 +717,31 @@ class SpAgora(BrowserView):
                         'pontoVermelho': 'Fechado operações',
                         'pontoBranco': 'Indisponivel no momento'}
 
-    # @ram.cache(lambda *args: time() // (60 * 15))
-    # def testeAeroporto(self):
-    #     soup = BeautifulSoup(self.getContent(url_direct.get('dash-aero-situacao')))
-    #     retorno = {}
-    #     content = ''
-    #     for aeroporto in self.list_aeport:
-    #         aeroporto_congonhas = soup.find(id=aeroporto)
-    #         situacao_aeroporto = self.situation_aeport[aeroporto_congonhas['class'][0]]
-    #         retorno[aeroporto] = {'aeroporto': self.list_aeport[aeroporto]['local'],'status': situacao_aeroporto}
-
-    #     for x in retorno:
-    #         content += '<p> %s </p>' % retorno[x]['aeroporto']
-    #         content += '<p> %s </p>' % retorno[x]['status']
-
-    #     return content
+    @ram.cache(lambda *args: time() // (60 * 15))
+    def testeAeroporto(self):
+        soup = BeautifulSoup(self.getContent(url_direct.get('dash-aero-situacao')))
+        retorno = {}
+        content = ''
+        for aeroporto in self.list_aeport:
+            aeroporto_congonhas = soup.find(id=aeroporto)
+            situacao_aeroporto = self.situation_aeport[aeroporto_congonhas['class'][0]]
+            retorno[aeroporto] = {'aeroporto': self.list_aeport[aeroporto]['local'], 'status': situacao_aeroporto}
+        content = """
+                  <div id="call-aero" class="dash" style="display: block;">
+                  <h3>Aeroportos <em class="em08 fonte">Fonte: Infraero e GRU</em></h3>
+                  <button class="fechar-dash">X</button>
+                  <ul id="aero-lista">
+                  """
+        for x in retorno:
+            content += """
+                       <li class="cgh"><strong class="aeronome">%(aeroporto)s</strong><small>
+                       <span class="verde"><b class="ball-status verde"></b>%(status)s</span><br>
+                       <span class="txt-right">Vôos atrasados:</span>
+                       <span class="txt-left azul-pq">1</span></small><small><span class="txt-right">Vôos cancelados:</span>
+                       <span class="txt-left azul-pq">0</span></small></li>
+                       """ % {'aeroporto': retorno[x]['aeroporto'], 'status': retorno[x]['status']}
+        content += "</ul></div>"
+        return content
 
     # @ram.cache(lambda *args: time() // (60 * 15))
     # def testeAeroportoVoo(self):
