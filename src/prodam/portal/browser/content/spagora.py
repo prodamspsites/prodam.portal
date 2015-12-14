@@ -244,16 +244,16 @@ class SpAgora(BrowserView):
         temp_media = self.getTempMedia()
 
         self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima")))
-        # temp_maxima = self.getTempMaxima()
-        # temp_minima = self.getTempMinima()
-        # prev_manha = self.getPrevManha()
-        # prev_tarde = self.getPrevTarde()
-        # prev_noite = self.getPrevNoite()
-        # prev_madrugada = self.getPrevMadrugada()
-        # umidade_ar_max = self.getUmidadeArMax()
-        # umidade_ar_min = self.getUmidadeArMin()
-        # hora_nascer_sol = self.getHoraNascerSol()
-        # hora_por_sol = self.getHoraPorSol()
+        temp_maxima = self.getTempMaxima()
+        temp_minima = self.getTempMinima()
+        prev_manha = self.getPrevManha()
+        prev_tarde = self.getPrevTarde()
+        prev_noite = self.getPrevNoite()
+        prev_madrugada = self.getPrevMadrugada()
+        umidade_ar_max = self.getUmidadeArMax()
+        umidade_ar_min = self.getUmidadeArMin()
+        hora_nascer_sol = self.getHoraNascerSol()
+        hora_por_sol = self.getHoraPorSol()
         content = """
                   <div id="call-clima" class="dash" style="display: block;">
                   <h3>Tempo <em class="fonte">Fonte: CGE</em></h3>
@@ -303,7 +303,7 @@ class SpAgora(BrowserView):
                   <div class="a-half"><small class="amarelo em14">%(hrin)s</small> <small class="em07">Nascer do sol</small></div>
                   <div class="a-half"><small class="amarelo em14">%(hrmax)s</small> <small class="em07">Por do sol</small></div>
                   </div></div></div>
-                  """ % {'media': temp_media}
+                  """ % {'media': temp_media, 'max': temp_maxima, 'min': temp_minima, 'manha': prev_manha, 'tarde': prev_tarde, 'noite': prev_noite, 'madrugada': prev_madrugada, 'umax': umidade_ar_max, 'umin': umidade_ar_min, 'hrin': hora_nascer_sol, 'hrmax': hora_por_sol}
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
@@ -329,7 +329,7 @@ class SpAgora(BrowserView):
                        '<span id="status-temp" class="amarelo">' + str(potencial['pt']) + '</span>' \
                        '</div>' \
                        '</div>' \
-                       '<div class="ex-hover"><div></div></div>' \
+                       '<span class="img-plus"></span>' \
                        '</a>' \
                        '</li>'
         except:
@@ -345,7 +345,7 @@ class SpAgora(BrowserView):
                        '<div class="dash-img o2quali"></div>' \
                        '<b class="bullet-verde em2">' + qualidade_ar + '</b>' \
                        '</div>' \
-                       '<div class="ex-hover"><div></div></div>' \
+                       '<span class="img-plus"></span>' \
                        '</a>' \
                        '</li>'
         except:
@@ -358,7 +358,7 @@ class SpAgora(BrowserView):
                    '<div class="dash-img"></div>' \
                    '<span id="aero-status">Consulte situação</span>' \
                    '</div>' \
-                   '<div class="ex-hover"><div></div></div>' \
+                   '<span class="img-plus"></span>' \
                    '</a>' \
                    '</li>'
 
@@ -367,9 +367,9 @@ class SpAgora(BrowserView):
                    '<div class="dash-border">' \
                    '<strong class="titulo-dash">Transporte Público</strong>' \
                    '<div class="dash-img"></div>' \
-                   '<a href="http://www.sptrans.com.br/itinerarios/" target="_blank" class="azul-pq">Busca de itinerários</a>' \
+                   'Busca de itinerários' \
                    '</div>' \
-                   '<div class="ex-hover"><div></div></div>' \
+                   '<span class="img-plus"></span>' \
                    '</a>' \
                    '</li>'
         try:
@@ -388,7 +388,7 @@ class SpAgora(BrowserView):
                        '<small class="bold em09">de lentidão</small></div>' \
                        '<span class="kmStatus verde"><i class="ball-status verde"></i>livre</span></div>' \
                        '</div></div>' \
-                       '<div class="ex-hover"><div></div></div>' \
+                       '<span class="img-plus"></span>' \
                        '</a>' \
                        '</li>'
         except:
@@ -401,13 +401,14 @@ class SpAgora(BrowserView):
             placa = data_result['Rotation']['desc']
 
             content += '<li class="ex-rodizio ver-mais">' \
+                       '<a href="#verMais">' \
                        '<div class="dash-border">' \
                        '<strong class="titulo-dash">Rodízio</strong>' \
                        '<div class="dash-img"></div>' \
                        '<ul class="rod-3col">' \
                        '<li><span class="em08 bold"><small>Placas final:</small></span><br><span class="azul-pq em15">' + str(placa) + '</span></li:' \
                        '</ul></div>' \
-                       '<div class="ex-hover"><div></div></div>' \
+                       '<span class="img-plus"></span>' \
                        '</a>' \
                        '</li>'
         except:
