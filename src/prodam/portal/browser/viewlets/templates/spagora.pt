@@ -8,6 +8,9 @@
     <tal:servicos replace="structure python:spagora.getPrincipal()"></tal:servicos>
   </ul>
 
+<!--   <ul id="servicos-externos">
+    <tal:servicos replace="structure python:spagora.getWeatherSp()"></tal:servicos>
+  </ul> -->
 
   <a href="/portal/mapa"><div id="mapa-serv"></div></a>
 

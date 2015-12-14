@@ -132,7 +132,8 @@ class SpAgora(BrowserView):
     @ram.cache(lambda *args: time() // (60 * 15))
     def getMeansOfTransportation(self):
         try:
-            # html_transporte_publico = self.getTransportePublico()
+            status_metro_sp = self.getStatusMetro()
+            status_trens_sp = self.getStatusCptm()
             content = """
                       <div id="call-publi" class="dash" style="display: block;">
                       <h3>Transporte Público</h3> <button class="fechar-dash">X</button>
@@ -145,17 +146,17 @@ class SpAgora(BrowserView):
                       <li>
                       <div class="status"><i class="amarelo"></i></div>
                       <div class="mini Mmetro"></div>
-                      <span id="t-metro">Circulação normal</span>
+                      <span id="t-metro">%(metro)s</span>
                       </li>
                       <li>
                       <div class="status"><i class="vermelho"></i></div>
                       <div class="mini Mcptm"></div>
-                      <span id="t-cptm"></span>
+                      <span id="t-cptm">%(trem)s</span>
                       </li>
                       </ul>
                       <a href="http://www.sptrans.com.br/itinerarios/" target="_blank" class="link-amarelo">Consultar itinerários</a>
                       </div>
-                       """
+                       """ % {'metro': status_metro_sp, 'trem': status_trens_sp}
         except:
             content += self.getContentExcept(class_li='ex-transito', text_div='Transito')
         return content
@@ -175,21 +176,21 @@ class SpAgora(BrowserView):
                       <h3>Trânsito</h3>
                       <button class="fechar-dash">X</button>
                       <div class="tran-total">
-                      <div class="ttotal"><span class="amarelo em14 bold">74 km</span><br><small class="bold em09">de lentidão</small></div>
+                      <div class="ttotal"><span class="amarelo em14 bold">%(lentidao)s km</span><br><small class="bold em09">de lentidão</small></div>
                       <div class="ttotal amarelo"><br><span class="amarelo bolinha"></span>regular</div>
                       </div>
                       <hr class="pont">
                       <div id="sp-mapa">
                       <ul id="lentidao">
-                      <li id="kmOeste" class="amarelo">38 km</li>
-                      <li id="kmNorte" class="amarelo">8 km</li>
-                      <li id="kmLeste" class="amarelo">5 km</li>
-                      <li id="kmSul" class="amarelo">12 km</li>
+                      <li id="kmOeste" class="amarelo">%(oeste)s</li>
+                      <li id="kmNorte" class="amarelo">%(norte)s</li>
+                      <li id="kmLeste" class="amarelo">%(leste)s</li>
+                      <li id="kmSul" class="amarelo">%(sul)s</li>
                       </ul>
                       </div>
                       <div class="bloco-linha"><a href="http://www.cetsp.com.br/transito-agora/mapa-de-fluidez.aspx" class="azul-pq" target="_blank">Mapa de fluidez</a> <a href="http://www.cetsp.com.br/transito-agora/transito-nas-principais-vias.aspx" target="_blank" class="azul-pq">Lentidão por corredor</a></div>
                       </div>
-                      """
+                      """ % {'oeste': km_lentidao[0], 'norte': km_lentidao[1], 'leste': km_lentidao[2], 'sul': km_lentidao[3], 'lentidao': km_lentidao[4]}
         except:
             content = self.getContentExcept(class_li='ex-transito', text_div='Transito')
         return content
@@ -197,19 +198,22 @@ class SpAgora(BrowserView):
     @ram.cache(lambda *args: time() // (60 * 15))
     def getCarRotation(self):
         try:
-            # rodizio = self.getRodizio()
+            url_rodizio = url_direct.get('dash-rodizio')
+            placas_final_url_return = urllib.urlopen(url_rodizio)
+            data_result = json.loads(placas_final_url_return.read())
+            placa = data_result['Rotation']['desc']
             content = """
                       <div id="call-rodizio" class="dash" style="display: block;">
                       <h3>Rodízio</h3>
                       <button class="fechar-dash">X</button>
                       <div id="mapa-rodizio"></div>
                       <ul class="rod-3col">
-                      <li><span class="em08 bold">Placas final:</span><br><span class="amarelo em15">9 e 0</span></li>
+                      <li><span class="em08 bold">Placas final:</span><br><span class="amarelo em15">%(placa)s</span></li>
                       <li><span class="em08 bold">Horário:</span><br><small class="amarelo em1">7h às 10h</small><br><small class="amarelo em1">17h às 20h</small></li>
                       <li><span class="em08 bold">Penalidade:</span><br><small class="amarelo em10">R$85,13</small><small class="amarelo em08"> e 4pts na carteira</small></li>
                       </ul>
                       </div>
-                      """
+                      """ % {'placa': placa}
         except:
             content = self.getContentExcept(class_li='ex-rodizio', text_div='Rodízio')
         return content
@@ -234,26 +238,22 @@ class SpAgora(BrowserView):
                   """
         return content
 
-    # @ram.cache(lambda *args: time() // (60 * 15))
-    # def getWeatherSp(self):
-    #     content = ''
-    #     try:
-    #         self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima-media")))
-    #         temp_media = self.getTempMedia()
-    #         hour = localtime(time()).tm_hour
-    #         self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima")))
-    #         prevision = self.getHour(hour)
-    #         # content += "<h5>Temperatura</h5>"
-    #         content += 'Temperatura média: %s e Previsao: %s' % (temp_media, prevision)
-    #         clima = self.getClima()
-    #         # content += "<h2>Clima</h2>"
-    #         content += "<p>Clima: %s </p>" % clima
-    #     except:
-    #         content = self.getContentExcept(class_li='ex-clima', text_div='CGEb')
-    #     return content
-
     @ram.cache(lambda *args: time() // (60 * 15))
     def getWeatherSp(self):
+        self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima-media")))
+        temp_media = self.getTempMedia()
+
+        self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima")))
+        # temp_maxima = self.getTempMaxima()
+        # temp_minima = self.getTempMinima()
+        # prev_manha = self.getPrevManha()
+        # prev_tarde = self.getPrevTarde()
+        # prev_noite = self.getPrevNoite()
+        # prev_madrugada = self.getPrevMadrugada()
+        # umidade_ar_max = self.getUmidadeArMax()
+        # umidade_ar_min = self.getUmidadeArMin()
+        # hora_nascer_sol = self.getHoraNascerSol()
+        # hora_por_sol = self.getHoraPorSol()
         content = """
                   <div id="call-clima" class="dash" style="display: block;">
                   <h3>Tempo <em class="fonte">Fonte: CGE</em></h3>
@@ -262,8 +262,8 @@ class SpAgora(BrowserView):
                   <div id="t-agora" class="tempo-g nb"></div>
                   <div id="t-media"><small class="em08">Temperatura Media</small><br><span id="temp-media" class="amarelo em18">%(media)s</span></div>
                   <div id="minXmax">
-                  <div id="new-max"><span class="tmax"></span>28</div>
-                  <div id="new-min"><span class="tmin"></span>20</div>
+                  <div id="new-max"><span class="tmax"></span>%(max)s</div>
+                  <div id="new-min"><span class="tmin"></span>%(min)s</div>
                   </div>
                   </div>
                   <ul id="dia-todo">
@@ -271,39 +271,39 @@ class SpAgora(BrowserView):
                   <strong class="azul-pq em08">Manha</strong>
                   <div class="tempo-p pn-pq"></div>
                   <div class="raio"></div>
-                  <span class="em07 bold amarelo">Baixo</span>
+                  <span class="em07 bold amarelo">%(manha)s</span>
                   </li>
                   <li>
                   <strong class="azul-pq em08">Tarde</strong>
                   <div class="tempo-p pi-pq"></div>
                   <div class="raio"></div>
-                  <span class="em07 bold amarelo">Moderado</span>
+                  <span class="em07 bold amarelo">%(tarde)s</span>
                   </li>
                   <li>
                   <strong class="azul-pq em08">Noite</strong>
                   <div class="tempo-p pi-pq-noite"></div>
                   <div class="raio"></div>
-                  <span class="em07 bold amarelo">Baixo</span>
+                  <span class="em07 bold amarelo">%(noite)s</span>
                   </li>
                   <li>
                   <strong class="azul-pq em08">Madrugada</strong>
                   <div class="tempo-p nb-pq-noite"></div>
                   <div class="raio"></div>
-                  <span class="em07 bold amarelo">Baixo</span>
+                  <span class="em07 bold amarelo">%(madrugada)s</span>
                   </li>
                   </ul>
                   <div id="tempor-outras">
                   <div class="a-40 bold">
                   <small class="em07"><span id="div" class="gotas"></span>Umidade relativa do ar</small>
-                  <div class="a-half em13"><span class="tmax"></span> 90</div>
-                  <div class="a-half em13"><span class="tmin"></span> 55</div>
+                  <div class="a-half em13"><span class="tmax"></span> %(umax)s</div>
+                  <div class="a-half em13"><span class="tmin"></span> %(umin)s</div>
                   </div>
                   <div class="sol-box">
                   <div id="sol"></div>
-                  <div class="a-half"><small class="amarelo em14">06h12</small> <small class="em07">Nascer do sol</small></div>
-                  <div class="a-half"><small class="amarelo em14">19h47</small> <small class="em07">Por do sol</small></div>
+                  <div class="a-half"><small class="amarelo em14">%(hrin)s</small> <small class="em07">Nascer do sol</small></div>
+                  <div class="a-half"><small class="amarelo em14">%(hrmax)s</small> <small class="em07">Por do sol</small></div>
                   </div></div></div>
-                  """ % {'media': "27"}
+                  """ % {'media': temp_media}
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
@@ -329,6 +329,7 @@ class SpAgora(BrowserView):
                        '<span id="status-temp" class="amarelo">' + str(potencial['pt']) + '</span>' \
                        '</div>' \
                        '</div>' \
+                       '<div class="ex-hover"><div></div></div>' \
                        '</a>' \
                        '</li>'
         except:
@@ -344,6 +345,7 @@ class SpAgora(BrowserView):
                        '<div class="dash-img o2quali"></div>' \
                        '<b class="bullet-verde em2">' + qualidade_ar + '</b>' \
                        '</div>' \
+                       '<div class="ex-hover"><div></div></div>' \
                        '</a>' \
                        '</li>'
         except:
@@ -356,6 +358,7 @@ class SpAgora(BrowserView):
                    '<div class="dash-img"></div>' \
                    '<span id="aero-status">Consulte situação</span>' \
                    '</div>' \
+                   '<div class="ex-hover"><div></div></div>' \
                    '</a>' \
                    '</li>'
 
@@ -366,6 +369,7 @@ class SpAgora(BrowserView):
                    '<div class="dash-img"></div>' \
                    '<a href="http://www.sptrans.com.br/itinerarios/" target="_blank" class="azul-pq">Busca de itinerários</a>' \
                    '</div>' \
+                   '<div class="ex-hover"><div></div></div>' \
                    '</a>' \
                    '</li>'
         try:
@@ -384,6 +388,7 @@ class SpAgora(BrowserView):
                        '<small class="bold em09">de lentidão</small></div>' \
                        '<span class="kmStatus verde"><i class="ball-status verde"></i>livre</span></div>' \
                        '</div></div>' \
+                       '<div class="ex-hover"><div></div></div>' \
                        '</a>' \
                        '</li>'
         except:
@@ -402,6 +407,7 @@ class SpAgora(BrowserView):
                        '<ul class="rod-3col">' \
                        '<li><span class="em08 bold"><small>Placas final:</small></span><br><span class="azul-pq em15">' + str(placa) + '</span></li:' \
                        '</ul></div>' \
+                       '<div class="ex-hover"><div></div></div>' \
                        '</a>' \
                        '</li>'
         except:
@@ -861,42 +867,6 @@ class SpAgora(BrowserView):
                 aeport['cancelados'] = None
         return list_aeport
 
-    """
-    ##########################################################################
-                       Transporte Publico CPTM e Metro
-    ##########################################################################
-    """
-    @ram.cache(lambda *args: time() // (60 * 15))
-    def getTransportePublico(self):
-        """
-        return: Informações do Transporte Público
-        """
-        status_metro_sp = self.getStatusMetro()
-        status_trens_sp = self.getStatusMetro()
-        transp_publica_html = '<div id="call-publi" class="dash" style="display: block;">' \
-                              '<h3>Transporte Público</h3> <button class="fechar-dash">X</button>' \
-                              '<ul>' \
-                              '<li>' \
-                              '<div class="status"><i class="verde"></i></div>' \
-                              '<div class="mini Mbus"></div>' \
-                              '<span id="spT-twitter">Confira os itinerários das 151 linhas de ônibus do #Noturno,' \
-                              'a Rede de ônibus da Madrugada: <a href="http://www.sptrans.co" target="_blank">Mais</a></span>' \
-                              '</li>' \
-                              '<li>' \
-                              '<div class="status"><i class="amarelo"></i></div>' \
-                              '<div class="mini Mmetro"></div>' \
-                              '<span id="t-metro">%s</span>' % status_metro_sp + \
-                              '</li>' \
-                              '<li>' \
-                              '<div class="status"><i class="vermelho"></i></div>' \
-                              '<div class="mini Mcptm"></div>' \
-                              '<span id="t-cptm">%s</span>' % status_trens_sp + \
-                              '</li>' \
-                              '</ul>' \
-                              '<a href="http://www.sptrans.com.br/itinerarios/" target="_blank" class="link-amarelo">Consultar itinerários</a>' \
-                              '</div>'
-        return transp_publica_html
-
     @ram.cache(lambda *args: time() // (60 * 15))
     def getStatusCptm(self):
         """
@@ -954,101 +924,6 @@ class SpAgora(BrowserView):
             content += 'Circulação normal'
 
         return content
-
-    """
-    ##########################################################################
-                    Transito Zonas da cidade de São Paulo
-    ##########################################################################
-    """
-    # @ram.cache(lambda *args: time() // (60 * 15))
-    # def getTransito(self):
-    #     """
-    #     return: Trânsito em São Paulo agrupado por zonas da cidade
-    #     """
-    #     self.soup = BeautifulSoup(self.getContent(url_direct.get('transito-agora')))
-    #     lista_zonas_sp = ('OesteLentidao', 'NorteLentidao',
-    #                       'LesteLentidao', 'SulLentidao', 'lentidao')
-    #     km_lentidao = []
-    #     for zonas_sp in lista_zonas_sp:
-    #         km_lentidao.append(self.soup.find('div', {"id": zonas_sp}).string)
-
-    #     transito_html = '<div id="call-trans" class="dash" style="display: block;">' \
-    #                     '<h3>Trânsito</h3>' \
-    #                     '<button class="fechar-dash">X</button><div class="tran-total">' \
-    #                     '<div class="ttotal"><span class="amarelo em14 bold"> %s </span>' % str(km_lentidao[4]) + ' km' + \
-    #                     '<br><small class="bold em09">de lentidão</small></div>' \
-    #                     '<div class="ttotal amarelo"><br>' \
-    #                     '<hr class="pont"><div id="sp-mapa"><ul id="lentidao">' \
-    #                     '<li id="kmOeste" class="amarelo"> %s ' % km_lentidao[0] + '</li>' \
-    #                     '<li id="kmNorte" class="amarelo"> %s ' % km_lentidao[1] + '</li>' \
-    #                     '<li id="kmLeste" class="amarelo"> %s ' % km_lentidao[2] + '</li>' \
-    #                     '<li id="kmSul"   class="amarelo"> %s ' % km_lentidao[3] + '</li>'   \
-    #                     '</ul></div> <div class="bloco-linha">' \
-    #                     '<a href="http://www.cetsp.com.br/transito-agora/mapa-de-fluidez.aspx" class="azul-pq" target="_blank">Mapa de fluidez</a>' \
-    #                     '<a href="http://www.cetsp.com.br/transito-agora/transito-nas-principais-vias.aspx" target="_blank" class="azul-pq">Lentidão por corredor</a>' \
-    #                     '</div></div>'
-    #     transito_html = '%s - %s - %s - %s - %s' % (str(km_lentidao[4]),km_lentidao[0],km_lentidao[1],km_lentidao[2],km_lentidao[3])
-
-    #     return transito_html
-
-    """
-    ##########################################################################
-                            Rodizio e Área de restrição
-    ##########################################################################
-    """
-    # @ram.cache(lambda *args: time() // (60 * 15))
-    # def getRodizio(self):
-    #     """
-    #     return: Informações rodízio de automóveis da cidade de São Paulo
-    #     """
-    #     url_rodizio = url_direct.get('dash-rodizio')
-    #     placas_final_url_return = urllib.urlopen(url_rodizio)
-    #     data_result = json.loads(placas_final_url_return.read())
-    #     placa = data_result['Rotation']['desc']
-    #     placa_horario_inicio = self.getPlacaHorarioInicio()
-    #     placa_horario_final = self.getPlacaHorarioFinal()
-
-    #     rodizio_html = '<div id="call-rodizio" class="dash" style="display: block;">' \
-    #                    '<h3>Rodízio</h3> ' \
-    #                    '<button class="fechar-dash">X</button>' \
-    #                    '<div id="mapa-rodizio"></div><ul class="rod-3col"><li>' \
-    #                    '<span class="em08 bold">Placas final:</span><br>' \
-    #                    '<span class="amarelo em15">%s</span></li><li>' % placa + \
-    #                    '<span class="em08 bold">Horário:</span><br>' \
-    #                    '<small class="amarelo em1">%s</small><br>' % placa_horario_inicio + \
-    #                    '<small class="amarelo em1">%s</small></li>' % placa_horario_final + \
-    #                    '<li><span class="em08 bold">Penalidade:</span><br>' \
-    #                    '<small class="amarelo em10">R$85,13</small>' \
-    #                    '<small class="amarelo em08"> e 4pts na carteira</small></li></ul></div>'
-
-    #     rodizio_html = ' %s - %s - %s ' % (placa,placa_horario_inicio,placa_horario_final)
-
-    #     return rodizio_html
-
-    @ram.cache(lambda *args: time() // (60 * 15))
-    def getRestricaoPlacaFinal(self):
-        """
-        return: Restrição placa final
-        """
-        import ast
-        restricao_placa_final = ast.literal_eval(self.soup.text).get('Rotation').get('desc')
-        return restricao_placa_final
-
-    @ram.cache(lambda *args: time() // (60 * 15))
-    def getPlacaHorarioInicio(self):
-        """
-        return: Horário Início rodizio da cidade de São Paulo
-        """
-        placa_horario_inicio = '7h às 10h'
-        return placa_horario_inicio
-
-    @ram.cache(lambda *args: time() // (60 * 15))
-    def getPlacaHorarioFinal(self):
-        """
-        return: Horário Fim rodizio da cidade de São Paulo
-        """
-        placa_horario_final = '17h às 20h'
-        return placa_horario_final
 
     """
     ##########################################################################
