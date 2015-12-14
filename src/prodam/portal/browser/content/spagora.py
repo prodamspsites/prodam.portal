@@ -244,16 +244,18 @@ class SpAgora(BrowserView):
         temp_media = self.getTempMedia()
 
         self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima")))
-        temp_maxima = self.getTempMaxima()
-        temp_minima = self.getTempMinima()
-        prev_manha = self.getPrevManha()
-        prev_tarde = self.getPrevTarde()
-        prev_noite = self.getPrevNoite()
-        prev_madrugada = self.getPrevMadrugada()
+        dia = self.soup.findAll('dia')
+
+        prev_manha = dia[0].parent.find('ct', {'periodo': 'Manhã'})
+        prev_tarde = dia[0].parent.find('ct', {'periodo': 'Tarde'})
+        prev_noite = dia[0].parent.find('ct', {'periodo': 'Noite'})
+        prev_madrugada = dia[0].parent.find('ct', {'periodo': 'Madrugada'})
         umidade_ar_max = self.getUmidadeArMax()
         umidade_ar_min = self.getUmidadeArMin()
         hora_nascer_sol = self.getHoraNascerSol()
         hora_por_sol = self.getHoraPorSol()
+        temp_maxima = self.getTempMaxima()
+        temp_minima = self.getTempMinima()
         content = """
                   <div id="call-clima" class="dash" style="display: block;">
                   <h3>Tempo <em class="fonte">Fonte: CGE</em></h3>
@@ -303,7 +305,7 @@ class SpAgora(BrowserView):
                   <div class="a-half"><small class="amarelo em14">%(hrin)s</small> <small class="em07">Nascer do sol</small></div>
                   <div class="a-half"><small class="amarelo em14">%(hrmax)s</small> <small class="em07">Por do sol</small></div>
                   </div></div></div>
-                  """ % {'media': temp_media, 'max': temp_maxima, 'min': temp_minima, 'manha': prev_manha, 'tarde': prev_tarde, 'noite': prev_noite, 'madrugada': prev_madrugada, 'umax': umidade_ar_max, 'umin': umidade_ar_min, 'hrin': hora_nascer_sol, 'hrmax': hora_por_sol}
+                  """ % {'media': temp_media, 'max': temp_maxima, 'min': temp_minima, 'manha': prev_manha['pt'], 'tarde': prev_tarde['pt'], 'noite': prev_noite['pt'], 'madrugada': prev_madrugada['pt'], 'umax': umidade_ar_max, 'umin': umidade_ar_min, 'hrin': hora_nascer_sol, 'hrmax': hora_por_sol}
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
@@ -575,95 +577,64 @@ class SpAgora(BrowserView):
         return temperature
 
     @ram.cache(lambda *args: time() // (60 * 15))
-    def getPrevision(self, period=None):
-        """
-        :return: prevision time in day
-        """
-        try:
-            prevision = str(self.soup.dia.findAll('ct', {'periodo': period})[0].text[-2:])
-            prevision = self.prevision.get(prevision)
-            return prevision
-        except:
-            print('Type of weather forecasting not set ')
-
-    @ram.cache(lambda *args: time() // (60 * 15))
-    def getWeather(self, type):
-        """
-        :return: weather condicion in day
-        """
-        return self.soup.dia.findAll(type)[0].text
-
-    @ram.cache(lambda *args: time() // (60 * 15))
     def getTempMaxima(self):
         """
         return time morning
         """
-        temp_max = str(self.getWeather('temp-max')[:-2])
-        return temp_max
+        self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima")))
+        dia = self.soup.findAll('dia')
+        temp_max = dia[0].parent.find('temp-max')
+        return temp_max.string
 
     @ram.cache(lambda *args: time() // (60 * 15))
     def getTempMinima(self):
         """
         return temperature minimo
         """
-        temp_min = str(self.getWeather('temp-min')[:-2])
-        return temp_min
-
-    @ram.cache(lambda *args: time() // (60 * 15))
-    def getPrevManha(self):
-        """
-        return prevision time morning
-        """
-        return self.getPrevision('Manhã')
-
-    @ram.cache(lambda *args: time() // (60 * 15))
-    def getPrevTarde(self):
-        """
-        return time afternoon
-        """
-        return self.getPrevision('Tarde')
-
-    @ram.cache(lambda *args: time() // (60 * 15))
-    def getPrevNoite(self):
-        """
-        return time night
-        """
-        return self.getPrevision('Noite')
-
-    @ram.cache(lambda *args: time() // (60 * 15))
-    def getPrevMadrugada(self):
-        """
-        return time dawn
-        """
-        return self.getPrevision('Madrugada')
+        self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima")))
+        dia = self.soup.findAll('dia')
+        temp_min = dia[0].parent.find('temp-min')
+        return temp_min.string
 
     @ram.cache(lambda *args: time() // (60 * 15))
     def getUmidadeArMax(self):
         """
         return unit ar max
         """
-        return str(self.getWeather('umid-max')[:2]) + '%'
+        self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima")))
+        dia = self.soup.findAll('dia')
+        umid_max = dia[0].parent.find('umid-max')
+        return umid_max.string
 
     @ram.cache(lambda *args: time() // (60 * 15))
     def getUmidadeArMin(self):
         """
         return unit ar min
         """
-        return str(self.getWeather('umid-min')[:2]) + '%'
+        self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima")))
+        dia = self.soup.findAll('dia')
+        umid_min = dia[0].parent.find('umid-min')
+        return umid_min.string
 
     @ram.cache(lambda *args: time() // (60 * 15))
     def getHoraNascerSol(self):
         """
         return hour sunrise
         """
-        return str(self.getWeather('sunrise')[:-1])
+        self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima")))
+        dia = self.soup.findAll('dia')
+        sunrise = dia[0].parent.find('sunrise')
+        return sunrise.string
 
     @ram.cache(lambda *args: time() // (60 * 15))
     def getHoraPorSol(self):
         """
         return sunset time
         """
-        return str(self.getWeather('sunset')[:-1])
+        self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima")))
+        dia = self.soup.findAll('dia')
+        sunset = dia[0].parent.find('sunset')
+        return sunset.string
 
     """
     ##########################################################################
