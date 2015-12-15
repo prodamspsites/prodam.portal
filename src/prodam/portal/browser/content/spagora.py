@@ -28,7 +28,7 @@ url_direct = {'pref-sp': 'http://www.capital.sp.gov.br/portal/',
               'transito-agora': "http://cetsp1.cetsp.com.br/monitransmapa/agora/",
               'qualidade-oxigenio': "http://sistemasinter.cetesb.sp.gov.br/Ar/php/ar_resumo_hora.php",
               'dash-aero': "http://voos.infraero.gov.br/hstvoos/RelatorioPortal.aspx",
-              'ex-clima': "http://www.cgesp.org/v3/previsao_prefeitura_xml.jsp",
+              'ex-clima': "http://www.cgesps.org/v3/previsao_prefeitura_xml.jsp",
               'dash-rodizio': "http://misc.prefeitura.sp.gov.br/pmspws/rotation/data.json",
               'dash-aero-situacao': "http://www.infraero.gov.br/situacaoaeroporto/",
               'ex-clima-media': "http://www.saisp.br/cgesp/temp_media_prefeitura_sp.jsp"}
@@ -391,72 +391,75 @@ class SpAgora(BrowserView):
     """
     @ram.cache(lambda *args: time() // (60 * 15))
     def getWeatherSp(self):
-        self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima-media")))
-        temp_media = self.getTempMedia()
+        try:
+            self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima-media")))
+            temp_media = self.getTempMedia()
 
-        self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima")))
-        dia = self.soup.findAll('dia')
+            self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima")))
+            dia = self.soup.findAll('dia')
 
-        prev_manha = dia[0].parent.find('ct', {'periodo': 'Manhã'})
-        prev_tarde = dia[0].parent.find('ct', {'periodo': 'Tarde'})
-        prev_noite = dia[0].parent.find('ct', {'periodo': 'Noite'})
-        prev_madrugada = dia[0].parent.find('ct', {'periodo': 'Madrugada'})
-        umidade_ar_max = self.getUmidadeArMax()
-        umidade_ar_min = self.getUmidadeArMin()
-        hora_nascer_sol = self.getHoraNascerSol()
-        hora_por_sol = self.getHoraPorSol()
-        temp_maxima = self.getTempMaxima()
-        temp_minima = self.getTempMinima()
-        content = """
-                  <div id="call-clima" class="dash" style="display: block;">
-                  <h3>Tempo <em class="fonte">Fonte: CGE</em></h3>
-                  <button class="fechar-dash">X</button>
-                  <div id="temp-bloco">
-                  <div id="t-agora" class="tempo-g nb"></div>
-                  <div id="t-media"><small class="em08">Temperatura Media</small><br><span id="temp-media" class="amarelo em18">%(media)s</span></div>
-                  <div id="minXmax">
-                  <div id="new-max"><span class="tmax"></span>%(max)s</div>
-                  <div id="new-min"><span class="tmin"></span>%(min)s</div>
-                  </div>
-                  </div>
-                  <ul id="dia-todo">
-                  <li>
-                  <strong class="azul-pq em08">Manha</strong>
-                  <div class="tempo-p pn-pq"></div>
-                  <div class="raio"></div>
-                  <span class="em07 bold amarelo">%(manha)s</span>
-                  </li>
-                  <li>
-                  <strong class="azul-pq em08">Tarde</strong>
-                  <div class="tempo-p pi-pq"></div>
-                  <div class="raio"></div>
-                  <span class="em07 bold amarelo">%(tarde)s</span>
-                  </li>
-                  <li>
-                  <strong class="azul-pq em08">Noite</strong>
-                  <div class="tempo-p pi-pq-noite"></div>
-                  <div class="raio"></div>
-                  <span class="em07 bold amarelo">%(noite)s</span>
-                  </li>
-                  <li>
-                  <strong class="azul-pq em08">Madrugada</strong>
-                  <div class="tempo-p nb-pq-noite"></div>
-                  <div class="raio"></div>
-                  <span class="em07 bold amarelo">%(madrugada)s</span>
-                  </li>
-                  </ul>
-                  <div id="tempor-outras">
-                  <div class="a-40 bold">
-                  <small class="em07"><span id="div" class="gotas"></span>Umidade relativa do ar</small>
-                  <div class="a-half em13"><span class="tmax"></span> %(umax)s</div>
-                  <div class="a-half em13"><span class="tmin"></span> %(umin)s</div>
-                  </div>
-                  <div class="sol-box">
-                  <div id="sol"></div>
-                  <div class="a-half"><small class="amarelo em14">%(hrin)s</small> <small class="em07">Nascer do sol</small></div>
-                  <div class="a-half"><small class="amarelo em14">%(hrmax)s</small> <small class="em07">Por do sol</small></div>
-                  </div></div></div>
-                  """ % {'media': temp_media, 'max': temp_maxima, 'min': temp_minima, 'manha': prev_manha['pt'], 'tarde': prev_tarde['pt'], 'noite': prev_noite['pt'], 'madrugada': prev_madrugada['pt'], 'umax': umidade_ar_max, 'umin': umidade_ar_min, 'hrin': hora_nascer_sol, 'hrmax': hora_por_sol}
+            prev_manha = dia[0].parent.find('ct', {'periodo': 'Manhã'})
+            prev_tarde = dia[0].parent.find('ct', {'periodo': 'Tarde'})
+            prev_noite = dia[0].parent.find('ct', {'periodo': 'Noite'})
+            prev_madrugada = dia[0].parent.find('ct', {'periodo': 'Madrugada'})
+            umidade_ar_max = self.getUmidadeArMax()
+            umidade_ar_min = self.getUmidadeArMin()
+            hora_nascer_sol = self.getHoraNascerSol()
+            hora_por_sol = self.getHoraPorSol()
+            temp_maxima = self.getTempMaxima()
+            temp_minima = self.getTempMinima()
+            content = """
+                      <div id="call-clima" class="dash" style="display: block;">
+                      <h3>Tempo <em class="fonte">Fonte: CGE</em></h3>
+                      <button class="fechar-dash">X</button>
+                      <div id="temp-bloco">
+                      <div id="t-agora" class="tempo-g nb"></div>
+                      <div id="t-media"><small class="em08">Temperatura Media</small><br><span id="temp-media" class="amarelo em18">%(media)s</span></div>
+                      <div id="minXmax">
+                      <div id="new-max"><span class="tmax"></span>%(max)s</div>
+                      <div id="new-min"><span class="tmin"></span>%(min)s</div>
+                      </div>
+                      </div>
+                      <ul id="dia-todo">
+                      <li>
+                      <strong class="azul-pq em08">Manha</strong>
+                      <div class="tempo-p pn-pq"></div>
+                      <div class="raio"></div>
+                      <span class="em07 bold amarelo">%(manha)s</span>
+                      </li>
+                      <li>
+                      <strong class="azul-pq em08">Tarde</strong>
+                      <div class="tempo-p pi-pq"></div>
+                      <div class="raio"></div>
+                      <span class="em07 bold amarelo">%(tarde)s</span>
+                      </li>
+                      <li>
+                      <strong class="azul-pq em08">Noite</strong>
+                      <div class="tempo-p pi-pq-noite"></div>
+                      <div class="raio"></div>
+                      <span class="em07 bold amarelo">%(noite)s</span>
+                      </li>
+                      <li>
+                      <strong class="azul-pq em08">Madrugada</strong>
+                      <div class="tempo-p nb-pq-noite"></div>
+                      <div class="raio"></div>
+                      <span class="em07 bold amarelo">%(madrugada)s</span>
+                      </li>
+                      </ul>
+                      <div id="tempor-outras">
+                      <div class="a-40 bold">
+                      <small class="em07"><span id="div" class="gotas"></span>Umidade relativa do ar</small>
+                      <div class="a-half em13"><span class="tmax"></span> %(umax)s</div>
+                      <div class="a-half em13"><span class="tmin"></span> %(umin)s</div>
+                      </div>
+                      <div class="sol-box">
+                      <div id="sol"></div>
+                      <div class="a-half"><small class="amarelo em14">%(hrin)s</small> <small class="em07">Nascer do sol</small></div>
+                      <div class="a-half"><small class="amarelo em14">%(hrmax)s</small> <small class="em07">Por do sol</small></div>
+                      </div></div></div>
+                      """ % {'media': temp_media, 'max': temp_maxima, 'min': temp_minima, 'manha': prev_manha['pt'], 'tarde': prev_tarde['pt'], 'noite': prev_noite['pt'], 'madrugada': prev_madrugada['pt'], 'umax': umidade_ar_max, 'umin': umidade_ar_min, 'hrin': hora_nascer_sol, 'hrmax': hora_por_sol}
+        except:
+            content = self.getContentExcept(class_li='ex-transito', text_div='Clima')
         return content
 
     """
@@ -488,8 +491,11 @@ class SpAgora(BrowserView):
 
     @ram.cache(lambda *args: time() // (60 * 15))
     def getAirportFlights(self):
-        aeroporto = self.AeroportoVoo()
-        content = aeroporto
+        try:
+            aeroporto = self.AeroportoVoo()
+            content = aeroporto
+        except:
+            content = self.getContentExcept(class_li='ex-transito', text_div='Aeroportos')
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
