@@ -6,6 +6,37 @@
     }
 
 
+    $(document).on('click', '.ploneCalendar td a', function(e) {
+      e.preventDefault()
+      year = $('#calendar-previous').data('year');
+      month = parseInt($('#calendar-previous').data('month')) +1;
+      day = $(this).text();
+      date = month + '/' + day + '/' + year;
+      var form = $('<form action="' + portal_url + '/agenda/agenda-prefeito" method="post">' +
+                   '<input type="text" name="date" value="' + date + '" />' +
+                   '</form>');
+      $('body').append(form);
+      console.log(date)
+      form.submit();
+      return false
+    });
+
+    $(document).on('click', '#servicos-externos a', function(e) {
+      e.preventDefault();
+      thisClass = $(this).parent().parent().attr('class').split(' ')[0]
+      url = portal_url + '/@@sp-agora';
+      $.post( url, { id: thisClass })
+        .done(function( data ) {
+          html = '<div id="' + thisClass + '" class="dash">' + data + '</div>'
+          $(html).insertAfter("#servicos-externos");
+        });
+      return false
+    });
+
+    $(document).on('click', '.dash .fechar-dash', function(e) {
+      $('.dash').remove();
+    })
+
     if ($('body').hasClass('site-Prefeitura')) {
       // calendarUrl = portal_url + '/agenda/';
 

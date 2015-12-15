@@ -3,6 +3,7 @@ Histórico de Alterações
 
 0.5a1 (unreleased)
 ^^^^^^^^^^^^^^^^^^
+* Cria viewlet manager para SP Agora [mosesjr]
 * Atualiza versão do plone.app.blocks [mosesjr]
 * Adiciona a pasta src/collective.transmogrifier/ no gitignore [mosesjr]
 * Altera versão do collective.transmogrifier para dev [mosesjr]

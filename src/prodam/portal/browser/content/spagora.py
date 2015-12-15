@@ -69,6 +69,26 @@ class SpAgora(BrowserView):
             proxy_handler = ProxyHandler({'http': proxy, })
             self._opener = build_opener(cookie_handler, proxy_handler)
 
+    def showDetails(self):
+        try:
+            requested = self.request.form['id']
+            text = ''
+            if requested == "ex-clima":
+                text = self.getWeatherSp()
+            if requested == "ex-ar":
+                text = self.getAirQuality()
+            if requested == "ex-aero":
+                text = self.getAirportFlights()
+            if requested == "ex-publico":
+                text = self.getMeansOfTransportation()
+            if requested == "ex-transito":
+                text = self.getTraffic()
+            if requested == "ex-rodizio":
+                text = self.getCarRotation()
+        except:
+            text = False
+        return text
+
     def getContent(self, url, data=None, referer=None):
         """
         return content cookie html in response decode utf-8 to BeautifulSoup
@@ -521,7 +541,7 @@ class SpAgora(BrowserView):
                            """ % {'aeroporto': retorno[aeroport]['aeroporto'], 'status': retorno[aeroport]['status'], 'html': html}
             content += "</ul></div>"
         except:
-            content += "Não foi possivel carregar o conteudo"
+            content = "Não foi possivel carregar o conteudo"
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
