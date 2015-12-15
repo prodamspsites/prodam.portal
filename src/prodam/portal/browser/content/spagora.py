@@ -183,7 +183,7 @@ class SpAgora(BrowserView):
                        '<div class="ex-hover"><a href="#verMais"></a><div></div></div>' \
                        '</li>'
         except:
-            content += self.getContentExcept(class_li='ex-ar', text_div='Qualidade do Ar')
+            content += self.getContentExcept(class_li='ex-transito', text_div='Qualidade do Ar')
 
         try:
             url_rodizio = url_direct.get('dash-rodizio')
@@ -203,7 +203,7 @@ class SpAgora(BrowserView):
                        '</a>' \
                        '</li>'
         except:
-            content += self.getContentExcept(class_li='ex-ar', text_div='Qualidade do Ar')
+            content += self.getContentExcept(class_li='ex-rodizio', text_div='Qualidade do Ar')
 
         return content
 
