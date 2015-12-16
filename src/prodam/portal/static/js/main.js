@@ -2,7 +2,6 @@
   $(document).ready(function() {
 
     if ($('body').hasClass('section-cidadao') || $('body').hasClass('section-empresa') || $('body').hasClass('section-turista')) {
-      console.log('teste');
     }
 
 
@@ -16,7 +15,6 @@
                    '<input type="text" name="date" value="' + date + '" />' +
                    '</form>');
       $('body').append(form);
-      console.log(date)
       form.submit();
       return false
     });
@@ -36,6 +34,24 @@
     $(document).on('click', '.dash .fechar-dash', function(e) {
       $('.dash').remove();
     })
+
+    $(document).on('click', 'button.e-fechar', function(e) {
+      $(this).removeClass('e-fechar').addClass('e-abrir');
+      $('#externos').animate({
+        height: 35
+      }, 1000)
+    })
+
+   $(document).on('click', 'button.e-abrir', function(e) {
+      $(this).removeClass('e-abrir').addClass('e-fechar');
+      $('#externos').animate({
+        height: 450
+      }, 1000)
+    })
+
+    if ($('body').hasClass('section-prefeitura-de-sao-paulo')) {
+      $('#externos button.e-fechar').remove();
+    }
 
     if ($('body').hasClass('site-Prefeitura')) {
       // calendarUrl = portal_url + '/agenda/';
@@ -118,7 +134,6 @@
                      '<input type="text" name="date" value="' + date + '" />' +
                      '</form>');
         $('body').append(form);
-        console.log(date)
         form.submit();
         return false
       });
