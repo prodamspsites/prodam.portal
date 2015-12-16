@@ -235,7 +235,7 @@ class SpAgora(BrowserView):
         placas_final_url_return = urllib.urlopen(url_rodizio)
         data_result = json.loads(placas_final_url_return.read())
         placa = data_result['Rotation']['desc']
-        print placa
+
         content += """
                    <li class="ex-rodizio ver-mais">
                    <div class="dash-border">
@@ -288,13 +288,10 @@ class SpAgora(BrowserView):
         """
         return content to except in case error
         """
-        content = """
-                  erro
-                  """
-        # content = '<li class="' + class_li + '">' \
-        #           '<div class="dash-border"><strong class="titulo-dash">' + text_div + '</strong>' \
-        #           '<br>Não foi possível carregar informações</div>' \
-        #           '</li>'
+        content = '<li class="' + class_li + '">' \
+                  '<div class="dash-border"><strong class="titulo-dash">' + text_div + '</strong>' \
+                  '<br>Não foi possível carregar informações</div>' \
+                  '</li>'
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
