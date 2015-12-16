@@ -209,9 +209,12 @@ class SpAgora(BrowserView):
 
             if total_km_lentidao <= 45:
                 status_transito_sp = 'livre'
+                css = 'verde'
             elif total_km_lentidao >= 45 and total_km_lentidao <= 90:
                 status_transito_sp = 'moderado'
+                css = 'amarelo'
             elif total_km_lentidao > 90:
+                css = 'vermelho'
                 status_transito_sp = 'ruim'
 
             content += """
@@ -222,11 +225,11 @@ class SpAgora(BrowserView):
                        <div class="tran-total">
                        <div class="ttotal"><span class="amarelo em14 bold">%(total_km_lentidao)skm</span><br>
                        <small class="bold em09">de lentidão</small></div>
-                       <span class="kmStatus verde"><i class="ball-status verde"></i>%(status_transito_sp)s</span>
+                       <span class="kmStatus %(css)s"><i class="ball-status verde"></i>%(status_transito_sp)s</span>
                        </div></div>
                        <div class="ex-hover"><a href="#verMais"></a><div></div></div>
                        </li>
-                       """ % {'total_km_lentidao': total_km_lentidao, 'status_transito_sp': status_transito_sp}
+                       """ % {'total_km_lentidao': total_km_lentidao, 'status_transito_sp': status_transito_sp, 'css': css}
         except:
             content += self.getContentExcept(class_li='ex-transito', text_div='Trânsito')
 
@@ -554,15 +557,13 @@ class SpAgora(BrowserView):
             html = ""
             for aeroport in retorno:
                 if 'sbsp' == str(aeroport):
+                    statusVooCongonhas = self.AeroportoVooSatus()
                     content += """
                                <li class="%(class)s"><strong class="aeronome">%(aeroporto)s</strong><small>
-                               <span class="verde"><b class="ball-status verde"></b>%(status)s</span></li>
-                               <br>
-                               <span class="txt-right">Vôos atrasados:</span>
-                               <span class="txt-left azul-pq">7</span></small>
-                               <small><span class="txt-right">Vôos cancelados:</span>
-                               <span class="txt-left azul-pq">2</span></small></li>
-                               """ % {'aeroporto': retorno[aeroport]['aeroporto'], 'status': retorno[aeroport]['status'], 'html': html, 'class': aeroport['codigo'].lower()}
+                               <span class="verde"><b class="ball-status verde"></b>%(status)s</span>
+                               %(statusVooCongonhas)s
+                               </li>
+                               """ % {'aeroporto': retorno[aeroport]['aeroporto'], 'status': retorno[aeroport]['status'], 'html': html, 'class': aeroport['codigo'].lower(), 'statusVooCongonhas': statusVooCongonhas}
                 else:
                     content += """
                                <li class="%(class)s"><strong class="aeronome">%(aeroporto)s</strong><small>
@@ -581,6 +582,13 @@ class SpAgora(BrowserView):
         situacao = soup.find('td', text='Sao Paulo - Congonhas-SP')
         if situacao:
             voos = situacao.parent.findAll('span')
+            content += """
+                       <br>
+                       <span class="txt-right">Vôos atrasados:</span>
+                       <span class="txt-left azul-pq">%(atrasado)s</span></small>
+                       <small><span class="txt-right">Vôos cancelados:</span>
+                       <span class="txt-left azul-pq">%(cancelado)s</span></small>
+                       """ % {'atrasado': voos[0].text, 'cancelado': voos[8].text}
             content += '<p>cancelado: %s e atrasado %s</p>' % (voos[8].text, voos[0].text)
         else:
             content += '<p>Consulte situação</p>'
