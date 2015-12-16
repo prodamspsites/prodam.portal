@@ -19,20 +19,27 @@
       return false
     });
 
-    $(document).on('click', '#servicos-externos a', function(e) {
+    $(document).on('click', '#servicos-externos .ver-mais a', function(e) {
       e.preventDefault();
+      $(this).parent().removeClass('ver-mais');
       thisClass = $(this).parent().parent().attr('class').split(' ')[0]
       url = portal_url + '/@@sp-agora';
       $.post( url, { id: thisClass })
         .done(function( data ) {
           html = '<div id="' + thisClass + '" class="dash">' + data + '</div>'
+          $('#servicos-externos').hide()
           $(html).insertAfter("#servicos-externos");
         });
       return false
     });
 
+
+
     $(document).on('click', '.dash .fechar-dash', function(e) {
+      addClass = '.' + $('.dash').attr('id');
+      $(addClass).addClass('ver-mais');
       $('.dash').remove();
+      $('#servicos-externos').show();
     })
 
     $(document).on('click', 'button.e-fechar', function(e) {
