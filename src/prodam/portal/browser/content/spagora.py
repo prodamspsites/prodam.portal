@@ -231,25 +231,22 @@ class SpAgora(BrowserView):
         except:
             content += self.getContentExcept(class_li='ex-transito', text_div='Trânsito')
 
-        # try:
-        #     url_rodizio = url_direct.get('dash-rodizio')
-        #     placas_final_url_return = urllib.urlopen(url_rodizio)
-        #     data_result = json.loads(placas_final_url_return.read())
-        #     placa = data_result['Rotation']['desc']
-
-        #     content += """
-        #                <li class="ex-rodizio ver-mais">
-        #                <div class="dash-border">
-        #                <strong class="titulo-dash">Rodízio</strong>
-        #                <div class="dash-img"></div>
-        #                <ul class="rod-3col">
-        #                <li><span class="em08 bold"><small>Placas final:</small></span><br><span class="azul-pq em15">%(placa)s</span></li>
-        #                </ul></div>
-        #                <div class="ex-hover"><a href="#verMais"></a><div></div></div>
-        #                </li>
-        #                """ % {'placa': placa}
-        # except:
-        #     content += self.getContentExcept(class_li='ex-rodizio', text_div='Rodizio')
+        url_rodizio = url_direct.get('dash-rodizio')
+        placas_final_url_return = urllib.urlopen(url_rodizio)
+        data_result = json.loads(placas_final_url_return.read())
+        placa = data_result['Rotation']['desc']
+        print placa
+        content += """
+                   <li class="ex-rodizio ver-mais">
+                   <div class="dash-border">
+                   <strong class="titulo-dash">Rodízio</strong>
+                   <div class="dash-img"></div>
+                   <ul class="rod-3col">
+                   <li><span class="em08 bold"><small>Placas final:</small></span><br><span class="azul-pq em15">%(placa)s</span></li>
+                   </ul></div>
+                   <div class="ex-hover"><a href="#verMais"></a><div></div></div>
+                   </li>
+                   """ % {'placa': placa}
 
         return content
 
