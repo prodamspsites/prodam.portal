@@ -23,7 +23,7 @@ except ImportError:
 
 
 url_direct = {'pref-sp': 'http://www.capital.sp.gov.br/portal/',
-              'transp-cptm': "http://www.cptm.sp.gov.br/Pages/Home.aspx",
+              'transp-cptm': "http://www.cptm.sp.gov.br/Pages/Home1.aspx",
               'transp-metro': "http://www.metro.sp.gov.br/Sistemas/direto-do-metro-via4/diretodoMetroHome.aspx",
               'transito-agora': "http://cetsp1.cetsp.com.br/monitransmapa/agora/",
               'qualidade-oxigenio': "http://sistemasinter.cetesb.sp.gov.br/Ar/php/ar_resumo_hora.php",
@@ -288,10 +288,13 @@ class SpAgora(BrowserView):
         """
         return content to except in case error
         """
-        content = '<li class="' + class_li + '">' \
-                  '<div class="dash-border"><strong class="titulo-dash">' + text_div + '</strong>' \
-                  '<br>Não foi possível carregar informações</div>' \
-                  '</li>'
+        content = """
+                   <div id="call-publi" class="dash" style="display: block;">
+                   %(text_div)s
+                   <button class="fechar-dash">X</button>
+                   <p class="sp-erro">Não foi possível carregar informações</p>
+                   </div>
+                   """ % {'text_div': text_div}
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
@@ -434,75 +437,75 @@ class SpAgora(BrowserView):
     """
     @ram.cache(lambda *args: time() // (60 * 15))
     def getWeatherSp(self):
-        # try:
-        self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima-media")))
-        temp_media = self.getTempMedia()
+        try:
+            self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima-media")))
+            temp_media = self.getTempMedia()
 
-        self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima")))
-        dia = self.soup.findAll('dia')
+            self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima")))
+            dia = self.soup.findAll('dia')
 
-        prev_manha = dia[0].parent.find('ct', {'periodo': 'Manhã'})
-        prev_tarde = dia[0].parent.find('ct', {'periodo': 'Tarde'})
-        prev_noite = dia[0].parent.find('ct', {'periodo': 'Noite'})
-        prev_madrugada = dia[0].parent.find('ct', {'periodo': 'Madrugada'})
-        umidade_ar_max = self.getUmidadeArMax()
-        umidade_ar_min = self.getUmidadeArMin()
-        hora_nascer_sol = self.getHoraNascerSol()
-        hora_por_sol = self.getHoraPorSol()
-        temp_maxima = self.getTempMaxima()
-        temp_minima = self.getTempMinima()
-        content = """
-                  <div id="call-clima" class="dash" style="display: block;">
-                  <h3>Tempo <em class="fonte">Fonte: CGE</em></h3>
-                  <button class="fechar-dash">X</button>
-                  <div id="temp-bloco">
-                  <div id="t-agora" class="tempo-g nb"></div>
-                  <div id="t-media"><small class="em08">Temperatura Media</small><br><span id="temp-media" class="amarelo em18">%(media)s</span></div>
-                  <div id="minXmax">
-                  <div id="new-max"><span class="tmax"></span>%(max)s</div>
-                  <div id="new-min"><span class="tmin"></span>%(min)s</div>
-                  </div>
-                  </div>
-                  <ul id="dia-todo">
-                  <li>
-                  <strong class="azul-pq em08">Manha</strong>
-                  <div class="tempo-p pn-pq"></div>
-                  <div class="raio"></div>
-                  <span class="em07 bold amarelo">%(manha)s</span>
-                  </li>
-                  <li>
-                  <strong class="azul-pq em08">Tarde</strong>
-                  <div class="tempo-p pi-pq"></div>
-                  <div class="raio"></div>
-                  <span class="em07 bold amarelo">%(tarde)s</span>
-                  </li>
-                  <li>
-                  <strong class="azul-pq em08">Noite</strong>
-                  <div class="tempo-p pi-pq-noite"></div>
-                  <div class="raio"></div>
-                  <span class="em07 bold amarelo">%(noite)s</span>
-                  </li>
-                  <li>
-                  <strong class="azul-pq em08">Madrugada</strong>
-                  <div class="tempo-p nb-pq-noite"></div>
-                  <div class="raio"></div>
-                  <span class="em07 bold amarelo">%(madrugada)s</span>
-                  </li>
-                  </ul>
-                  <div id="tempor-outras">
-                  <div class="a-40 bold">
-                  <small class="em07"><span id="div" class="gotas"></span>Umidade relativa do ar</small>
-                  <div class="a-half em13"><span class="tmax"></span> %(umax)s</div>
-                  <div class="a-half em13"><span class="tmin"></span> %(umin)s</div>
-                  </div>
-                  <div class="sol-box">
-                  <div id="sol"></div>
-                  <div class="a-half"><small class="amarelo em14">%(hrin)s</small> <small class="em07">Nascer do sol</small></div>
-                  <div class="a-half"><small class="amarelo em14">%(hrmax)s</small> <small class="em07">Por do sol</small></div>
-                  </div></div></div>
-                  """ % {'media': temp_media, 'max': temp_maxima, 'min': temp_minima, 'manha': prev_manha['pt'], 'tarde': prev_tarde['pt'], 'noite': prev_noite['pt'], 'madrugada': prev_madrugada['pt'], 'umax': umidade_ar_max, 'umin': umidade_ar_min, 'hrin': hora_nascer_sol, 'hrmax': hora_por_sol}
-        # except:
-        #     content = self.getContentExcept(class_li='ex-transito', text_div='Clima')
+            prev_manha = dia[0].parent.find('ct', {'periodo': 'Manhã'})
+            prev_tarde = dia[0].parent.find('ct', {'periodo': 'Tarde'})
+            prev_noite = dia[0].parent.find('ct', {'periodo': 'Noite'})
+            prev_madrugada = dia[0].parent.find('ct', {'periodo': 'Madrugada'})
+            umidade_ar_max = self.getUmidadeArMax()
+            umidade_ar_min = self.getUmidadeArMin()
+            hora_nascer_sol = self.getHoraNascerSol()
+            hora_por_sol = self.getHoraPorSol()
+            temp_maxima = self.getTempMaxima()
+            temp_minima = self.getTempMinima()
+            content = """
+                      <div id="call-clima" class="dash" style="display: block;">
+                      <h3>Tempo <em class="fonte">Fonte: CGE</em></h3>
+                      <button class="fechar-dash">X</button>
+                      <div id="temp-bloco">
+                      <div id="t-agora" class="tempo-g nb"></div>
+                      <div id="t-media"><small class="em08">Temperatura Media</small><br><span id="temp-media" class="amarelo em18">%(media)s°</span></div>
+                      <div id="minXmax">
+                      <div id="new-max"><span class="tmax"></span>%(max)s</div>
+                      <div id="new-min"><span class="tmin"></span>%(min)s</div>
+                      </div>
+                      </div>
+                      <ul id="dia-todo">
+                      <li>
+                      <strong class="azul-pq em08">Manha</strong>
+                      <div class="tempo-p pn-pq"></div>
+                      <div class="raio"></div>
+                      <span class="em07 bold amarelo">%(manha)s</span>
+                      </li>
+                      <li>
+                      <strong class="azul-pq em08">Tarde</strong>
+                      <div class="tempo-p pi-pq"></div>
+                      <div class="raio"></div>
+                      <span class="em07 bold amarelo">%(tarde)s</span>
+                      </li>
+                      <li>
+                      <strong class="azul-pq em08">Noite</strong>
+                      <div class="tempo-p pi-pq-noite"></div>
+                      <div class="raio"></div>
+                      <span class="em07 bold amarelo">%(noite)s</span>
+                      </li>
+                      <li>
+                      <strong class="azul-pq em08">Madrugada</strong>
+                      <div class="tempo-p nb-pq-noite"></div>
+                      <div class="raio"></div>
+                      <span class="em07 bold amarelo">%(madrugada)s</span>
+                      </li>
+                      </ul>
+                      <div id="tempor-outras">
+                      <div class="a-40 bold">
+                      <small class="em07"><span id="div" class="gotas"></span>Umidade relativa do ar</small>
+                      <div class="a-half em13"><span class="tmax"></span> %(umax)s</div>
+                      <div class="a-half em13"><span class="tmin"></span> %(umin)s</div>
+                      </div>
+                      <div class="sol-box">
+                      <div id="sol"></div>
+                      <div class="a-half"><small class="amarelo em14">%(hrin)s</small> <small class="em07">Nascer do sol</small></div>
+                      <div class="a-half"><small class="amarelo em14">%(hrmax)s</small> <small class="em07">Por do sol</small></div>
+                      </div></div></div>
+                      """ % {'media': temp_media, 'max': temp_maxima[:-1], 'min': temp_minima[:-1], 'manha': prev_manha['pt'], 'tarde': prev_tarde['pt'], 'noite': prev_noite['pt'], 'madrugada': prev_madrugada['pt'], 'umax': umidade_ar_max, 'umin': umidade_ar_min, 'hrin': hora_nascer_sol[:-1], 'hrmax': hora_por_sol[:-1]}
+        except:
+            content = self.getContentExcept(class_li='ex-clima', text_div='Tempo')
         return content
 
     """
@@ -548,25 +551,28 @@ class SpAgora(BrowserView):
                       <button class="fechar-dash">X</button>
                       <ul id="aero-lista">
                       """
+            print self.AeroportoVooSatus
             html = ""
             for aeroport in retorno:
                 if 'sbsp' == str(aeroport):
-                    html += """
-                            <br>
-                            <span class="txt-right">Vôos atrasados:</span>
-                            <span class="txt-left azul-pq">7</span></small>
-                            <small><span class="txt-right">Vôos cancelados:</span>
-                            <span class="txt-left azul-pq">2</span></small>
-                            """
+                    content += """
+                               <li class="cgh"><strong class="aeronome">%(aeroporto)s</strong><small>
+                               <span class="verde"><b class="ball-status verde"></b>%(status)s</span></li>
+                               <br>
+                               <span class="txt-right">Vôos atrasados:</span>
+                               <span class="txt-left azul-pq">7</span></small>
+                               <small><span class="txt-right">Vôos cancelados:</span>
+                               <span class="txt-left azul-pq">2</span></small>
+                               """ % {'aeroporto': retorno[aeroport]['aeroporto'], 'status': retorno[aeroport]['status'], 'html': html}
+                else:
+                    content += """
+                               <li class="cgh"><strong class="aeronome">%(aeroporto)s</strong><small>
+                               <span class="verde"><b class="ball-status verde"></b>%(status)s</span></li>
+                               """ % {'aeroporto': retorno[aeroport]['aeroporto'], 'status': retorno[aeroport]['status'], 'html': html}
 
-                content += """
-                           <li class="cgh"><strong class="aeronome">%(aeroporto)s</strong><small>
-                           <span class="verde"><b class="ball-status verde"></b>%(status)s</span></li>
-                           %(html)s
-                           """ % {'aeroporto': retorno[aeroport]['aeroporto'], 'status': retorno[aeroport]['status'], 'html': html}
             content += "</ul></div>"
         except:
-            content = "Não foi possivel carregar o conteudo"
+            content = self.getContentExcept(class_li='ex-aeroportos', text_div='Aeroportos')
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
