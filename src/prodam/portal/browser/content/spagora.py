@@ -225,7 +225,7 @@ class SpAgora(BrowserView):
                        <div class="tran-total">
                        <div class="ttotal"><span class="amarelo em14 bold">%(total_km_lentidao)skm</span><br>
                        <small class="bold em09">de lentidão</small></div>
-                       <span class="kmStatus %(css)s"><i class="ball-status verde"></i>%(status_transito_sp)s</span>
+                       <span class="kmStatus %(css)s"><i class="ball-status %(css)s"></i>%(status_transito_sp)s</span>
                        </div></div>
                        <div class="ex-hover"><a href="#verMais"></a><div></div></div>
                        </li>
@@ -643,7 +643,7 @@ class SpAgora(BrowserView):
                       <button class="fechar-dash">X</button>
                       <div class="tran-total">
                       <div class="ttotal"><span class="amarelo em14 bold">%(lentidao)s km</span><br><small class="bold em09">de lentidão</small></div>
-                      <div class="ttotal amarelo"><br><span class="amarelo bolinha"></span>regular</div>
+                      <div class="ttotal vermelho"><br><span class="vermelho bolinha"></span>ruim</div>
                       </div>
                       <hr class="pont">
                       <div id="sp-mapa">
