@@ -202,34 +202,34 @@ class SpAgora(BrowserView):
                    <div class="ex-hover"><a href="#verMais"></a><div></div></div>
                    </li>
                    """
-        # try:
-        #     self.soup = BeautifulSoup(self.getContent(url_direct.get('transito-agora')))
+        try:
+            self.soup = BeautifulSoup(self.getContent(url_direct.get('transito-agora')))
 
-        #     total_km_lentidao = self.soup.find('div', {"id": 'lentidao'}).string
+            total_km_lentidao = self.soup.find('div', {"id": 'lentidao'}).string
 
-        #     if total_km_lentidao <= 45:
-        #         status_transito_sp = 'livre'
-        #     elif total_km_lentidao >= 45 and total_km_lentidao <= 90:
-        #         status_transito_sp = 'moderado'
-        #     elif total_km_lentidao > 90:
-        #         status_transito_sp = 'ruim'
+            if total_km_lentidao <= 45:
+                status_transito_sp = 'livre'
+            elif total_km_lentidao >= 45 and total_km_lentidao <= 90:
+                status_transito_sp = 'moderado'
+            elif total_km_lentidao > 90:
+                status_transito_sp = 'ruim'
 
-        #     content += """
-        #                <li class="ex-transito ver-mais">
-        #                <div class="dash-border">
-        #                <strong class="titulo-dash">Trânsito</strong>
-        #                <div class="dash-img semaforo"></div>
-        #                <div id="call-trans" class="dash" style="display: block;">
-        #                <div class="tran-total">
-        #                <div class="ttotal"><span class="amarelo em14 bold">%(total_km_lentidao)skm</span><br>
-        #                <small class="bold em09">de lentidão</small></div>
-        #                <span class="kmStatus verde"><i class="ball-status verde"></i>%(status_transito_sp)s</span></div>
-        #                </div></div>
-        #                <div class="ex-hover"><a href="#verMais"></a><div></div></div>
-        #                </li>
-        #                """ % {'total_km_lentidao': total_km_lentidao, 'status_transito_sp': status_transito_sp}
-        # except:
-        #     content += self.getContentExcept(class_li='ex-transito', text_div='Trânsito')
+            content += """
+                       <li class="ex-transito ver-mais">
+                       <div class="dash-border">
+                       <strong class="titulo-dash">Trânsito</strong>
+                       <div class="dash-img semaforo"></div>
+                       <div id="call-trans" class="dash" style="display: block;">
+                       <div class="tran-total">
+                       <div class="ttotal"><span class="amarelo em14 bold">%(total_km_lentidao)skm</span><br>
+                       <small class="bold em09">de lentidão</small></div>
+                       <span class="kmStatus verde"><i class="ball-status verde"></i>%(status_transito_sp)s</span></div>
+                       </div></div>
+                       <div class="ex-hover"><a href="#verMais"></a><div></div></div>
+                       </li>
+                       """ % {'total_km_lentidao': total_km_lentidao, 'status_transito_sp': status_transito_sp}
+        except:
+            content += self.getContentExcept(class_li='ex-transito', text_div='Trânsito')
 
         # try:
         #     url_rodizio = url_direct.get('dash-rodizio')
