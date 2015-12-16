@@ -164,44 +164,44 @@ class SpAgora(BrowserView):
         except:
             content += self.getContentExcept(class_li='ex-ar', text_div='Tempo')
 
-        # try:
-        #     self.soup = BeautifulSoup(self.getContent(url_direct.get('qualidade-oxigenio')))
-        #     qualidade_ar = self.getDescQualidade()
+        try:
+            self.soup = BeautifulSoup(self.getContent(url_direct.get('qualidade-oxigenio')))
+            qualidade_ar = self.getDescQualidade()
 
-        #     content += """
-        #                <li class="ex-ar ver-mais">
-        #                <div class="dash-border">
-        #                <strong class="titulo-dash">Qualidade do Ar</strong>
-        #                <div class="dash-img o2quali"></div>
-        #                <b class="bullet-verde em2">%(qualidade_ar)s</b>
-        #                </div>
-        #                <div class="ex-hover"><a href="#verMais"></a><div></div></div>
-        #                </li>
-        #                """ % {'qualidade_ar': qualidade_ar}
-        # except:
-        #     content += self.getContentExcept(class_li='ex-ar', text_div='Qualidade do Ar')
+            content += """
+                       <li class="ex-ar ver-mais">
+                       <div class="dash-border">
+                       <strong class="titulo-dash">Qualidade do Ar</strong>
+                       <div class="dash-img o2quali"></div>
+                       <b class="bullet-verde em2">%(qualidade_ar)s</b>
+                       </div>
+                       <div class="ex-hover"><a href="#verMais"></a><div></div></div>
+                       </li>
+                       """ % {'qualidade_ar': qualidade_ar}
+        except:
+            content += self.getContentExcept(class_li='ex-ar', text_div='Qualidade do Ar')
 
-        # content += """
-        #            <li class="ex-aero ver-mais">
-        #            <div class="dash-border">
-        #            <strong class="titulo-dash">Aeroportos</strong>
-        #            <div class="dash-img"></div>
-        #            <span id="aero-status">Consulte situação</span>
-        #            </div>
-        #            <div class="ex-hover"><a href="#verMais"></a><div></div></div>
-        #            </li>
-        #            """
+        content += """
+                   <li class="ex-aero ver-mais">
+                   <div class="dash-border">
+                   <strong class="titulo-dash">Aeroportos</strong>
+                   <div class="dash-img"></div>
+                   <span id="aero-status">Consulte situação</span>
+                   </div>
+                   <div class="ex-hover"><a href="#verMais"></a><div></div></div>
+                   </li>
+                   """
 
-        # content += """
-        #            <li class="ex-publico ver-mais">
-        #            <div class="dash-border">
-        #            <strong class="titulo-dash">Transporte Público</strong>
-        #            <div class="dash-img"></div>
-        #            Busca de itinerários
-        #            </div>
-        #            <div class="ex-hover"><a href="#verMais"></a><div></div></div>
-        #            </li>
-        #            """
+        content += """
+                   <li class="ex-publico ver-mais">
+                   <div class="dash-border">
+                   <strong class="titulo-dash">Transporte Público</strong>
+                   <div class="dash-img"></div>
+                   Busca de itinerários
+                   </div>
+                   <div class="ex-hover"><a href="#verMais"></a><div></div></div>
+                   </li>
+                   """
         # try:
         #     self.soup = BeautifulSoup(self.getContent(url_direct.get('transito-agora')))
 
