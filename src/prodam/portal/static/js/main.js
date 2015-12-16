@@ -51,6 +51,7 @@
 
     if ($('body').hasClass('section-prefeitura-de-sao-paulo')) {
       $('#externos button.e-fechar').remove();
+      $('#externos button.e-abrir').remove();
     }
 
     if ($('body').hasClass('site-Prefeitura')) {
