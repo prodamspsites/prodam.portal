@@ -136,7 +136,7 @@ class SpAgora(BrowserView):
     """
     @ram.cache(lambda *args: time() // (60 * 15))
     def getCapa(self):
-        content = ''
+        content = ""
 
         try:
             self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima-media")))
@@ -146,89 +146,110 @@ class SpAgora(BrowserView):
             dia = self.soup.findAll('dia')
             potencial = dia[0].parent.find('ct', {'periodo': self.getPeriod(hour)})
 
-            content += '<li class="ex-clima ver-mais">' \
-                       '<div class="dash-border">' \
-                       '<strong class="titulo-dash">Tempo</strong>' \
-                       '<div class="tempo-g nb"></div>' \
-                       '<div class="t-media"><span>Média</span><span id="CGE-media" class="amarelo bold">' + temp_media + '°</span></div>' \
-                       '<div class="tempestade">' \
-                       '<span>Potencial <div class="raio"></div></span>' \
-                       '<span id="status-temp" class="amarelo">' + str(potencial['pt']) + '</span>' \
-                       '</div>' \
-                       '</div>' \
-                       '<div class="ex-hover"><a href="#verMais"></a><div></div></div>' \
-                       '</li>'
+            content += """
+                       <li class="ex-clima ver-mais">
+                       <div class="dash-border">
+                       <strong class="titulo-dash">Tempo</strong>
+                       <div class="tempo-g nb"></div>
+                       <div class="t-media"><span>Média</span><span id="CGE-media" class="amarelo bold">%(temp_media)s°</span></div>
+                       <div class="tempestade">
+                       <span>Potencial <div class="raio"></div></span>
+                       <span id="status-temp" class="amarelo">%(potencial)s</span>
+                       </div>
+                       </div>
+                       <div class="ex-hover"><a href="#verMais"></a><div></div></div>
+                       </li>
+                       """ % {'temp_media': temp_media, 'potencial': str(potencial['pt'])}
+
         except:
-            content += self.getContentExcept(class_li='ex-ar', text_div='Qualidade do Ar')
+            content += self.getContentExcept(class_li='ex-ar', text_div='Tempo')
 
-        try:
-            self.soup = BeautifulSoup(self.getContent(url_direct.get('qualidade-oxigenio')))
-            qualidade_ar = self.getDescQualidade()
-            content += '<li class="ex-ar ver-mais">' \
-                       '<div class="dash-border">' \
-                       '<strong class="titulo-dash">Qualidade do Ar</strong>' \
-                       '<div class="dash-img o2quali"></div>' \
-                       '<b class="bullet-verde em2">' + qualidade_ar + '</b>' \
-                       '</div>' \
-                       '<div class="ex-hover"><a href="#verMais"></a><div></div></div>' \
-                       '</li>'
-        except:
-            content += self.getContentExcept(class_li='ex-ar', text_div='Qualidade do Ar')
+        # try:
+        #     self.soup = BeautifulSoup(self.getContent(url_direct.get('qualidade-oxigenio')))
+        #     qualidade_ar = self.getDescQualidade()
 
-        content += '<li class="ex-aero ver-mais">' \
-                   '<div class="dash-border">' \
-                   '<strong class="titulo-dash">Aeroportos</strong>' \
-                   '<div class="dash-img"></div>' \
-                   '<span id="aero-status">Consulte situação</span>' \
-                   '</div>' \
-                   '<div class="ex-hover"><a href="#verMais"></a><div></div></div>' \
-                   '</li>'
+        #     content += """
+        #                <li class="ex-ar ver-mais">
+        #                <div class="dash-border">
+        #                <strong class="titulo-dash">Qualidade do Ar</strong>
+        #                <div class="dash-img o2quali"></div>
+        #                <b class="bullet-verde em2">%(qualidade_ar)s</b>
+        #                </div>
+        #                <div class="ex-hover"><a href="#verMais"></a><div></div></div>
+        #                </li>
+        #                """ % {'qualidade_ar': qualidade_ar}
+        # except:
+        #     content += self.getContentExcept(class_li='ex-ar', text_div='Qualidade do Ar')
 
-        content += '<li class="ex-publico ver-mais">' \
-                   '<div class="dash-border">' \
-                   '<strong class="titulo-dash">Transporte Público</strong>' \
-                   '<div class="dash-img"></div>' \
-                   'Busca de itinerários' \
-                   '</div>' \
-                   '<div class="ex-hover"><a href="#verMais"></a><div></div></div>' \
-                   '</li>'
-        try:
-            self.soup = BeautifulSoup(self.getContent(url_direct.get('transito-agora')))
+        # content += """
+        #            <li class="ex-aero ver-mais">
+        #            <div class="dash-border">
+        #            <strong class="titulo-dash">Aeroportos</strong>
+        #            <div class="dash-img"></div>
+        #            <span id="aero-status">Consulte situação</span>
+        #            </div>
+        #            <div class="ex-hover"><a href="#verMais"></a><div></div></div>
+        #            </li>
+        #            """
 
-            total_km_lentidao = self.soup.find('div', {"id": 'lentidao'}).string
+        # content += """
+        #            <li class="ex-publico ver-mais">
+        #            <div class="dash-border">
+        #            <strong class="titulo-dash">Transporte Público</strong>
+        #            <div class="dash-img"></div>
+        #            Busca de itinerários
+        #            </div>
+        #            <div class="ex-hover"><a href="#verMais"></a><div></div></div>
+        #            </li>
+        #            """
+        # try:
+        #     self.soup = BeautifulSoup(self.getContent(url_direct.get('transito-agora')))
 
-            content += '<li class="ex-transito ver-mais">' \
-                       '<div class="dash-border">' \
-                       '<strong class="titulo-dash">Trânsito</strong>' \
-                       '<div class="dash-img semaforo"></div>' \
-                       '<div id="call-trans" class="dash" style="display: block;">' \
-                       '<div class="tran-total">' \
-                       '<div class="ttotal"><span class="amarelo em14 bold"> ' + total_km_lentidao + 'km</span><br>' \
-                       '<small class="bold em09">de lentidão</small></div>' \
-                       '<span class="kmStatus verde"><i class="ball-status verde"></i>livre</span></div>' \
-                       '</div></div>' \
-                       '<div class="ex-hover"><a href="#verMais"></a><div></div></div>' \
-                       '</li>'
-        except:
-            content += self.getContentExcept(class_li='ex-transito', text_div='Qualidade do Ar')
+        #     total_km_lentidao = self.soup.find('div', {"id": 'lentidao'}).string
 
-        try:
-            url_rodizio = url_direct.get('dash-rodizio')
-            placas_final_url_return = urllib.urlopen(url_rodizio)
-            data_result = json.loads(placas_final_url_return.read())
-            placa = data_result['Rotation']['desc']
+        #     if total_km_lentidao <= 45:
+        #         status_transito_sp = 'livre'
+        #     elif total_km_lentidao >= 45 and total_km_lentidao <= 90:
+        #         status_transito_sp = 'moderado'
+        #     elif total_km_lentidao > 90:
+        #         status_transito_sp = 'ruim'
 
-            content += '<li class="ex-rodizio ver-mais">' \
-                       '<div class="dash-border">' \
-                       '<strong class="titulo-dash">Rodízio</strong>' \
-                       '<div class="dash-img"></div>' \
-                       '<ul class="rod-3col">' \
-                       '<li><span class="em08 bold"><small>Placas final:</small></span><br><span class="azul-pq em15">' + str(placa) + '</span></li:' \
-                       '</ul></div>' \
-                       '<div class="ex-hover"><a href="#verMais"></a><div></div></div>' \
-                       '</li>'
-        except:
-            content += self.getContentExcept(class_li='ex-rodizio', text_div='Qualidade do Ar')
+        #     content += """
+        #                <li class="ex-transito ver-mais">
+        #                <div class="dash-border">
+        #                <strong class="titulo-dash">Trânsito</strong>
+        #                <div class="dash-img semaforo"></div>
+        #                <div id="call-trans" class="dash" style="display: block;">
+        #                <div class="tran-total">
+        #                <div class="ttotal"><span class="amarelo em14 bold">%(total_km_lentidao)skm</span><br>
+        #                <small class="bold em09">de lentidão</small></div>
+        #                <span class="kmStatus verde"><i class="ball-status verde"></i>%(status_transito_sp)s</span></div>
+        #                </div></div>
+        #                <div class="ex-hover"><a href="#verMais"></a><div></div></div>
+        #                </li>
+        #                """ % {'total_km_lentidao': total_km_lentidao, 'status_transito_sp': status_transito_sp}
+        # except:
+        #     content += self.getContentExcept(class_li='ex-transito', text_div='Trânsito')
+
+        # try:
+        #     url_rodizio = url_direct.get('dash-rodizio')
+        #     placas_final_url_return = urllib.urlopen(url_rodizio)
+        #     data_result = json.loads(placas_final_url_return.read())
+        #     placa = data_result['Rotation']['desc']
+
+        #     content += """
+        #                <li class="ex-rodizio ver-mais">
+        #                <div class="dash-border">
+        #                <strong class="titulo-dash">Rodízio</strong>
+        #                <div class="dash-img"></div>
+        #                <ul class="rod-3col">
+        #                <li><span class="em08 bold"><small>Placas final:</small></span><br><span class="azul-pq em15">%(placa)s</span></li>
+        #                </ul></div>
+        #                <div class="ex-hover"><a href="#verMais"></a><div></div></div>
+        #                </li>
+        #                """ % {'placa': str(placa)}
+        # except:
+        #     content += self.getContentExcept(class_li='ex-rodizio', text_div='Rodizio')
 
         return content
 
@@ -270,10 +291,13 @@ class SpAgora(BrowserView):
         """
         return content to except in case error
         """
-        content = '<li class="' + class_li + '">' \
-                  '<div class="dash-border"><strong class="titulo-dash">' + text_div + '</strong>' \
-                  '<br>Não foi possível carregar informações</div>' \
-                  '</li>'
+        content = """
+                  erro
+                  """
+        # content = '<li class="' + class_li + '">' \
+        #           '<div class="dash-border"><strong class="titulo-dash">' + text_div + '</strong>' \
+        #           '<br>Não foi possível carregar informações</div>' \
+        #           '</li>'
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
@@ -647,7 +671,8 @@ class SpAgora(BrowserView):
                       <li>
                       <div class="status"><i class="verde"></i></div>
                       <div class="mini Mbus"></div>
-                      <span id="spT-twitter"></span>
+                      <span id="spT-twitter">Não saia de casa sem antes consultar qual o melhor trajetos.
+                      Acesse: <a href="http://www.sptrans.co" target="_blank">Mais</a></span>
                       </li>
                       <li>
                       <div class="status"><i class="amarelo"></i></div>
@@ -692,7 +717,7 @@ class SpAgora(BrowserView):
         content = ''
         if len(linhas_com_problemas) > 0:
             for x in linhas_com_problemas.values():
-                content += '<p>Linha:%s - Status: %s' % (x['linha'], x['situacao'])
+                content += '<p>Linha:%s - Status: %s </p>' % (x['linha'], x['situacao'])
         else:
             content += 'Circulação normal'
         return content
@@ -719,7 +744,7 @@ class SpAgora(BrowserView):
         content = ''
         if len(linhas_com_problemas) > 0:
             for x in linhas_com_problemas.values():
-                content += '<p>Linha:%s - Status: %s' % (x['linha'], x['situacao'])
+                content += '<p>Linha:%s - Status: %s </p>' % (x['linha'], x['situacao'])
         else:
             content += 'Circulação normal'
 
