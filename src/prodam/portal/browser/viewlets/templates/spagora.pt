@@ -11,8 +11,14 @@
   <a href="/mapa" tal:attributes="href string:${context/portal_url}/mapa"><div id="mapa-serv"></div></a>
 
   <div class="tweets" tal:condition="python:spagora.getTweets()">
-    <tal:tweets define="tweets python:spagora.getTweets()" repeat="tweet tweets">
-      <span tal:replace="structure tweet" />
-    </tal:tweets>
+    <h4><a href="https://twitter.com/" target="_blank" class="labelsp">Alertas
+         <span>@saopaulo_agora </span>
+      </a>
+    </h4>
+    <div class="tweetlist">
+      <tal:tweets define="tweets python:spagora.getTweets()" repeat="tweet tweets">
+        <span tal:replace="structure tweet" />
+      </tal:tweets>
+    </div>
   </div>
 </aside>
