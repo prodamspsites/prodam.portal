@@ -69,6 +69,26 @@ class SpAgora(BrowserView):
             proxy_handler = ProxyHandler({'http': proxy, })
             self._opener = build_opener(cookie_handler, proxy_handler)
 
+    def showDetails(self):
+        try:
+            requested = self.request.form['id']
+            text = ''
+            if requested == "ex-clima":
+                text = self.getWeatherSp()
+            if requested == "ex-ar":
+                text = self.getAirQuality()
+            if requested == "ex-aero":
+                text = self.getAirportFlights()
+            if requested == "ex-publico":
+                text = self.getMeansOfTransportation()
+            if requested == "ex-transito":
+                text = self.getTraffic()
+            if requested == "ex-rodizio":
+                text = self.getCarRotation()
+        except:
+            text = False
+        return text
+
     def getContent(self, url, data=None, referer=None):
         """
         return content cookie html in response decode utf-8 to BeautifulSoup
@@ -496,39 +516,39 @@ class SpAgora(BrowserView):
 
     @ram.cache(lambda *args: time() // (60 * 15))
     def getAirportFlights(self):
-        # try:
-        soup = BeautifulSoup(self.getContent(url_direct.get('dash-aero-situacao')))
-        retorno = {}
-        for aeroporto in self.list_aeport:
-            aeroporto_congonhas = soup.find(id=aeroporto)
-            situacao_aeroporto = self.situation_aeport[aeroporto_congonhas['class'][0]]
-            retorno[aeroporto] = {'aeroporto': self.list_aeport[aeroporto]['local'], 'status': situacao_aeroporto}
+        try:
+            soup = BeautifulSoup(self.getContent(url_direct.get('dash-aero-situacao')))
+            retorno = {}
+            for aeroporto in self.list_aeport:
+                aeroporto_congonhas = soup.find(id=aeroporto)
+                situacao_aeroporto = self.situation_aeport[aeroporto_congonhas['class'][0]]
+                retorno[aeroporto] = {'aeroporto': self.list_aeport[aeroporto]['local'], 'status': situacao_aeroporto}
 
-        content = """
-                  <div id="call-aero" class="dash" style="display: block;">
-                  <h3>Aeroportos <em class="em08 fonte">Fonte: Infraero e GRU</em></h3>
-                  <button class="fechar-dash">X</button>
-                  <ul id="aero-lista">
-                  """
-        html = ""
-        for aeroport in retorno:
-            if 'sbsp' == str(aeroport):
-                html += """
-                        <br>
-                        <span class="txt-right">Vôos atrasados:</span>
-                        <span class="txt-left azul-pq">7</span></small>
-                        <small><span class="txt-right">Vôos cancelados:</span>
-                        <span class="txt-left azul-pq">2</span></small>
-                        """
+            content = """
+                      <div id="call-aero" class="dash" style="display: block;">
+                      <h3>Aeroportos <em class="em08 fonte">Fonte: Infraero e GRU</em></h3>
+                      <button class="fechar-dash">X</button>
+                      <ul id="aero-lista">
+                      """
+            html = ""
+            for aeroport in retorno:
+                if 'sbsp' == str(aeroport):
+                    html += """
+                            <br>
+                            <span class="txt-right">Vôos atrasados:</span>
+                            <span class="txt-left azul-pq">7</span></small>
+                            <small><span class="txt-right">Vôos cancelados:</span>
+                            <span class="txt-left azul-pq">2</span></small>
+                            """
 
-            content += """
-                       <li class="cgh"><strong class="aeronome">%(aeroporto)s</strong><small>
-                       <span class="verde"><b class="ball-status verde"></b>%(status)s</span></li>
-                       %(html)s
-                       """ % {'aeroporto': retorno[aeroport]['aeroporto'], 'status': retorno[aeroport]['status'], 'html': html}
-        content += "</ul></div>"
-        # except:
-        #     content += "Não foi possivel carregar o conteudo"
+                content += """
+                           <li class="cgh"><strong class="aeronome">%(aeroporto)s</strong><small>
+                           <span class="verde"><b class="ball-status verde"></b>%(status)s</span></li>
+                           %(html)s
+                           """ % {'aeroporto': retorno[aeroport]['aeroporto'], 'status': retorno[aeroport]['status'], 'html': html}
+            content += "</ul></div>"
+        except:
+            content = "Não foi possivel carregar o conteudo"
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))

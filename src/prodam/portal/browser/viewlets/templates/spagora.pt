@@ -8,7 +8,7 @@
     <tal:servicos replace="structure python:spagora.getCapa()"></tal:servicos>
   </ul>
 
-  <a href="/portal/mapa"><div id="mapa-serv"></div></a>
+  <a href="/mapa" tal:attributes="href string:${context/portal_url}/mapa"><div id="mapa-serv"></div></a>
 
   <div class="tweets" tal:condition="python:spagora.getTweets()">
     <tal:tweets define="tweets python:spagora.getTweets()" repeat="tweet tweets">
