@@ -219,11 +219,10 @@ class SpAgora(BrowserView):
                        <div class="dash-border">
                        <strong class="titulo-dash">Trânsito</strong>
                        <div class="dash-img semaforo"></div>
-                       <div id="call-trans" class="dash" style="display: block;">
                        <div class="tran-total">
                        <div class="ttotal"><span class="amarelo em14 bold">%(total_km_lentidao)skm</span><br>
                        <small class="bold em09">de lentidão</small></div>
-                       <span class="kmStatus verde"><i class="ball-status verde"></i>%(status_transito_sp)s</span></div>
+                       <span class="kmStatus verde"><i class="ball-status verde"></i>%(status_transito_sp)s</span>
                        </div></div>
                        <div class="ex-hover"><a href="#verMais"></a><div></div></div>
                        </li>
@@ -551,7 +550,7 @@ class SpAgora(BrowserView):
                       <button class="fechar-dash">X</button>
                       <ul id="aero-lista">
                       """
-            print self.AeroportoVooSatus
+            print self.AeroportoVooSatus()
             html = ""
             for aeroport in retorno:
                 if 'sbsp' == str(aeroport):
@@ -647,8 +646,7 @@ class SpAgora(BrowserView):
                       <li id="kmSul" class="amarelo">%(sul)s</li>
                       </ul>
                       </div>
-                      <div class="bloco-linha"><a href="http://www.cetsp.com.br/transito-agora/mapa-de-fluidez.aspx" class="azul-pq" target="_blank">Mapa de fluidez</a> <a href="http://www.cetsp.com.br/transito-agora/transito-nas-principais-vias.aspx" target="_blank" class="azul-pq">Lentidão por corredor</a></div>
-                      </div>
+                      <div class="bloco-linha"><a href="http://www.cetsp.com.br/transito-agora/mapa-de-fluidez.aspx" class="azul-pq" target="_blank">Mapa de fluidez</a> <a href="http://www.cetsp.com.br/transito-agora/transito-nas-principais-vias.aspx" target="_blank" class="azul-pq">Lentidão por corredor</a></div></div>
                       """ % {'oeste': km_lentidao[0][:5], 'norte': km_lentidao[1][:5], 'leste': km_lentidao[2][:5], 'sul': km_lentidao[3][:5], 'lentidao': km_lentidao[4]}
         except:
             content = self.getContentExcept(class_li='ex-transito', text_div='Transito')
@@ -717,7 +715,7 @@ class SpAgora(BrowserView):
         content = ''
         if len(linhas_com_problemas) > 0:
             for x in linhas_com_problemas.values():
-                content += '<p>Linha:%s - Status: %s </p>' % (x['linha'], x['situacao'])
+                content += '<p>Linha: %s - %s </p>' % (x['linha'], x['situacao'])
         else:
             content += 'Circulação normal'
         return content
