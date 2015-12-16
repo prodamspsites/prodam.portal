@@ -23,7 +23,7 @@ except ImportError:
 
 
 url_direct = {'pref-sp': 'http://www.capital.sp.gov.br/portal/',
-              'transp-cptm': "http://www.cptm.sp.gov.br/Pages/Home1.aspx",
+              'transp-cptm': "http://www.cptm.sp.gov.br/Pages/Home.aspx",
               'transp-metro': "http://www.metro.sp.gov.br/Sistemas/direto-do-metro-via4/diretodoMetroHome.aspx",
               'transito-agora': "http://cetsp1.cetsp.com.br/monitransmapa/agora/",
               'qualidade-oxigenio': "http://sistemasinter.cetesb.sp.gov.br/Ar/php/ar_resumo_hora.php",
@@ -556,19 +556,19 @@ class SpAgora(BrowserView):
             for aeroport in retorno:
                 if 'sbsp' == str(aeroport):
                     content += """
-                               <li class="cgh"><strong class="aeronome">%(aeroporto)s</strong><small>
+                               <li class="%(class)s"><strong class="aeronome">%(aeroporto)s</strong><small>
                                <span class="verde"><b class="ball-status verde"></b>%(status)s</span></li>
                                <br>
                                <span class="txt-right">Vôos atrasados:</span>
                                <span class="txt-left azul-pq">7</span></small>
                                <small><span class="txt-right">Vôos cancelados:</span>
-                               <span class="txt-left azul-pq">2</span></small>
-                               """ % {'aeroporto': retorno[aeroport]['aeroporto'], 'status': retorno[aeroport]['status'], 'html': html}
+                               <span class="txt-left azul-pq">2</span></small></li>
+                               """ % {'aeroporto': retorno[aeroport]['aeroporto'], 'status': retorno[aeroport]['status'], 'html': html, 'class': aeroport['codigo'].lower()}
                 else:
                     content += """
-                               <li class="cgh"><strong class="aeronome">%(aeroporto)s</strong><small>
+                               <li class="%(class)s"><strong class="aeronome">%(aeroporto)s</strong><small>
                                <span class="verde"><b class="ball-status verde"></b>%(status)s</span></li>
-                               """ % {'aeroporto': retorno[aeroport]['aeroporto'], 'status': retorno[aeroport]['status'], 'html': html}
+                               """ % {'aeroporto': retorno[aeroport]['aeroporto'], 'status': retorno[aeroport]['status'], 'html': html, 'class': aeroport['codigo'].lower()}
 
             content += "</ul></div>"
         except:
@@ -649,7 +649,7 @@ class SpAgora(BrowserView):
                       </div>
                       <div class="bloco-linha"><a href="http://www.cetsp.com.br/transito-agora/mapa-de-fluidez.aspx" class="azul-pq" target="_blank">Mapa de fluidez</a> <a href="http://www.cetsp.com.br/transito-agora/transito-nas-principais-vias.aspx" target="_blank" class="azul-pq">Lentidão por corredor</a></div>
                       </div>
-                      """ % {'oeste': km_lentidao[0], 'norte': km_lentidao[1], 'leste': km_lentidao[2], 'sul': km_lentidao[3], 'lentidao': km_lentidao[4]}
+                      """ % {'oeste': km_lentidao[0][:5], 'norte': km_lentidao[1][:5], 'leste': km_lentidao[2][:5], 'sul': km_lentidao[3][:5], 'lentidao': km_lentidao[4]}
         except:
             content = self.getContentExcept(class_li='ex-transito', text_div='Transito')
         return content
