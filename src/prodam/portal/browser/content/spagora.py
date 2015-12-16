@@ -247,7 +247,7 @@ class SpAgora(BrowserView):
         #                </ul></div>
         #                <div class="ex-hover"><a href="#verMais"></a><div></div></div>
         #                </li>
-        #                """ % {'placa': str(placa)}
+        #                """ % {'placa': placa}
         # except:
         #     content += self.getContentExcept(class_li='ex-rodizio', text_div='Rodizio')
 
