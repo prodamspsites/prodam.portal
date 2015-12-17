@@ -213,15 +213,7 @@ class SpAgora(BrowserView):
 
             total_km_lentidao = self.soup.find('div', {"id": 'lentidao'}).string
 
-            if int(total_km_lentidao) <= 45:
-                status_transito_sp = 'livre'
-                css = 'verde'
-            elif int(total_km_lentidao) >= 45 and int(total_km_lentidao) <= 90:
-                status_transito_sp = 'regular'
-                css = 'amarelo'
-            elif int(total_km_lentidao) > 90:
-                css = 'vermelho'
-                status_transito_sp = 'ruim'
+            result = self.getTrafficCount(total_km_lentidao)
 
             content += """
                        <li class="ex-transito ver-mais">
@@ -235,7 +227,7 @@ class SpAgora(BrowserView):
                        </div></div>
                        <div class="ex-hover"><a href="#verMais"></a><div></div></div>
                        </li>
-                       """ % {'total_km_lentidao': total_km_lentidao, 'status_transito_sp': status_transito_sp, 'css': css}
+                       """ % {'total_km_lentidao': total_km_lentidao, 'status_transito_sp': result[1], 'css': result[0]}
         except:
             content += self.getContentExcept(class_li='ex-transito', text_div='Trânsito')
 
@@ -658,13 +650,15 @@ class SpAgora(BrowserView):
             for zonas_sp in lista_zonas_sp:
                 km_lentidao.append(self.soup.find('div', {"id": zonas_sp}).string)
 
+            result = self.getTrafficCount(70)
+            print type(result)
             content = """
                       <div id="call-trans" class="dash" style="display: block;">
                       <h3>Trânsito</h3>
                       <button class="fechar-dash">X</button>
                       <div class="tran-total">
                       <div class="ttotal"><span class="amarelo em14 bold">%(lentidao)s km</span><br><small class="bold em09">de lentidão</small></div>
-                      <div class="ttotal vermelho"><br><span class="vermelho bolinha"></span>ruim</div>
+                      <div class="ttotal %(css)s"><br><span class="%(css)s bolinha"></span>%(status_transito_sp)s</div>
                       </div>
                       <hr class="pont">
                       <div id="sp-mapa">
@@ -676,10 +670,26 @@ class SpAgora(BrowserView):
                       </ul>
                       </div>
                       <div class="bloco-linha"><a href="http://www.cetsp.com.br/transito-agora/mapa-de-fluidez.aspx" class="azul-pq" target="_blank">Mapa de fluidez</a> <a href="http://www.cetsp.com.br/transito-agora/transito-nas-principais-vias.aspx" target="_blank" class="azul-pq">Lentidão por corredor</a></div></div>
-                      """ % {'oeste': km_lentidao[0][:5], 'norte': km_lentidao[1][:5], 'leste': km_lentidao[2][:5], 'sul': km_lentidao[3][:5], 'lentidao': km_lentidao[4]}
+                      """ % {'oeste': km_lentidao[0][:5], 'norte': km_lentidao[1][:5], 'leste': km_lentidao[2][:5], 'sul': km_lentidao[3][:5], 'lentidao': km_lentidao[4], 'css': result[0], 'status_transito_sp': result[1]}
         except:
             content = self.getContentExcept(class_li='ex-transito', text_div='Transito')
         return content
+
+    @ram.cache(lambda *args: time() // (60 * 15))
+    def getTrafficCount(self, total_km_lentidao):
+        traffic_count = []
+        if int(total_km_lentidao) <= 45:
+            status_transito_sp = 'livre'
+            css = 'verde'
+        elif int(total_km_lentidao) >= 45 and int(total_km_lentidao) <= 90:
+            status_transito_sp = 'regular'
+            css = 'amarelo'
+        elif int(total_km_lentidao) > 90:
+            css = 'vermelho'
+            status_transito_sp = 'ruim'
+        traffic_count.append(css)
+        traffic_count.append(status_transito_sp)
+        return traffic_count
 
     """
     ##########################################################################
