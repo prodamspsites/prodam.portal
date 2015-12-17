@@ -1,0 +1,71 @@
+
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="prodam.portal">
+<head>
+<meta charset="utf-8">
+<title>Portal da Prefeitura</title>
+
+<!--FONTS-->
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+
+<!--JS-->
+<script src="++resource++prodam.portal/admin/js/jquery.1.11.3.min.js"></script>
+<script src="++resource++prodam.portal/admin/js/funcoes.js"></script>
+
+<!--CSS-->
+<link href='++resource++prodam.portal/admin/css/estilos.css' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+<div class="divHeader">
+    <h1>Gerenciador de funcionalidades</h1>
+    <p class="breadcrumb"><a href="http://www.capital.sp.gov.br/" tal:attributes="href string:${context/portal_url}" title="Portal da Prefeitura">Portal da Prefeitura</a> &gt; <a href="#" tal:attributes="href string:${context/portal_url}/admin" title="Gerenciador de funcionalidades">Gerenciador de funcionalidades</a> &gt; <a href="#" tal:attributes="href string:${context/portal_url}/admin-spagora" title="São Paulo Agora">São Paulo Agora</a> &gt; Editar painel</p>
+</div>
+<div class="contentGeral">
+
+    <div class="divSidebar">
+        <ul class="menuNav">
+            <li><a href="#" tal:attributes="href string:${context/portal_url}/admin-spagora" title="SÃO PAULO AGORA" class="active"><span class="lnr lnr-sync"></span><p>SÃO PAULO AGORA</p></a></li>
+            <li><a href="#" tal:attributes="href string:${context/portal_url}/admin-alertas" title="ALERTAS"><span class="lnr lnr-warning"></span><p>ALERTAS</p></a></li>
+            <li><a href="#" title="GALERIA DE ÍCONES"><span class="lnr lnr-picture"></span><p>GALERIA DE ÍCONES</p></a></li>
+        </ul>
+    </div>
+    <div class="contentRight">
+        <h2>São Paulo Agora</h2>
+
+        <ul class="menuAbas">
+            <li class="active"><a href="#" tal:attributes="href string:${context/portal_url}/admin-spagora-editar-painel" title="Editar painel" class="addIcone">Editar painel</a></li>
+        </ul>
+        <div class="divPainel">
+            <form class="formPainel">
+                <fieldset>
+                    <legend>Painel de edição</legend>
+
+                    <label>
+                        <span>Título</span>
+                        <input type="text" class="inputText" />
+                    </label>
+                    <label class="textCheck">
+                        <span>Texto</span>
+                         <input type="checkbox" name="edicao" value="Ativar edição de texto" class="ativarEdicao" />Ativar edição de texto
+                    </label>
+                    <div class="richText">
+                        <img src="++resource++prodam.portal/admin/img/richTextMarcao.jpg" width="431" height="172" />
+                    </div>
+                    <input type="button" class="btnEnviar" value="Publicar"  />
+                    <input type="button" class="btnEnviar" value="Detalhar"  />
+                    <input type="button" class="btnCancelar" value="Cancelar" />
+                </fieldset>
+            </form>
+            <img src="++resource++prodam.portal/admin/img/painelAtivo_5-Transito.jpg" width="258" height="210" alt="Imagem 5" class="edicaoImagem" />
+        </div>
+    </div>
+</div>
+</body>
+</html>

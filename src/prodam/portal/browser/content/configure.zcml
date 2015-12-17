@@ -40,6 +40,58 @@
       />
 
   <browser:page
+      name="admin"
+      for="*"
+      permission="zope2.View"
+      class=".admin.Admin"
+      template="templates/admin/admin.pt"
+      layer="prodam.portal.interfaces.IProdamPortal"
+      />
+
+  <browser:page
+      name="admin-alertas"
+      for="*"
+      permission="zope2.View"
+      class=".admin.Admin"
+      template="templates/admin/alertas.pt"
+      layer="prodam.portal.interfaces.IProdamPortal"
+      />
+
+  <browser:page
+      name="criar-alertas"
+      for="*"
+      permission="zope2.View"
+      class=".admin.createAlertas"
+      layer="prodam.portal.interfaces.IProdamPortal"
+      />
+
+    <browser:page
+      name="admin-spagora"
+      for="*"
+      permission="zope2.View"
+      class=".admin.SPAgora"
+      template="templates/admin/spagora.pt"
+      layer="prodam.portal.interfaces.IProdamPortal"
+      />
+
+    <browser:page
+      name="admin-spagora-editar-painel"
+      for="*"
+      permission="zope2.View"
+      class=".admin.SPAgora"
+      template="templates/admin/spagora_editar_painel.pt"
+      layer="prodam.portal.interfaces.IProdamPortal"
+      />
+
+    <browser:page
+      name="lista-alertas"
+      for="*"
+      permission="zope2.View"
+      class=".admin.ListaAlertas"
+      layer="prodam.portal.interfaces.IProdamPortal"
+      />
+
+  <browser:page
       name="chamadaView"
       for="*"
       class=".chamada.chamadaView"
