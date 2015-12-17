@@ -34,13 +34,13 @@
     });
 
     $(document).on('click', '#ir', function(e) {
-      var tweetSelecionado = $('.tweetlist > a.selecionado');
+      var tweetSelecionado = $('.tweetlist > div > a.selecionado');
       if(tweetSelecionado.next().length){
           tweetSelecionado.removeClass('selecionado').addClass('tweet-oculto').next().addClass('selecionado').removeClass('tweet-oculto');
         }
     })
     $(document).on('click', '#voltar', function(e) {
-      var tweetSelecionado = $('.tweetlist > a.selecionado');
+      var tweetSelecionado = $('.tweetlist > div > a.selecionado');
       if(tweetSelecionado.prev().length){
           tweetSelecionado.removeClass('selecionado').addClass('tweet-oculto').prev().addClass('selecionado').removeClass('tweet-oculto');
         }
