@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import urllib
 import json
+import socket
 from Products.Five import BrowserView
 from StringIO import StringIO
 from bs4 import BeautifulSoup
@@ -109,7 +110,7 @@ class SpAgora(BrowserView):
         response = None
         while True:
             try:
-                handle = self._opener.open(req)
+                handle = self._opener.open(req, timeout=1)
                 if handle.info().get('Content-Encoding') == 'gzip':
                     data = handle.read()
                     buf = StringIO(data)
@@ -121,6 +122,11 @@ class SpAgora(BrowserView):
             except HTTPError, e:
                 retries = retries + 1
                 print "%d Tentativas na url: %s, erro: %s" % (retries, url, e.getcode())
+                if retries > self.max_retries:
+                    break
+            except socket.timeout:
+                retries = retries + 1
+                print "%d Time out: %s, erro: %s" % (retries, url, e.getcode())
                 if retries > self.max_retries:
                     break
 
@@ -207,15 +213,7 @@ class SpAgora(BrowserView):
 
             total_km_lentidao = self.soup.find('div', {"id": 'lentidao'}).string
 
-            if total_km_lentidao <= 45:
-                status_transito_sp = 'livre'
-                css = 'verde'
-            elif total_km_lentidao >= 45 and total_km_lentidao <= 90:
-                status_transito_sp = 'moderado'
-                css = 'amarelo'
-            elif total_km_lentidao > 90:
-                css = 'vermelho'
-                status_transito_sp = 'ruim'
+            result = self.getTrafficCount(total_km_lentidao)
 
             content += """
                        <li class="ex-transito ver-mais">
@@ -229,7 +227,7 @@ class SpAgora(BrowserView):
                        </div></div>
                        <div class="ex-hover"><a href="#verMais"></a><div></div></div>
                        </li>
-                       """ % {'total_km_lentidao': total_km_lentidao, 'status_transito_sp': status_transito_sp, 'css': css}
+                       """ % {'total_km_lentidao': total_km_lentidao, 'status_transito_sp': result[1], 'css': result[0]}
         except:
             content += self.getContentExcept(class_li='ex-transito', text_div='Trânsito')
 
@@ -385,39 +383,27 @@ class SpAgora(BrowserView):
     @ram.cache(lambda *args: time() // (60 * 15))
     def getAirQuality(self):
         try:
-            qualidade_ar = self.getQualidadeAr()
-            content = qualidade_ar
+            content = """
+                      <div id="call-ar" class="dash" style="display: block;">
+                      <h3>Qualidade do Ar <em class="fonte">Fonte: CETESB</em></h3>
+                      <button class="fechar-dash">X</button>
+                      <div class="O2"></div>
+                      <div id="o2mapa">
+                      <div class="kineticjs-content" role="presentation" style="position: relative; display: inline-block; width: 300px; height: 160px;">
+                      <canvas width="300" height="160" style="padding: 0px; margin: 0px; border: 0px; position: absolute; top: 0px; left: 0px; width: 300px; height: 160px; background: transparent;"></canvas>
+                      </div>
+                      </div>
+                      <ol id="dica">
+                      <li><i></i> Pessoas com doenças respiratórias podem apresentar sintomas como tosse seca e cansaço</li>
+                      <li><i></i>Pessoas com doenças cardíacas ou pulmonares, procurem reduzir esforço pesado ao ar livre.</li>
+                      <li><i></i> Reduzir o esforço físico pesado ao ar livre, principalmente pessoas com doenças cardíacas ou pulmonares, idosos e crianças.</li>
+                      <li><i></i> População em geral pode apresentar sintomas como ardor nos olhos, nariz e garganta, tosse seca e cansaço.</li>
+                      </ol>
+                      </div>
+                      """
         except:
             content = self.getContentExcept(class_li='ex-ar', text_div='Qualidade do Ar')
         return content
-
-    @ram.cache(lambda *args: time() // (60 * 15))
-    def getQualidadeAr(self):
-        """
-        return: content qualidade do ar
-        """
-        self.soup = BeautifulSoup(self.getContent(url_direct.get("qualidade-oxigenio")))
-        tips = self.getEfeitoSaude()
-
-        quality_ar_html = '<div id="call-ar" class="dash" style="display: block;">' \
-                          '<h3>' \
-                          'Qualidade do Ar ' \
-                          '<em class="fonte">Fonte: CETESB</em>' \
-                          '</h3> ' \
-                          '<button class="fechar-dash">X</button>' \
-                          '<div class="O2"></div>' \
-                          '<div id="o2mapa">' \
-                          '<div class="kineticjs-content" role="presentation" style="position: relative; display: inline-block; width: 300px; height: 160px;">' \
-                          '<canvas width="300" height="160" style="padding: 0px; margin: 0px; border: 0px; position: absolute; top: 0px; left: 0px; ' \
-                          'width: 300px; height: 160px; background: transparent;"></canvas>' \
-                          '</div>' \
-                          '</div>' \
-                          '<ol id="dica">'
-        for tip in tips:
-            quality_ar_html += '<li>' \
-                               '<i></i>' + tip['quality'] + '</li>'
-        quality_ar_html += '</ol> </div>'
-        return quality_ar_html
 
     @ram.cache(lambda *args: time() // (60 * 15))
     def getEfeitoSaude(self):
@@ -537,42 +523,57 @@ class SpAgora(BrowserView):
                         'pontoVermelho': 'Fechado operações',
                         'pontoBranco': 'Indisponivel no momento'}
 
+    # @ram.cache(lambda *args: time() // (60 * 15))
+    # def getAirportFlights(self):
+    #     try:
+    #         soup = BeautifulSoup(self.getContent(url_direct.get('dash-aero-situacao')))
+    #         retorno = {}
+    #         for aeroporto in self.list_aeport:
+    #             aeroporto_congonhas = soup.find(id=aeroporto)
+    #             situacao_aeroporto = self.situation_aeport[aeroporto_congonhas['class'][0]]
+    #             retorno[aeroporto] = {'aeroporto': self.list_aeport[aeroporto]['local'], 'status': situacao_aeroporto}
+
+    #         content = """
+    #                   <div id="call-aero" class="dash" style="display: block;">
+    #                   <h3>Aeroportos <em class="em08 fonte">Fonte: Infraero e GRU</em></h3>
+    #                   <button class="fechar-dash">X</button>
+    #                   <ul id="aero-lista">
+    #                   """
+    #         html = ""
+    #         for aeroport in retorno:
+    #             if 'sbsp' == str(aeroport):
+    #                 statusVooCongonhas = self.AeroportoVooSatus()
+    #                 content += """
+    #                            <li class="%(class)s"><strong class="aeronome">%(aeroporto)s</strong><small>
+    #                            <span class="verde"><b class="ball-status verde"></b>%(status)s</span>
+    #                            %(statusVooCongonhas)s
+    #                            </li>
+    #                            """ % {'aeroporto': retorno[aeroport]['aeroporto'], 'status': retorno[aeroport]['status'], 'html': html, 'class': aeroport['codigo'].lower(), 'statusVooCongonhas': statusVooCongonhas}
+    #             else:
+    #                 content += """
+    #                            <li class="%(class)s"><strong class="aeronome">%(aeroporto)s</strong><small>
+    #                            <span class="verde"><b class="ball-status verde"></b>%(status)s</span></li>
+    #                            """ % {'aeroporto': retorno[aeroport]['aeroporto'], 'status': retorno[aeroport]['status'], 'html': html, 'class': aeroport['codigo'].lower()}
+
+    #         content += "</ul></div>"
+    #     except:
+    #         content = self.getContentExcept(class_li='ex-aeroportos', text_div='Aeroportos')
+    #     return content
+
     @ram.cache(lambda *args: time() // (60 * 15))
     def getAirportFlights(self):
-        try:
-            soup = BeautifulSoup(self.getContent(url_direct.get('dash-aero-situacao')))
-            retorno = {}
-            for aeroporto in self.list_aeport:
-                aeroporto_congonhas = soup.find(id=aeroporto)
-                situacao_aeroporto = self.situation_aeport[aeroporto_congonhas['class'][0]]
-                retorno[aeroporto] = {'aeroporto': self.list_aeport[aeroporto]['local'], 'status': situacao_aeroporto}
-
-            content = """
-                      <div id="call-aero" class="dash" style="display: block;">
-                      <h3>Aeroportos <em class="em08 fonte">Fonte: Infraero e GRU</em></h3>
-                      <button class="fechar-dash">X</button>
-                      <ul id="aero-lista">
-                      """
-            print self.AeroportoVooSatus()
-            html = ""
-            for aeroport in retorno:
-                if 'sbsp' == str(aeroport):
-                    statusVooCongonhas = self.AeroportoVooSatus()
-                    content += """
-                               <li class="%(class)s"><strong class="aeronome">%(aeroporto)s</strong><small>
-                               <span class="verde"><b class="ball-status verde"></b>%(status)s</span>
-                               %(statusVooCongonhas)s
-                               </li>
-                               """ % {'aeroporto': retorno[aeroport]['aeroporto'], 'status': retorno[aeroport]['status'], 'html': html, 'class': aeroport['codigo'].lower(), 'statusVooCongonhas': statusVooCongonhas}
-                else:
-                    content += """
-                               <li class="%(class)s"><strong class="aeronome">%(aeroporto)s</strong><small>
-                               <span class="verde"><b class="ball-status verde"></b>%(status)s</span></li>
-                               """ % {'aeroporto': retorno[aeroport]['aeroporto'], 'status': retorno[aeroport]['status'], 'html': html, 'class': aeroport['codigo'].lower()}
-
-            content += "</ul></div>"
-        except:
-            content = self.getContentExcept(class_li='ex-aeroportos', text_div='Aeroportos')
+        content = """
+                  <div id="call-aero" class="dash" style="display: block;">
+                  <h3>Aeroportos <em class="em08 fonte">Fonte: Infraero e GRU</em></h3>
+                  <button class="fechar-dash">X</button>
+                  <ul id="aero-lista">
+                  <li class="cgh"><strong class="aeronome"><abbr>CGH</abbr> - Congonhas</strong><small><span class="verde"><b class="ball-status verde"></b>Aberto</span><br><span class="txt-right">Vôos atrasados:</span> <span class="txt-left azul-pq">0</span></small><small><span class="txt-right">Vôos cancelados:</span> <span class="txt-left azul-pq">0</span></small></li>
+                  <li class="gru"><strong class="aeronome"><abbr>GRU</abbr> - Guarulhos</strong><small><span class="verde"><b class="ball-status verde"></b>Aberto</span><br><a href="http://www.gru.com.br/pt-br" class="link-aero" target="_blank">Clique e consulte</a> </small></li>
+                  <li class="mae"><small><strong class="aeronome"><abbr>MAE</abbr> - Cpo. de Marte</strong><small><span class="verde"><b class="ball-status verde"></b>Aberto</span><br><a href="http://www.infraero.gov.br/index.php/aeroportos/sao-paulo/aeroporto-campo-de-marte.html" class="link-aero" target="_blank">Clique e consulte</a></small></small></li>
+                  <li class="vcp"><small><small><strong class="aeronome"><abbr>VCP</abbr>- Viracopos</strong><small><span class="verde"><b class="ball-status verde"></b>Aberto</span><br><a href="http://www.viracopos.com/passageiros/voos/" class="link-aero" target="_blank">Clique e consulte</a></small></small></small></li>
+                  </ul>
+                  </div>
+                  """
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
@@ -637,13 +638,15 @@ class SpAgora(BrowserView):
             for zonas_sp in lista_zonas_sp:
                 km_lentidao.append(self.soup.find('div', {"id": zonas_sp}).string)
 
+            result = self.getTrafficCount(70)
+            print type(result)
             content = """
                       <div id="call-trans" class="dash" style="display: block;">
                       <h3>Trânsito</h3>
                       <button class="fechar-dash">X</button>
                       <div class="tran-total">
                       <div class="ttotal"><span class="amarelo em14 bold">%(lentidao)s km</span><br><small class="bold em09">de lentidão</small></div>
-                      <div class="ttotal vermelho"><br><span class="vermelho bolinha"></span>ruim</div>
+                      <div class="ttotal %(css)s"><br><span class="%(css)s bolinha"></span>%(status_transito_sp)s</div>
                       </div>
                       <hr class="pont">
                       <div id="sp-mapa">
@@ -655,10 +658,26 @@ class SpAgora(BrowserView):
                       </ul>
                       </div>
                       <div class="bloco-linha"><a href="http://www.cetsp.com.br/transito-agora/mapa-de-fluidez.aspx" class="azul-pq" target="_blank">Mapa de fluidez</a> <a href="http://www.cetsp.com.br/transito-agora/transito-nas-principais-vias.aspx" target="_blank" class="azul-pq">Lentidão por corredor</a></div></div>
-                      """ % {'oeste': km_lentidao[0][:5], 'norte': km_lentidao[1][:5], 'leste': km_lentidao[2][:5], 'sul': km_lentidao[3][:5], 'lentidao': km_lentidao[4]}
+                      """ % {'oeste': km_lentidao[0][:5], 'norte': km_lentidao[1][:5], 'leste': km_lentidao[2][:5], 'sul': km_lentidao[3][:5], 'lentidao': km_lentidao[4], 'css': result[0], 'status_transito_sp': result[1]}
         except:
             content = self.getContentExcept(class_li='ex-transito', text_div='Transito')
         return content
+
+    @ram.cache(lambda *args: time() // (60 * 15))
+    def getTrafficCount(self, total_km_lentidao):
+        traffic_count = []
+        if int(total_km_lentidao) <= 45:
+            status_transito_sp = 'livre'
+            css = 'verde'
+        elif int(total_km_lentidao) >= 45 and int(total_km_lentidao) <= 90:
+            status_transito_sp = 'regular'
+            css = 'amarelo'
+        elif int(total_km_lentidao) > 90:
+            css = 'vermelho'
+            status_transito_sp = 'ruim'
+        traffic_count.append(css)
+        traffic_count.append(status_transito_sp)
+        return traffic_count
 
     """
     ##########################################################################
@@ -695,7 +714,7 @@ class SpAgora(BrowserView):
                       </div>
                        """ % {'metro': status_metro_sp, 'trem': status_trens_sp}
         except:
-            content = self.getContentExcept(class_li='ex-transito', text_div='Transito')
+            content = self.getContentExcept(class_li='ex-publico', text_div='Transporte público')
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
@@ -761,6 +780,7 @@ class SpAgora(BrowserView):
                            Tweets
     ##########################################################################
     """
+
     @ram.cache(lambda *args: time() // (60 * 15))
     def getTweets(self, consumer_key='OOXF8haUGyWq2YNoSciDTLGXd', consumer_secret='sZfagT290goGqJG94H0Nng2gsEStqvpEbz3wEw0UTHgboxrUmh', access_token_secret='A0DEgOpSCTu44NZcyMHCtXdNBFq8vsFwMKSv7Neenl7AY', access_token='3397165841-g80Y2QqVEEjhzqMsQTDBpyWiz1Mcm0pwv519GfN', screen_name='saopaulo_agora', count=5):
         api = Api(consumer_key=consumer_key, consumer_secret=consumer_secret, access_token_key=access_token, access_token_secret=access_token_secret)
@@ -768,10 +788,18 @@ class SpAgora(BrowserView):
             api.VerifyCredentials()
             statuses = api.GetUserTimeline(screen_name=screen_name)[:int(count)]
             ocorrencias = []
-            status = ''
+            ocorrencias.append('<div>')
+            y = 0
             for i in statuses:
-                status += '<a href="https://twitter.com/' + screen_name + '/statuses/' + str(i.id) + '" target="_blank">' + str(i.text) + '<time>' + str(i.relative_created_at) + '</time></a>'
-                ocorrencias.append(status)
+                text = ""
+                if y == int(0):
+                    text = '<a href="https://twitter.com/' + screen_name + '/statuses/' + str(i.id) + '" class="selecionado" target="_blank">' + str(i.text) + '<time>' + str(i.relative_created_at) + '</time></a>'
+                    # ocorrencias.append(status)
+                else:
+                    text = '<a href="https://twitter.com/' + screen_name + '/statuses/' + str(i.id) + '" target="_blank">' + str(i.text) + '<time>' + str(i.relative_created_at) + '</time></a>'
+                ocorrencias.append(text)
+                y = y + 1
+            ocorrencias.append('</div>')
             return ocorrencias
         except:
             return False
