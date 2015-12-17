@@ -18,9 +18,9 @@
     <div class="tweetlist">
       <tal:tweets define="tweets python:spagora.getTweets()" repeat="tweet tweets">
         <span tal:replace="structure tweet" />
+      </tal:tweets>
         <button id="voltar" class="sprite-verao rw"> </button>
         <button id="ir" class="sprite-verao fw"> </button>
-      </tal:tweets>
     </div>
   </div>
 </aside>
