@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import urllib
 import json
+import socket
 from Products.Five import BrowserView
 from StringIO import StringIO
 from bs4 import BeautifulSoup
@@ -109,7 +110,7 @@ class SpAgora(BrowserView):
         response = None
         while True:
             try:
-                handle = self._opener.open(req)
+                handle = self._opener.open(req, timeout=1)
                 if handle.info().get('Content-Encoding') == 'gzip':
                     data = handle.read()
                     buf = StringIO(data)
@@ -121,6 +122,11 @@ class SpAgora(BrowserView):
             except HTTPError, e:
                 retries = retries + 1
                 print "%d Tentativas na url: %s, erro: %s" % (retries, url, e.getcode())
+                if retries > self.max_retries:
+                    break
+            except socket.timeout:
+                retries = retries + 1
+                print "%d Time out: %s, erro: %s" % (retries, url, e.getcode())
                 if retries > self.max_retries:
                     break
 
@@ -207,13 +213,13 @@ class SpAgora(BrowserView):
 
             total_km_lentidao = self.soup.find('div', {"id": 'lentidao'}).string
 
-            if total_km_lentidao <= 45:
+            if int(total_km_lentidao) <= 45:
                 status_transito_sp = 'livre'
                 css = 'verde'
-            elif total_km_lentidao >= 45 and total_km_lentidao <= 90:
-                status_transito_sp = 'moderado'
+            elif int(total_km_lentidao) >= 45 and int(total_km_lentidao) <= 90:
+                status_transito_sp = 'regular'
                 css = 'amarelo'
-            elif total_km_lentidao > 90:
+            elif int(total_km_lentidao) > 90:
                 css = 'vermelho'
                 status_transito_sp = 'ruim'
 
@@ -537,42 +543,57 @@ class SpAgora(BrowserView):
                         'pontoVermelho': 'Fechado operações',
                         'pontoBranco': 'Indisponivel no momento'}
 
+    # @ram.cache(lambda *args: time() // (60 * 15))
+    # def getAirportFlights(self):
+    #     try:
+    #         soup = BeautifulSoup(self.getContent(url_direct.get('dash-aero-situacao')))
+    #         retorno = {}
+    #         for aeroporto in self.list_aeport:
+    #             aeroporto_congonhas = soup.find(id=aeroporto)
+    #             situacao_aeroporto = self.situation_aeport[aeroporto_congonhas['class'][0]]
+    #             retorno[aeroporto] = {'aeroporto': self.list_aeport[aeroporto]['local'], 'status': situacao_aeroporto}
+
+    #         content = """
+    #                   <div id="call-aero" class="dash" style="display: block;">
+    #                   <h3>Aeroportos <em class="em08 fonte">Fonte: Infraero e GRU</em></h3>
+    #                   <button class="fechar-dash">X</button>
+    #                   <ul id="aero-lista">
+    #                   """
+    #         html = ""
+    #         for aeroport in retorno:
+    #             if 'sbsp' == str(aeroport):
+    #                 statusVooCongonhas = self.AeroportoVooSatus()
+    #                 content += """
+    #                            <li class="%(class)s"><strong class="aeronome">%(aeroporto)s</strong><small>
+    #                            <span class="verde"><b class="ball-status verde"></b>%(status)s</span>
+    #                            %(statusVooCongonhas)s
+    #                            </li>
+    #                            """ % {'aeroporto': retorno[aeroport]['aeroporto'], 'status': retorno[aeroport]['status'], 'html': html, 'class': aeroport['codigo'].lower(), 'statusVooCongonhas': statusVooCongonhas}
+    #             else:
+    #                 content += """
+    #                            <li class="%(class)s"><strong class="aeronome">%(aeroporto)s</strong><small>
+    #                            <span class="verde"><b class="ball-status verde"></b>%(status)s</span></li>
+    #                            """ % {'aeroporto': retorno[aeroport]['aeroporto'], 'status': retorno[aeroport]['status'], 'html': html, 'class': aeroport['codigo'].lower()}
+
+    #         content += "</ul></div>"
+    #     except:
+    #         content = self.getContentExcept(class_li='ex-aeroportos', text_div='Aeroportos')
+    #     return content
+
     @ram.cache(lambda *args: time() // (60 * 15))
     def getAirportFlights(self):
-        try:
-            soup = BeautifulSoup(self.getContent(url_direct.get('dash-aero-situacao')))
-            retorno = {}
-            for aeroporto in self.list_aeport:
-                aeroporto_congonhas = soup.find(id=aeroporto)
-                situacao_aeroporto = self.situation_aeport[aeroporto_congonhas['class'][0]]
-                retorno[aeroporto] = {'aeroporto': self.list_aeport[aeroporto]['local'], 'status': situacao_aeroporto}
-
-            content = """
-                      <div id="call-aero" class="dash" style="display: block;">
-                      <h3>Aeroportos <em class="em08 fonte">Fonte: Infraero e GRU</em></h3>
-                      <button class="fechar-dash">X</button>
-                      <ul id="aero-lista">
-                      """
-            print self.AeroportoVooSatus()
-            html = ""
-            for aeroport in retorno:
-                if 'sbsp' == str(aeroport):
-                    statusVooCongonhas = self.AeroportoVooSatus()
-                    content += """
-                               <li class="%(class)s"><strong class="aeronome">%(aeroporto)s</strong><small>
-                               <span class="verde"><b class="ball-status verde"></b>%(status)s</span>
-                               %(statusVooCongonhas)s
-                               </li>
-                               """ % {'aeroporto': retorno[aeroport]['aeroporto'], 'status': retorno[aeroport]['status'], 'html': html, 'class': aeroport['codigo'].lower(), 'statusVooCongonhas': statusVooCongonhas}
-                else:
-                    content += """
-                               <li class="%(class)s"><strong class="aeronome">%(aeroporto)s</strong><small>
-                               <span class="verde"><b class="ball-status verde"></b>%(status)s</span></li>
-                               """ % {'aeroporto': retorno[aeroport]['aeroporto'], 'status': retorno[aeroport]['status'], 'html': html, 'class': aeroport['codigo'].lower()}
-
-            content += "</ul></div>"
-        except:
-            content = self.getContentExcept(class_li='ex-aeroportos', text_div='Aeroportos')
+        content = """
+                  <div id="call-aero" class="dash" style="display: block;">
+                  <h3>Aeroportos <em class="em08 fonte">Fonte: Infraero e GRU</em></h3>
+                  <button class="fechar-dash">X</button>
+                  <ul id="aero-lista">
+                  <li class="cgh"><strong class="aeronome"><abbr>CGH</abbr> - Congonhas</strong><small><span class="verde"><b class="ball-status verde"></b>Aberto</span><br><span class="txt-right">Vôos atrasados:</span> <span class="txt-left azul-pq">0</span></small><small><span class="txt-right">Vôos cancelados:</span> <span class="txt-left azul-pq">0</span></small></li>
+                  <li class="gru"><strong class="aeronome"><abbr>GRU</abbr> - Guarulhos</strong><small><span class="verde"><b class="ball-status verde"></b>Aberto</span><br><a href="http://www.gru.com.br/pt-br" class="link-aero" target="_blank">Clique e consulte</a> </small></li>
+                  <li class="mae"><small><strong class="aeronome"><abbr>MAE</abbr> - Cpo. de Marte</strong><small><span class="verde"><b class="ball-status verde"></b>Aberto</span><br><a href="http://www.infraero.gov.br/index.php/aeroportos/sao-paulo/aeroporto-campo-de-marte.html" class="link-aero" target="_blank">Clique e consulte</a></small></small></li>
+                  <li class="vcp"><small><small><strong class="aeronome"><abbr>VCP</abbr>- Viracopos</strong><small><span class="verde"><b class="ball-status verde"></b>Aberto</span><br><a href="http://www.viracopos.com/passageiros/voos/" class="link-aero" target="_blank">Clique e consulte</a></small></small></small></li>
+                  </ul>
+                  </div>
+                  """
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
