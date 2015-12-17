@@ -713,9 +713,8 @@ class SpAgora(BrowserView):
                       <a href="http://www.sptrans.com.br/itinerarios/" target="_blank" class="link-amarelo">Consultar itinerários</a>
                       </div>
                        """ % {'metro': status_metro_sp, 'trem': status_trens_sp}
-        except Exception, e:
-            print e
-            # content = self.getContentExcept(class_li='ex-publico', text_div='Transporte público')
+        except:
+            content = self.getContentExcept(class_li='ex-publico', text_div='Transporte público')
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
