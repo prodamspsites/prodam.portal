@@ -1,0 +1,130 @@
+
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="prodam.portal">
+<head>
+<meta charset="utf-8">
+<title>Portal da Prefeitura</title>
+
+<!--FONTS-->
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+
+<!--JS-->
+<script src="++resource++prodam.portal/admin/js/jquery.1.11.3.min.js"></script>
+<script src="++resource++prodam.portal/admin/js/jquery-ui.min.js"></script>
+<script src="++resource++prodam.portal/admin/js/funcoes.js"></script>
+
+<!--CSS-->
+<link href='++resource++prodam.portal/admin/css/estilos.css' rel='stylesheet' type='text/css'>
+<link href="++resource++prodam.portal/admin/css/jquery-ui.min.css" rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+<div class="divHeader">
+    <h1>Gerenciador de funcionalidades</h1>
+    <p class="breadcrumb">
+        <a href="http://www.capital.sp.gov.br/" tal:attributes="href string:${context/portal_url}" title="Portal da Prefeitura">Portal da Prefeitura</a> &gt; <a href="#" title="Gerenciador de funcionalidades" tal:attributes="href string:${context/portal_url}/admin">Gerenciador de funcionalidades</a> &gt; Alertas</p>
+</div>
+<div class="contentGeral">
+
+    <div class="divSidebar">
+        <ul class="menuNav">
+            <li><a href="#" tal:attributes="href string:${context/portal_url}/admin-spagora" title="SÃO PAULO AGORA"><span class="lnr lnr-sync"></span><p>SÃO PAULO AGORA</p></a></li>
+            <li><a href="#" title="ALERTAS" tal:attributes="href string:${context/portal_url}/admin-alertas" class="active"><span class="lnr lnr-warning"></span><p>ALERTAS</p></a></li>
+            <li><a href="#" title="GALERIA DE ÍCONES"><span class="lnr lnr-picture"></span><p>GALERIA DE ÍCONES</p></a></li>
+        </ul>
+    </div>
+    <div class="contentRight">
+        <h2>Alertas</h2>
+
+        <ul class="menuAbas">
+            <li class="active"><a href="#" tal:attributes="href string:${context/portal_url}/admin-alertas" title="Novo alerta">Novo alerta</a></li>
+            <li><a href="#" tal:attributes="href string:${context/portal_url}/lista-alertas" title="Todos alertas">Todos alertas</a></li>
+        </ul>
+        <div class="divPainel">
+                <div class="divPreview">
+                    <img src="++resource++prodam.portal/admin/" class="icoPreview" />
+                    <h3 class="changeh3"></h3>
+                    <p class="changep"></p>
+                </div>
+
+            <form class="formPainel grande">
+                <fieldset>
+                    <legend>Painel de edição</legend>
+
+                    <div class="divEdicao">
+                        <label>
+                            <span>Galeria de ícones</span>
+                        </label>
+                        <div class="listIcones">
+                            <ul>
+                                <li><a href="#" title=""><img src="++resource++prodam.portal/admin/img/ico01.png" width="42" height="42" alt="" /></a></li>
+                                <li><a href="#" title=""><img src="++resource++prodam.portal/admin/img/ico02.png" width="42" height="42" alt="" /></a></li>
+                                <li><a href="#" title=""><img src="++resource++prodam.portal/admin/img/ico03.png" width="42" height="42" alt="" /></a></li>
+                                <li><a href="#" title=""><img src="++resource++prodam.portal/admin/img/ico02.png" width="42" height="42" alt="" /></a></li>
+                                <li><a href="#" title=""><img src="++resource++prodam.portal/admin/img/ico01.png" width="42" height="42" alt="" /></a></li>
+                                <li><a href="#" title=""><img src="++resource++prodam.portal/admin/img/ico02.png" width="42" height="42" alt="" /></a></li>
+                                <li><a href="#" title=""><img src="++resource++prodam.portal/admin/img/ico03.png" width="42" height="42" alt="" /></a></li>
+                                <li><a href="#" title=""><img src="++resource++prodam.portal/admin/img/ico02.png" width="42" height="42" alt="" /></a></li>
+                                <li><a href="#" title=""><img src="++resource++prodam.portal/admin/img/ico01.png" width="42" height="42" alt="" /></a></li>
+                                <li><a href="#" title=""><img src="++resource++prodam.portal/admin/img/ico02.png" width="42" height="42" alt="" /></a></li>
+                                <li><a href="#" title=""><img src="++resource++prodam.portal/admin/img/ico03.png" width="42" height="42" alt="" /></a></li>
+                                <li><a href="#" title=""><img src="++resource++prodam.portal/admin/img/ico02.png" width="42" height="42" alt="" /></a></li>
+                                <li><a href="#" title=""><img src="++resource++prodam.portal/admin/img/ico01.png" width="42" height="42" alt="" /></a></li>
+                                <li><a href="#" title=""><img src="++resource++prodam.portal/admin/img/ico02.png" width="42" height="42" alt="" /></a></li>
+                                <li><a href="#" title=""><img src="++resource++prodam.portal/admin/img/ico03.png" width="42" height="42" alt="" /></a></li>
+                                <li><a href="#" title=""><img src="++resource++prodam.portal/admin/img/ico02.png" width="42" height="42" alt="" /></a></li>
+                                <li><a href="#" title=""><img src="++resource++prodam.portal/admin/img/ico01.png" width="42" height="42" alt="" /></a></li>
+                                <li><a href="#" title=""><img src="++resource++prodam.portal/admin/img/ico02.png" width="42" height="42" alt="" /></a></li>
+                                <li><a href="#" title=""><img src="++resource++prodam.portal/admin/img/ico01.png" width="42" height="42" alt="" /></a></li>
+                                <li><a href="#" title=""><img src="++resource++prodam.portal/admin/img/ico02.png" width="42" height="42" alt="" /></a></li>
+                            </ul>
+                        </div>
+                        <a href="#" title="Adicionar ícone" class="addIcone">Adicionar ícone</a>
+
+                        <label>
+                            <span>Título</span>
+                        </label>
+                        <div class="richText active">
+                            <input type="text" class="inputTitulo" />
+                        </div>
+                        <label class="textCheck">
+                            <span>Texto</span>
+                        </label>
+                        <div class="richText active">
+                            <textarea rows="4" cols="50" class="inputTexto"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="divPublicacoes">
+                        <div class="sidebarCinza">
+                            <h2>Publicações</h2>
+                            <select>
+                                <option>Intervalo de datas</option>
+                            </select>
+                            <span class="labeldate">Início</span>
+                            <input type="text" id="datepicker" class="inputdate startdate">
+                            <input type="time" class="inputtime timestart" />
+                            <span class="labeldate">Término</span>
+                            <input type="text" id="datepicker2" class="inputdate enddate">
+                            <input type="time" class="inputtime timeend" />
+                            <input type="button" class="btnEnviar" value="Publicar"  />
+                    </div>
+                    <div class="salvar">
+                        <input type="button" class="btnCancelar" value="Cancelar"  />
+                        <input type="button" class="btnCancelar" value="Salvar rascunho" />
+                    </div>
+
+                </fieldset>
+            </form>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

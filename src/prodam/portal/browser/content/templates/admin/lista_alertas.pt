@@ -1,0 +1,116 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Portal da Prefeitura</title>
+
+<!--FONTS-->
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+
+<!--JS-->
+<script src="++resource++prodam.portal/admin/js/jquery.1.11.3.min.js"></script>
+<script src="++resource++prodam.portal/admin/js/jquery-ui.min.js"></script>
+<script src="++resource++prodam.portal/admin/js/funcoes.js"></script>
+
+<!--CSS-->
+<link href='++resource++prodam.portal/admin/css/estilos.css' rel='stylesheet' type='text/css'>
+<link href="++resource++prodam.portal/admin/css/jquery-ui.min.css" rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+<div class="divHeader">
+    <h1>Gerenciador de funcionalidades</h1>
+    <p class="breadcrumb">
+        <a href="http://www.capital.sp.gov.br/" tal:attributes="href string:${context/portal_url}" title="Portal da Prefeitura">Portal da Prefeitura</a> &gt; <a href="#" title="Gerenciador de funcionalidades" tal:attributes="href string:${context/portal_url}/admin">Gerenciador de funcionalidades</a> <a href="#" title="Gerenciador de funcionalidades" tal:attributes="href string:${context/portal_url}/admin-alertas">Alertas</a> &gt; Lista de alertas</p>
+</div>
+<div class="contentGeral">
+
+    <div class="divSidebar">
+        <ul class="menuNav">
+            <li><a href="#" tal:attributes="href string:${context/portal_url}/admin-spagora" title="SÃO PAULO AGORA"><span class="lnr lnr-sync"></span><p>SÃO PAULO AGORA</p></a></li>
+            <li><a href="#" title="ALERTAS" tal:attributes="href string:${context/portal_url}/admin-alertas" class="active"><span class="lnr lnr-warning"></span><p>ALERTAS</p></a></li>
+            <li><a href="#" title="GALERIA DE ÍCONES"><span class="lnr lnr-picture"></span><p>GALERIA DE ÍCONES</p></a></li>
+        </ul>
+    </div>
+    <div class="contentRight">
+        <h2>Alertas</h2>
+
+        <ul class="menuAbas">
+            <li><a href="#" tal:attributes="href string:${context/portal_url}/admin-alertas" title="Novo alerta">Novo alerta</a></li>
+            <li class="active"><a href="#" tal:attributes="href string:${context/portal_url}/lista-alertas" title="Todos alertas">Todos alertas</a></li>
+        </ul>
+
+        <div class="divPainel">
+            <div class="boxAtivo" tal:define="alertas view/getAlertaAtivo;"
+                                  tal:condition="alertas">
+              <tal:alerta define="alerta python:alertas[0].getObject()">
+                <h2>Alerta ativo</h2>
+                <div class="divBorderCheck"><input type="checkbox" tal:attributes="class alerta/id" /> Desativar alerta</div>
+                    <div class="divPreview active">
+                        <img src="++resource++prodam.portal/admin/img/ico03.gif" class="icoPreview" tal:attributes="src python:alerta.img" />
+                        <h3 class="changeh3"><span tal:replace="structure python:alerta.titulo">Pellentesque at vestibulum tortor. Duis cursus, orci at consequat iaculis, libero.</span></h3>
+                        <p class="changep"><span tal:replace="structure python:alerta.descricao">In gravida quis lectus eget feugiat. Sed diam arcu, vehicula a iaculis eget, efficitur posuere lacus. Praesent sed tempor purus, fermentum facilisis turpis. Quisque non purus eu</span></p>
+                    </div>
+                    <span class="publicado">Publicado em
+                        <span tal:define="date alerta/EffectiveDate;
+                                          data python: date[5:7] + '/' + date[8:10]+ '/' + date[0:4]"
+                              tal:content="data">20/11/2015</span></span>
+                    <input type="button" class="btnSalvar" value="Salvar" />
+              </tal:alerta>
+            </div>
+            <div class="boxOrdenar">
+                <label><select><option>Mais recentes</option></select><span>Ordenar</span></label>
+            </div>
+
+            <tal:alertas define="alertas view/getListaAlertas">
+                <div class="divRascunhos" tal:repeat="alerta alertas">
+                  <tal:alerta define="rascunho python:alerta.review_state=='private'">
+                    <ul class="menuAcoes">
+                        <li><a href="#" title="Excluir" class="btnExcluir" tal:attributes="href alerta/id">Excluir</a></li>
+                        <li>|</li>
+                        <li tal:condition="rascunho"><a href="#" title="Restaurar rascunho" class="btnRestaurar">Restaurar rascunho</a></li>
+                    </ul>
+                    <span tal:condition="rascunho" class="tag">rascunho</span>
+                    <div class="divPreview active rascunho" tal:attributes="class python:rascunho and 'divPreview active rascunho' or 'divPreview active' ">
+                        <img src="++resource++prodam.portal/admin/img/ico03.gif" class="icoPreview" tal:attributes="src python:alerta.getObject().img" />
+                        <h3 class="changeh3"><span tal:replace="structure python:alerta.getObject().titulo">Pellentesque at vestibulum tortor. Duis cursus, orci at consequat iaculis, libero.</span></h3>
+                        <p class="changep"><span tal:content="python:alerta.getObject().descricao">In gravida quis lectus eget feugiat. Sed diam arcu, vehicula a iaculis eget, efficitur posuere lacus. Praesent sed tempor purus, fermentum facilisis turpis. Quisque non purus eu</span></p>
+                    </div>
+                    <span class="publicado">Criado em
+                        <span tal:define="date python:str(alerta.created);
+                                          data python: date[5:7] + '/' + date[8:10]+ '/' + date[0:4]"
+                              tal:content="data">20/11/2015</span></span>
+                  </tal:alerta>
+                </div>
+            </tal:alertas>
+
+            <div id="pagination" tal:replace="nothing">
+                <ul>
+                    <li>
+                        <a href="#" title="Anteriores">&lt;</a>
+                    </li>
+                    <li>
+                        <a href="#" class="current-pagination">1</a>
+                    </li>
+                    <li>
+                        <a href="#" title="2">2</a>
+                    </li>
+                    <li>
+                        <a href="#" title="3">2</a>
+                    </li>
+                    <li>
+                        <a href="#" title="4">4</a>
+                    </li>
+                    <li>
+                        <a href="#" title="Próximas">&gt;</a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
