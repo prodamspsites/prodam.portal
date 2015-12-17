@@ -713,8 +713,9 @@ class SpAgora(BrowserView):
                       <a href="http://www.sptrans.com.br/itinerarios/" target="_blank" class="link-amarelo">Consultar itinerários</a>
                       </div>
                        """ % {'metro': status_metro_sp, 'trem': status_trens_sp}
-        except:
-            content = self.getContentExcept(class_li='ex-publico', text_div='Transporte público')
+        except Exception, e:
+            print e
+            # content = self.getContentExcept(class_li='ex-publico', text_div='Transporte público')
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
@@ -760,16 +761,14 @@ class SpAgora(BrowserView):
         for key, value in enumerate(transp_metro):
             if key % 2:
                 situacao = value.find('span').string
-                situacao = situacao.lower()
-                situacao_linha = situacao.strip(' \t\n\r')
-                if situacao.find('normal') == int(-1):
-                    linhas_com_problemas[key] = {'situacao': situacao_linha, 'linha': nome_da_linha}
+                if situacao is None:
+                    linhas_com_problemas[key] = {'situacao': (nome_da_linha + ' apresenta problemas')}
             else:
                 nome_da_linha = value.find('span').string
         content = ''
         if len(linhas_com_problemas) > 0:
             for x in linhas_com_problemas.values():
-                content += '<p>Linha:%s - Status: %s </p>' % (x['linha'], x['situacao'])
+                content += '%s' % x['situacao']
         else:
             content += 'Circulação normal'
 
