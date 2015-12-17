@@ -383,39 +383,27 @@ class SpAgora(BrowserView):
     @ram.cache(lambda *args: time() // (60 * 15))
     def getAirQuality(self):
         try:
-            qualidade_ar = self.getQualidadeAr()
-            content = qualidade_ar
+            content = """
+                      <div id="call-ar" class="dash" style="display: block;">
+                      <h3>Qualidade do Ar <em class="fonte">Fonte: CETESB</em></h3>
+                      <button class="fechar-dash">X</button>
+                      <div class="O2"></div>
+                      <div id="o2mapa">
+                      <div class="kineticjs-content" role="presentation" style="position: relative; display: inline-block; width: 300px; height: 160px;">
+                      <canvas width="300" height="160" style="padding: 0px; margin: 0px; border: 0px; position: absolute; top: 0px; left: 0px; width: 300px; height: 160px; background: transparent;"></canvas>
+                      </div>
+                      </div>
+                      <ol id="dica">
+                      <li><i></i> Pessoas com doenças respiratórias podem apresentar sintomas como tosse seca e cansaço</li>
+                      <li><i></i>Pessoas com doenças cardíacas ou pulmonares, procurem reduzir esforço pesado ao ar livre.</li>
+                      <li><i></i> Reduzir o esforço físico pesado ao ar livre, principalmente pessoas com doenças cardíacas ou pulmonares, idosos e crianças.</li>
+                      <li><i></i> População em geral pode apresentar sintomas como ardor nos olhos, nariz e garganta, tosse seca e cansaço.</li>
+                      </ol>
+                      </div>
+                      """
         except:
             content = self.getContentExcept(class_li='ex-ar', text_div='Qualidade do Ar')
         return content
-
-    @ram.cache(lambda *args: time() // (60 * 15))
-    def getQualidadeAr(self):
-        """
-        return: content qualidade do ar
-        """
-        self.soup = BeautifulSoup(self.getContent(url_direct.get("qualidade-oxigenio")))
-        tips = self.getEfeitoSaude()
-
-        quality_ar_html = '<div id="call-ar" class="dash" style="display: block;">' \
-                          '<h3>' \
-                          'Qualidade do Ar ' \
-                          '<em class="fonte">Fonte: CETESB</em>' \
-                          '</h3> ' \
-                          '<button class="fechar-dash">X</button>' \
-                          '<div class="O2"></div>' \
-                          '<div id="o2mapa">' \
-                          '<div class="kineticjs-content" role="presentation" style="position: relative; display: inline-block; width: 300px; height: 160px;">' \
-                          '<canvas width="300" height="160" style="padding: 0px; margin: 0px; border: 0px; position: absolute; top: 0px; left: 0px; ' \
-                          'width: 300px; height: 160px; background: transparent;"></canvas>' \
-                          '</div>' \
-                          '</div>' \
-                          '<ol id="dica">'
-        for tip in tips:
-            quality_ar_html += '<li>' \
-                               '<i></i>' + tip['quality'] + '</li>'
-        quality_ar_html += '</ol> </div>'
-        return quality_ar_html
 
     @ram.cache(lambda *args: time() // (60 * 15))
     def getEfeitoSaude(self):
@@ -726,7 +714,7 @@ class SpAgora(BrowserView):
                       </div>
                        """ % {'metro': status_metro_sp, 'trem': status_trens_sp}
         except:
-            content = self.getContentExcept(class_li='ex-transito', text_div='Transito')
+            content = self.getContentExcept(class_li='ex-publico', text_div='Transporte público')
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
@@ -800,9 +788,15 @@ class SpAgora(BrowserView):
             statuses = api.GetUserTimeline(screen_name=screen_name)[:int(count)]
             ocorrencias = []
             status = ''
+            contador = 0
             for i in statuses:
-                status += '<a href="https://twitter.com/' + screen_name + '/statuses/' + str(i.id) + '" target="_blank">' + str(i.text) + '<time>' + str(i.relative_created_at) + '</time></a>'
-                ocorrencias.append(status)
+                if contador == 0:
+                    status += '<a href="https://twitter.com/' + screen_name + '/statuses/' + str(i.id) + '" class="selecionado" target="_blank">' + str(i.text) + '<time>' + str(i.relative_created_at) + '</time></a>'
+                    ocorrencias.append(status)
+                else:
+                    status += '<a href="https://twitter.com/' + screen_name + '/statuses/' + str(i.id) + '" target="_blank">' + str(i.text) + '<time>' + str(i.relative_created_at) + '</time></a>'
+                    ocorrencias.append(status)
+                contador = contador + 1
             return ocorrencias
         except:
             return False
