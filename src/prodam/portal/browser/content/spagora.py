@@ -780,6 +780,7 @@ class SpAgora(BrowserView):
                            Tweets
     ##########################################################################
     """
+
     @ram.cache(lambda *args: time() // (60 * 15))
     def getTweets(self, consumer_key='OOXF8haUGyWq2YNoSciDTLGXd', consumer_secret='sZfagT290goGqJG94H0Nng2gsEStqvpEbz3wEw0UTHgboxrUmh', access_token_secret='A0DEgOpSCTu44NZcyMHCtXdNBFq8vsFwMKSv7Neenl7AY', access_token='3397165841-g80Y2QqVEEjhzqMsQTDBpyWiz1Mcm0pwv519GfN', screen_name='saopaulo_agora', count=5):
         api = Api(consumer_key=consumer_key, consumer_secret=consumer_secret, access_token_key=access_token, access_token_secret=access_token_secret)
@@ -787,16 +788,18 @@ class SpAgora(BrowserView):
             api.VerifyCredentials()
             statuses = api.GetUserTimeline(screen_name=screen_name)[:int(count)]
             ocorrencias = []
-            status = ''
-            contador = 0
+            ocorrencias.append('<div>')
+            y = 0
             for i in statuses:
-                if contador == 0:
-                    status += '<a href="https://twitter.com/' + screen_name + '/statuses/' + str(i.id) + '" class="selecionado" target="_blank">' + str(i.text) + '<time>' + str(i.relative_created_at) + '</time></a>'
-                    ocorrencias.append(status)
+                text = ""
+                if y == int(0):
+                    text = '<a href="https://twitter.com/' + screen_name + '/statuses/' + str(i.id) + '" class="selecionado" target="_blank">' + str(i.text) + '<time>' + str(i.relative_created_at) + '</time></a>'
+                    # ocorrencias.append(status)
                 else:
-                    status += '<a href="https://twitter.com/' + screen_name + '/statuses/' + str(i.id) + '" target="_blank">' + str(i.text) + '<time>' + str(i.relative_created_at) + '</time></a>'
-                    ocorrencias.append(status)
-                contador = contador + 1
+                    text = '<a href="https://twitter.com/' + screen_name + '/statuses/' + str(i.id) + '" target="_blank">' + str(i.text) + '<time>' + str(i.relative_created_at) + '</time></a>'
+                ocorrencias.append(text)
+                y = y + 1
+            ocorrencias.append('</div>')
             return ocorrencias
         except:
             return False
