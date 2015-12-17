@@ -203,7 +203,7 @@ class SpAgora(BrowserView):
                    <div class="dash-border">
                    <strong class="titulo-dash">Transporte Público</strong>
                    <div class="dash-img"></div>
-                   <span class="azul-pq">Busca de itinerários</span>
+                   <a href="http://www.sptrans.com.br/itinerarios/" target="_blank" class="azul-pq">Busca de itinerários</a>
                    </div>
                    <div class="ex-hover"><a href="#verMais"></a><div></div></div>
                    </li>
