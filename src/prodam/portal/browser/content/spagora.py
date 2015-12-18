@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 import urllib
+import urllib2
 import json
 import socket
+import traceback
+import sys
 from Products.Five import BrowserView
 from StringIO import StringIO
 from bs4 import BeautifulSoup
@@ -110,7 +113,7 @@ class SpAgora(BrowserView):
         response = None
         while True:
             try:
-                handle = self._opener.open(req, timeout=1)
+                handle = self._opener.open(req, timeout=5)
                 if handle.info().get('Content-Encoding') == 'gzip':
                     data = handle.read()
                     buf = StringIO(data)
@@ -168,7 +171,7 @@ class SpAgora(BrowserView):
                        """ % {'temp_media': temp_media, 'potencial': str(potencial['pt'])}
 
         except:
-            content += self.getContentExcept(class_li='ex-ar', text_div='Tempo')
+            content += self.getContentExcept(class_li='ex-clima', text_div='Tempo')
 
         try:
             self.soup = BeautifulSoup(self.getContent(url_direct.get('qualidade-oxigenio')))
@@ -503,18 +506,22 @@ class SpAgora(BrowserView):
     """
     list_aeport = {'sbsp': {'codigo': 'CGH',
                             'name': 'Congonhas',
+                            'label': 'CGH - Congonhas',
                             'local': 'Sao Paulo - Congonhas-SP',
                             'site': 'http://www.infraero.gov.br/index.php/aeroportos/sao-paulo/aeroporto-de-sao-paulo-congonhas.html'},
                    'sbgr': {'codigo': 'GRU',
                             'name': 'Guarulhos',
+                            'label': 'GRU - Guarulhos',
                             'local': 'Sao Paulo - Guarulhos-SP',
                             'site': 'http://www.gru.com.br/pt-br'},
                    'sbmt': {'codigo': 'MAE',
                             'name': 'Cpo. de Marte',
+                            'label': 'MAE - Cpo. de Marte',
                             'local': 'Sao Paulo - Cpo de Marte-SP',
                             'site': 'http://www.infraero.gov.br/index.php/aeroportos/sao-paulo/aeroporto-campo-de-marte.html'},
                    'sbkp': {'codigo': 'VCP',
                             'name': 'Viracopos',
+                            'label': 'VCP- Viracopos',
                             'local': 'Campinas-SP',
                             'site': 'http://www.viracopos.com/passageiros/voos/'}}
 
@@ -523,57 +530,59 @@ class SpAgora(BrowserView):
                         'pontoVermelho': 'Fechado operações',
                         'pontoBranco': 'Indisponivel no momento'}
 
-    # @ram.cache(lambda *args: time() // (60 * 15))
-    # def getAirportFlights(self):
-    #     try:
-    #         soup = BeautifulSoup(self.getContent(url_direct.get('dash-aero-situacao')))
-    #         retorno = {}
-    #         for aeroporto in self.list_aeport:
-    #             aeroporto_congonhas = soup.find(id=aeroporto)
-    #             situacao_aeroporto = self.situation_aeport[aeroporto_congonhas['class'][0]]
-    #             retorno[aeroporto] = {'aeroporto': self.list_aeport[aeroporto]['local'], 'status': situacao_aeroporto}
-
-    #         content = """
-    #                   <div id="call-aero" class="dash" style="display: block;">
-    #                   <h3>Aeroportos <em class="em08 fonte">Fonte: Infraero e GRU</em></h3>
-    #                   <button class="fechar-dash">X</button>
-    #                   <ul id="aero-lista">
-    #                   """
-    #         html = ""
-    #         for aeroport in retorno:
-    #             if 'sbsp' == str(aeroport):
-    #                 statusVooCongonhas = self.AeroportoVooSatus()
-    #                 content += """
-    #                            <li class="%(class)s"><strong class="aeronome">%(aeroporto)s</strong><small>
-    #                            <span class="verde"><b class="ball-status verde"></b>%(status)s</span>
-    #                            %(statusVooCongonhas)s
-    #                            </li>
-    #                            """ % {'aeroporto': retorno[aeroport]['aeroporto'], 'status': retorno[aeroport]['status'], 'html': html, 'class': aeroport['codigo'].lower(), 'statusVooCongonhas': statusVooCongonhas}
-    #             else:
-    #                 content += """
-    #                            <li class="%(class)s"><strong class="aeronome">%(aeroporto)s</strong><small>
-    #                            <span class="verde"><b class="ball-status verde"></b>%(status)s</span></li>
-    #                            """ % {'aeroporto': retorno[aeroport]['aeroporto'], 'status': retorno[aeroport]['status'], 'html': html, 'class': aeroport['codigo'].lower()}
-
-    #         content += "</ul></div>"
-    #     except:
-    #         content = self.getContentExcept(class_li='ex-aeroportos', text_div='Aeroportos')
-    #     return content
-
-    @ram.cache(lambda *args: time() // (60 * 15))
     def getAirportFlights(self):
-        content = """
-                  <div id="call-aero" class="dash" style="display: block;">
-                  <h3>Aeroportos <em class="em08 fonte">Fonte: Infraero e GRU</em></h3>
-                  <button class="fechar-dash">X</button>
-                  <ul id="aero-lista">
-                  <li class="cgh"><strong class="aeronome"><abbr>CGH</abbr> - Congonhas</strong><small><span class="verde"><b class="ball-status verde"></b>Aberto</span><br><span class="txt-right">Vôos atrasados:</span> <span class="txt-left azul-pq">0</span></small><small><span class="txt-right">Vôos cancelados:</span> <span class="txt-left azul-pq">0</span></small></li>
-                  <li class="gru"><strong class="aeronome"><abbr>GRU</abbr> - Guarulhos</strong><small><span class="verde"><b class="ball-status verde"></b>Aberto</span><br><a href="http://www.gru.com.br/pt-br" class="link-aero" target="_blank">Clique e consulte</a> </small></li>
-                  <li class="mae"><small><strong class="aeronome"><abbr>MAE</abbr> - Cpo. de Marte</strong><small><span class="verde"><b class="ball-status verde"></b>Aberto</span><br><a href="http://www.infraero.gov.br/index.php/aeroportos/sao-paulo/aeroporto-campo-de-marte.html" class="link-aero" target="_blank">Clique e consulte</a></small></small></li>
-                  <li class="vcp"><small><small><strong class="aeronome"><abbr>VCP</abbr>- Viracopos</strong><small><span class="verde"><b class="ball-status verde"></b>Aberto</span><br><a href="http://www.viracopos.com/passageiros/voos/" class="link-aero" target="_blank">Clique e consulte</a></small></small></small></li>
-                  </ul>
-                  </div>
-                  """
+        referer = None
+        default_headers = {'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.9) Gecko/20100824 Firefox/3.6.9 ( .NET CLR 3.5.30729; .NET4.0E)',
+                           'Accept-Language': 'pt-br;q=0.5',
+                           'Accept-Charset': 'utf-8;q=0.7,*;q=0.7',
+                           'Accept-Encoding': 'gzip',
+                           'Connection': 'close',
+                           'Cache-Control': 'no-cache',
+                           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                           'Referer': referer}
+        encoded_data = None
+        url = "http://www.infraero.gov.br/situacaoaeroporto/"
+        dt = Request(url, encoded_data, default_headers, origin_req_host=referer)
+        try:
+            response = urllib2.urlopen(dt, timeout=30).read()
+            soup = BeautifulSoup(response)
+            retorno = {}
+            for aeroporto in self.list_aeport:
+                aeroporto_congonhas = soup.find(id=aeroporto)
+                situacao_aeroporto = self.situation_aeport[aeroporto_congonhas['class'][0]]
+                retorno[aeroporto] = {'aeroporto': self.list_aeport[aeroporto]['local'], 'status': situacao_aeroporto, 'label': self.list_aeport[aeroporto]['label']}
+
+            content = """
+                      <div id="call-aero" class="dash" style="display: block;">
+                      <h3>Aeroportos <em class="em08 fonte">Fonte: Infraero e GRU</em></h3>
+                      <button class="fechar-dash">X</button>
+                      <ul id="aero-lista">
+                      """
+            for aeroport in retorno:
+                if 'sbsp' == str(aeroport):
+                    statusVooCongonhas = self.AeroportoVooSatus()
+                    content += """
+                               <li class="cgh"><strong class="aeronome">%(aeroporto)s</strong><small>
+                               <span class="verde"><b class="ball-status verde"></b>%(status)s</span>
+                               %(statusVooCongonhas)s
+                               </li>
+                               """ % {'aeroporto': retorno[aeroport]['label'], 'status': retorno[aeroport]['status'], 'statusVooCongonhas': statusVooCongonhas}
+                else:
+                    content += """
+                               <li class="cgh"><strong class="aeronome">%(aeroporto)s</strong><small>
+                               <span class="verde"><b class="ball-status verde"></b>%(status)s</span></li>
+                               """ % {'aeroporto': retorno[aeroport]['label'], 'status': retorno[aeroport]['status']}
+
+            content += "</ul></div>"
+        except Exception, e:
+            content = self.getContentExcept(class_li='ex-aero', text_div='Aeroportos')
+            print '1', e.__doc__
+            print '2', sys.exc_info()
+            print '3', sys.exc_info()[0]
+            print '4', sys.exc_info()[1]
+            print '5', sys.exc_info()[2], 'Sorry I mean line...', traceback.tb_lineno(sys.exc_info()[2])
+            ex_type, ex, tb = sys.exc_info()
+            print '6', traceback.print_tb(tb)
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
@@ -590,7 +599,6 @@ class SpAgora(BrowserView):
                        <small><span class="txt-right">Vôos cancelados:</span>
                        <span class="txt-left azul-pq">%(cancelado)s</span></small>
                        """ % {'atrasado': voos[0].text, 'cancelado': voos[8].text}
-            content += '<p>cancelado: %s e atrasado %s</p>' % (voos[8].text, voos[0].text)
         else:
             content += '<p>Consulte situação</p>'
         return content
