@@ -254,7 +254,8 @@ class SpAgora(BrowserView):
         except KeyError, e:
             print e
             content += self.getContentExcept(class_li='ex-rodizio', text_div='Rodizio')
-
+        except:
+            content += self.getContentExcept(class_li='ex-rodizio', text_div='Rodizio')
         return content
 
     """
@@ -310,10 +311,11 @@ class SpAgora(BrowserView):
         """
         content = """
                    <li class="%(li)s ver-mais">
-                   <div class="dash-border" style="display: block;">
-                   <strong class="titulo-dash">%(text_div)s</strong>
+                   <div id="call-aero" style="display: block;">
+                   <h3 class="titulo-dash">%(text_div)s</h3>
                    <button class="fechar-dash">X</button>
-                   <p class="sp-erro">Não foi possível carregar informações</p>
+                   </br>
+                   <p class="sp-erro" style="margin-top: 10px;">Não foi possível carregar informações</p>
                    </div>
                    """ % {'text_div': text_div, 'li': class_li}
         return content
