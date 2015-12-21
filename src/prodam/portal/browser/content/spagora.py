@@ -113,7 +113,7 @@ class SpAgora(BrowserView):
         response = None
         while True:
             try:
-                handle = self._opener.open(req, timeout=5)
+                handle = self._opener.open(req, timeout=30)
                 if handle.info().get('Content-Encoding') == 'gzip':
                     data = handle.read()
                     buf = StringIO(data)
@@ -672,7 +672,7 @@ class SpAgora(BrowserView):
             for zonas_sp in lista_zonas_sp:
                 km_lentidao.append(self.soup.find('div', {"id": zonas_sp}).string)
 
-            result = self.getTrafficCount(70)
+            result = self.getTrafficCount(km_lentidao[4])
             print type(result)
             content = """
                       <div id="call-trans" class="dash" style="display: block;">
