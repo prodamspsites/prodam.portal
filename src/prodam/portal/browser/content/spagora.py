@@ -234,22 +234,26 @@ class SpAgora(BrowserView):
         except:
             content += self.getContentExcept(class_li='ex-transito', text_div='Trânsito')
 
-        url_rodizio = url_direct.get('dash-rodizio')
-        placas_final_url_return = urllib.urlopen(url_rodizio)
-        data_result = json.loads(placas_final_url_return.read())
-        placa = data_result['Rotation']['desc']
+        try:
+            url_rodizio = url_direct.get('dash-rodizio')
+            placas_final_url_return = urllib.urlopen(url_rodizio)
+            data_result = json.loads(placas_final_url_return.read())
+            placa = data_result['Rotation']['desc']
 
-        content += """
-                   <li class="ex-rodizio ver-mais">
-                   <div class="dash-border">
-                   <strong class="titulo-dash">Rodízio</strong>
-                   <div class="dash-img"></div>
-                   <ul class="rod-3col">
-                   <li><span class="em08 bold"><small>Placas final:</small></span><br><span class="azul-pq em15">%(placa)s</span></li>
-                   </ul></div>
-                   <div class="ex-hover"><a href="#verMais"></a><div></div></div>
-                   </li>
-                   """ % {'placa': placa}
+            content += """
+                       <li class="ex-rodizio ver-mais">
+                       <div class="dash-border">
+                       <strong class="titulo-dash">Rodízio</strong>
+                       <div class="dash-img"></div>
+                       <ul class="rod-3col">
+                       <li><span class="em08 bold"><small>Placas final:</small></span><br><span class="azul-pq em15">%(placa)s</span></li>
+                       </ul></div>
+                       <div class="ex-hover"><a href="#verMais"></a><div></div></div>
+                       </li>
+                       """ % {'placa': placa}
+        except KeyError, e:
+            print e
+            content += self.getContentExcept(class_li='ex-rodizio', text_div='Rodizio')
 
         return content
 
@@ -292,12 +296,26 @@ class SpAgora(BrowserView):
         return content to except in case error
         """
         content = """
-                   <div id="call-publi" class="dash" style="display: block;">
-                   %(text_div)s
+                   <li class="%(li)s ver-mais">
+                   <div class="dash-border" style="display: block;">
+                   <strong class="titulo-dash">%(text_div)s</strong>
+                   <p class="sp-erro">Não foi possível carregar informações</p>
+                   </div>
+                   """ % {'text_div': text_div, 'li': class_li}
+        return content
+
+    def getContentExceptOculto(self, class_li, text_div):
+        """
+        return content to except in case error
+        """
+        content = """
+                   <li class="%(li)s ver-mais">
+                   <div class="dash-border" style="display: block;">
+                   <strong class="titulo-dash">%(text_div)s</strong>
                    <button class="fechar-dash">X</button>
                    <p class="sp-erro">Não foi possível carregar informações</p>
                    </div>
-                   """ % {'text_div': text_div}
+                   """ % {'text_div': text_div, 'li': class_li}
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
@@ -405,7 +423,7 @@ class SpAgora(BrowserView):
                       </div>
                       """
         except:
-            content = self.getContentExcept(class_li='ex-ar', text_div='Qualidade do Ar')
+            content = self.getContentExceptOculto(class_li='ex-ar', text_div='Qualidade do Ar')
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
@@ -496,7 +514,7 @@ class SpAgora(BrowserView):
                       </div></div></div>
                       """ % {'media': temp_media, 'max': temp_maxima[:-1], 'min': temp_minima[:-1], 'manha': prev_manha['pt'], 'tarde': prev_tarde['pt'], 'noite': prev_noite['pt'], 'madrugada': prev_madrugada['pt'], 'umax': umidade_ar_max, 'umin': umidade_ar_min, 'hrin': hora_nascer_sol[:-1], 'hrmax': hora_por_sol[:-1]}
         except:
-            content = self.getContentExcept(class_li='ex-clima', text_div='Tempo')
+            content = self.getContentExceptOculto(class_li='ex-clima', text_div='Tempo')
         return content
 
     """
@@ -541,10 +559,10 @@ class SpAgora(BrowserView):
                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
                            'Referer': referer}
         encoded_data = None
-        url = "http://www.infraero.gov.br/situacaoaeroporto/"
+        url = url_direct.get('dash-aero-situacao')
         dt = Request(url, encoded_data, default_headers, origin_req_host=referer)
         try:
-            response = urllib2.urlopen(dt, timeout=30).read()
+            response = urllib2.urlopen(dt, timeout=8).read()
             soup = BeautifulSoup(response)
             retorno = {}
             for aeroporto in self.list_aeport:
@@ -559,23 +577,28 @@ class SpAgora(BrowserView):
                       <ul id="aero-lista">
                       """
             for aeroport in retorno:
+                print retorno[aeroport]['status'][:-11] + "-" + 'Indisponivel'
+                if retorno[aeroport]['status'][:-11] == str('Indisponivel'):
+                    css_bolinha = "vermelho"
+                else:
+                    css_bolinha = "verde"
                 if 'sbsp' == str(aeroport):
                     statusVooCongonhas = self.AeroportoVooSatus()
                     content += """
                                <li class="cgh"><strong class="aeronome">%(aeroporto)s</strong><small>
-                               <span class="verde"><b class="ball-status verde"></b>%(status)s</span>
+                               <span class="%(css_bolinha)s"><b class="ball-status %(css_bolinha)s"></b>%(status)s</span>
                                %(statusVooCongonhas)s
                                </li>
-                               """ % {'aeroporto': retorno[aeroport]['label'], 'status': retorno[aeroport]['status'], 'statusVooCongonhas': statusVooCongonhas}
+                               """ % {'aeroporto': retorno[aeroport]['label'], 'status': retorno[aeroport]['status'], 'statusVooCongonhas': statusVooCongonhas, 'css_bolinha': css_bolinha}
                 else:
                     content += """
                                <li class="cgh"><strong class="aeronome">%(aeroporto)s</strong><small>
                                <span class="verde"><b class="ball-status verde"></b>%(status)s</span></li>
-                               """ % {'aeroporto': retorno[aeroport]['label'], 'status': retorno[aeroport]['status']}
+                               """ % {'aeroporto': retorno[aeroport]['label'], 'status': retorno[aeroport]['status'], 'css_bolinha': css_bolinha}
 
             content += "</ul></div>"
         except Exception, e:
-            content = self.getContentExcept(class_li='ex-aero', text_div='Aeroportos')
+            content = self.getContentExceptOculto(class_li='ex-aero', text_div='Aeroportos')
             print '1', e.__doc__
             print '2', sys.exc_info()
             print '3', sys.exc_info()[0]
@@ -627,8 +650,9 @@ class SpAgora(BrowserView):
                       </ul>
                       </div>
                       """ % {'placa': placa}
-        except:
-            content = self.getContentExcept(class_li='ex-rodizio', text_div='Rodízio')
+        except KeyError:
+            print "well, it WASN'T defined after all!"
+            content = self.getContentExceptOculto(class_li='ex-rodizio', text_div='Rodízio')
         return content
 
     """
@@ -668,7 +692,7 @@ class SpAgora(BrowserView):
                       <div class="bloco-linha"><a href="http://www.cetsp.com.br/transito-agora/mapa-de-fluidez.aspx" class="azul-pq" target="_blank">Mapa de fluidez</a> <a href="http://www.cetsp.com.br/transito-agora/transito-nas-principais-vias.aspx" target="_blank" class="azul-pq">Lentidão por corredor</a></div></div>
                       """ % {'oeste': km_lentidao[0][:5], 'norte': km_lentidao[1][:5], 'leste': km_lentidao[2][:5], 'sul': km_lentidao[3][:5], 'lentidao': km_lentidao[4], 'css': result[0], 'status_transito_sp': result[1]}
         except:
-            content = self.getContentExcept(class_li='ex-transito', text_div='Transito')
+            content = self.getContentExceptOculto(class_li='ex-transito', text_div='Transito')
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
@@ -722,7 +746,7 @@ class SpAgora(BrowserView):
                       </div>
                        """ % {'metro': status_metro_sp, 'trem': status_trens_sp}
         except:
-            content = self.getContentExcept(class_li='ex-publico', text_div='Transporte público')
+            content = self.getContentExceptOculto(class_li='ex-publico', text_div='Transporte público')
         return content
 
     @ram.cache(lambda *args: time() // (60 * 15))
