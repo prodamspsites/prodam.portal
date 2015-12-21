@@ -31,6 +31,15 @@
       />
 
   <browser:page
+      name="spagora-assincrono"
+      for="*"
+      permission="zope2.View"
+      class=".spagora.SpAgora"
+      template="templates/spagora_assincrono.pt"
+      layer="prodam.portal.interfaces.IProdamPortal"
+      />
+
+  <browser:page
       name="agenda-prefeito"
       for="*"
       permission="zope2.View"
