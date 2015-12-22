@@ -6,6 +6,7 @@ import socket
 import traceback
 import sys
 from Products.Five import BrowserView
+from plone import api
 from StringIO import StringIO
 from bs4 import BeautifulSoup
 from cookielib import CookieJar
@@ -73,6 +74,26 @@ class SpAgora(BrowserView):
             proxy_handler = ProxyHandler({'http': proxy, })
             self._opener = build_opener(cookie_handler, proxy_handler)
 
+    # def showDetails(self):
+    #     try:
+    #         requested = self.request.form['id']
+    #         text = ''
+    #         if requested == "ex-clima":
+    #             text = self.getWeatherSp()
+    #         if requested == "ex-ar":
+    #             text = self.getAirQuality()
+    #         if requested == "ex-aero":
+    #             text = self.getAirportFlights()
+    #         if requested == "ex-publico":
+    #             text = self.getMeansOfTransportation()
+    #         if requested == "ex-transito":
+    #             text = self.getTraffic()
+    #         if requested == "ex-rodizio":
+    #             text = self.getCarRotation()
+    #     except:
+    #         text = False
+    #     return text
+
     def showDetails(self):
         try:
             requested = self.request.form['id']
@@ -92,6 +113,24 @@ class SpAgora(BrowserView):
         except:
             text = False
         return text
+
+    """
+    ##########################################################################
+                           Manipulação de títulos
+    ##########################################################################
+    """
+
+    def getPainel(self, pid):
+        propertyTitle = 'painel' + str(pid) + '-titulo'
+        propertyTexto = 'painel' + str(pid) + '-texto'
+        portal = api.portal.get()
+        # pegar valor da property
+        if portal.hasProperty(propertyTitle) and portal.hasProperty(propertyTexto):
+            return portal.getProperty(propertyTitle), portal.getProperty(propertyTexto)
+        elif portal.hasProperty(propertyTitle) and not portal.hasProperty(propertyTexto):
+            return portal.getProperty(propertyTitle), None
+        else:
+            return None, None
 
     def getContent(self, url, data=None, referer=None):
         """
@@ -138,15 +177,8 @@ class SpAgora(BrowserView):
         else:
             return False
 
-    """
-    ##########################################################################
-                           Página inicial - São Paulo Agora (capa)
-    ##########################################################################
-    """
-    @ram.cache(lambda *args: time() // (60 * 15))
-    def getCapa(self):
+    def WeatherCapa(self):
         content = ""
-
         try:
             self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima-media")))
             temp_media = self.getTempMedia()
@@ -155,62 +187,73 @@ class SpAgora(BrowserView):
             dia = self.soup.findAll('dia')
             potencial = dia[0].parent.find('ct', {'periodo': self.getPeriod(hour)})
 
+            propertyTitle, propertyTexto = self.getPainel(int(1))
+            if propertyTitle:
+                titulo = propertyTitle
+            else:
+                titulo = "Tempo"
+
+            if propertyTexto:
+                texto = propertyTexto
+            else:
+                texto = """
+                         <div class="tempo-g nb"></div>
+                         <div class="t-media"><span>Média</span><span id="CGE-media" class="amarelo bold">%(temp_media)s°</span></div>
+                         <div class="tempestade">
+                         <span>Potencial <div class="raio"></div></span>
+                         <span id="status-temp" class="amarelo">%(potencial)s</span>
+                         </div>
+                         </div>
+                         <div class="ex-hover"><a href="#verMais"></a><div></div>
+                        """ % {'temp_media': temp_media, 'potencial': str(potencial['pt'])}
+
             content += """
                        <li class="ex-clima ver-mais">
                        <div class="dash-border">
-                       <strong class="titulo-dash">Tempo</strong>
-                       <div class="tempo-g nb"></div>
-                       <div class="t-media"><span>Média</span><span id="CGE-media" class="amarelo bold">%(temp_media)s°</span></div>
-                       <div class="tempestade">
-                       <span>Potencial <div class="raio"></div></span>
-                       <span id="status-temp" class="amarelo">%(potencial)s</span>
-                       </div>
-                       </div>
-                       <div class="ex-hover"><a href="#verMais"></a><div></div></div>
+                       <strong class="titulo-dash">%(titulo)s</strong>
+                       %(texto)s </div>
                        </li>
-                       """ % {'temp_media': temp_media, 'potencial': str(potencial['pt'])}
+                       """ % {'titulo': titulo, 'texto': texto}
 
         except:
             content += self.getContentExcept(class_li='ex-clima', text_div='Tempo')
+        return content
 
+    def airQualityCapa(self):
+        content = ""
         try:
             self.soup = BeautifulSoup(self.getContent(url_direct.get('qualidade-oxigenio')))
             qualidade_ar = self.getDescQualidade()
 
+            propertyTitle, propertyTexto = self.getPainel(int(2))
+            if propertyTitle:
+                titulo = propertyTitle
+            else:
+                titulo = "Qualidade do Ar"
+
+            if propertyTexto:
+                texto = propertyTexto
+            else:
+                texto = """
+                        <div class="dash-img o2quali"></div>
+                        <b class="bullet-verde em2">%(qualidade_ar)s</b>
+                        </div>
+                        <div class="ex-hover"><a href="#verMais"></a><div></div>
+                        """ % {'qualidade_ar': qualidade_ar}
+
             content += """
                        <li class="ex-ar ver-mais">
                        <div class="dash-border">
-                       <strong class="titulo-dash">Qualidade do Ar</strong>
-                       <div class="dash-img o2quali"></div>
-                       <b class="bullet-verde em2">%(qualidade_ar)s</b>
-                       </div>
-                       <div class="ex-hover"><a href="#verMais"></a><div></div></div>
+                       <strong class="titulo-dash">%(titulo)s</strong>
+                       %(texto)s </div>
                        </li>
-                       """ % {'qualidade_ar': qualidade_ar}
+                       """ % {'titulo': titulo, 'texto': texto}
         except:
             content += self.getContentExcept(class_li='ex-ar', text_div='Qualidade do Ar')
+        return content
 
-        content += """
-                   <li class="ex-aero ver-mais">
-                   <div class="dash-border">
-                   <strong class="titulo-dash">Aeroportos</strong>
-                   <div class="dash-img"></div>
-                   <span id="aero-status">Consulte situação</span>
-                   </div>
-                   <div class="ex-hover"><a href="#verMais"></a><div></div></div>
-                   </li>
-                   """
-
-        content += """
-                   <li class="ex-publico ver-mais">
-                   <div class="dash-border">
-                   <strong class="titulo-dash">Transporte Público</strong>
-                   <div class="dash-img"></div>
-                   <a href="http://www.sptrans.com.br/itinerarios/" target="_blank" class="azul-pq">Busca de itinerários</a>
-                   </div>
-                   <div class="ex-hover"><a href="#verMais"></a><div></div></div>
-                   </li>
-                   """
+    def trafficCapa(self):
+        content = ""
         try:
             self.soup = BeautifulSoup(self.getContent(url_direct.get('transito-agora')))
 
@@ -218,21 +261,99 @@ class SpAgora(BrowserView):
 
             result = self.getTrafficCount(total_km_lentidao)
 
+            propertyTitle, propertyTexto = self.getPainel(int(5))
+            if propertyTitle:
+                titulo = propertyTitle
+            else:
+                titulo = "Trânsito"
+
+            if propertyTexto:
+                texto = propertyTexto
+            else:
+                texto = """
+                        <div class="dash-img semaforo"></div>
+                        <div class="tran-total">
+                        <div class="ttotal"><span class="amarelo em14 bold">%(total_km_lentidao)skm</span><br>
+                        <small class="bold em09">de lentidão</small></div>
+                        <span class="kmStatus %(css)s"><i class="ball-status %(css)s"></i>%(status_transito_sp)s</span>
+                        </div></div>
+                        <div class="ex-hover"><a href="#verMais"></a><div></div>
+                        """ % {'total_km_lentidao': total_km_lentidao, 'status_transito_sp': result[1], 'css': result[0]}
+
             content += """
                        <li class="ex-transito ver-mais">
                        <div class="dash-border">
-                       <strong class="titulo-dash">Trânsito</strong>
-                       <div class="dash-img semaforo"></div>
-                       <div class="tran-total">
-                       <div class="ttotal"><span class="amarelo em14 bold">%(total_km_lentidao)skm</span><br>
-                       <small class="bold em09">de lentidão</small></div>
-                       <span class="kmStatus %(css)s"><i class="ball-status %(css)s"></i>%(status_transito_sp)s</span>
-                       </div></div>
-                       <div class="ex-hover"><a href="#verMais"></a><div></div></div>
+                       <strong class="titulo-dash">%(titulo)s</strong>
+                       %(texto)s </div>
                        </li>
-                       """ % {'total_km_lentidao': total_km_lentidao, 'status_transito_sp': result[1], 'css': result[0]}
+                       """ % {'titulo': titulo, 'texto': texto}
         except:
             content += self.getContentExcept(class_li='ex-transito', text_div='Trânsito')
+        return content
+
+    """
+    ##########################################################################
+                           Página inicial - São Paulo Agora (capa)
+    ##########################################################################
+    """
+
+    @ram.cache(lambda *args: time() // (30 * 1))
+    def getCapa(self):
+        content = ""
+
+        content += self.WeatherCapa()
+
+        content += self.airQualityCapa()
+
+        propertyTitle, propertyTexto = self.getPainel(int(3))
+        if propertyTitle:
+            titulo = propertyTitle
+        else:
+            titulo = "Aeroportos"
+
+        if propertyTexto:
+            texto = propertyTexto
+        else:
+            texto = """
+                    <div class="dash-img"></div>
+                    <span id="aero-status">Consulte situação</span>
+                    </div>
+                    <div class="ex-hover"><a href="#verMais"></a><div></div>
+                    """
+
+        content += """
+                   <li class="ex-aero ver-mais">
+                   <div class="dash-border">
+                   <strong class="titulo-dash">%(titulo)s</strong>
+                   %(texto)s </div>
+                   </li>
+                   """ % {'titulo': titulo, 'texto': texto}
+
+        propertyTitle, propertyTexto = self.getPainel(int(4))
+        if propertyTitle:
+            titulo = propertyTitle
+        else:
+            titulo = "Transporte Público"
+
+        if propertyTexto:
+            texto = propertyTexto
+        else:
+            texto = """
+                    <div class="dash-img"></div>
+                    <a href="http://www.sptrans.com.br/itinerarios/" target="_blank" class="azul-pq">Busca de itinerários</a>
+                    </div>
+                    <div class="ex-hover"><a href="#verMais"></a><div></div>
+                    """
+
+        content += """
+                   <li class="ex-publico ver-mais">
+                   <div class="dash-border">
+                   <strong class="titulo-dash">%(titulo)s</strong>
+                   %(texto)s </div>
+                   </li>
+                   """ % {'titulo': titulo, 'texto': texto}
+
+        content += self.trafficCapa()
 
         try:
             url_rodizio = url_direct.get('dash-rodizio')
@@ -240,17 +361,30 @@ class SpAgora(BrowserView):
             data_result = json.loads(placas_final_url_return.read())
             placa = data_result['Rotation']['desc']
 
-            content += """
-                       <li class="ex-rodizio ver-mais">
-                       <div class="dash-border">
-                       <strong class="titulo-dash">Rodízio</strong>
+            propertyTitle, propertyTexto = self.getPainel(int(6))
+            if propertyTitle:
+                titulo = propertyTitle
+            else:
+                titulo = "Rodízio"
+
+            if propertyTexto:
+                texto = propertyTexto
+            else:
+                texto = """
                        <div class="dash-img"></div>
                        <ul class="rod-3col">
                        <li><span class="em08 bold"><small>Placas final:</small></span><br><span class="azul-pq em15">%(placa)s</span></li>
                        </ul></div>
-                       <div class="ex-hover"><a href="#verMais"></a><div></div></div>
+                       <div class="ex-hover"><a href="#verMais"></a><div></div>
+                        """ % {'placa': placa}
+
+            content += """
+                       <li class="ex-rodizio ver-mais">
+                       <div class="dash-border">
+                       <strong class="titulo-dash">%(titulo)s</strong>
+                       %(texto)s </div>
                        </li>
-                       """ % {'placa': placa}
+                       """ % {'titulo': titulo, 'texto': texto}
         except KeyError, e:
             print e
             content += self.getContentExcept(class_li='ex-rodizio', text_div='Rodizio')
@@ -447,7 +581,7 @@ class SpAgora(BrowserView):
     ##########################################################################
     """
     @ram.cache(lambda *args: time() // (60 * 15))
-    def getWeatherSp(self):
+    def getWeatherSp(self, title=False):
         try:
             self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima-media")))
             temp_media = self.getTempMedia()
