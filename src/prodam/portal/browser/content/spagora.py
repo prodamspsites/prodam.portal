@@ -297,7 +297,7 @@ class SpAgora(BrowserView):
     ##########################################################################
     """
 
-    @ram.cache(lambda *args: time() // (30 * 1))
+    @ram.cache(lambda *args: time() // (60 * 5))
     def getCapa(self):
         content = ""
 
