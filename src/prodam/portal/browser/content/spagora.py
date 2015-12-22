@@ -658,26 +658,27 @@ class SpAgora(BrowserView):
                            Situação dos Aeroportos
     ##########################################################################
     """
-    list_aeport = {'sbsp': {'codigo': 'CGH',
-                            'name': 'Congonhas',
-                            'label': 'CGH - Congonhas',
-                            'local': 'Sao Paulo - Congonhas-SP',
-                            'site': 'http://www.infraero.gov.br/index.php/aeroportos/sao-paulo/aeroporto-de-sao-paulo-congonhas.html'},
-                   'sbgr': {'codigo': 'GRU',
-                            'name': 'Guarulhos',
-                            'label': 'GRU - Guarulhos',
-                            'local': 'Sao Paulo - Guarulhos-SP',
-                            'site': 'http://www.gru.com.br/pt-br'},
-                   'sbmt': {'codigo': 'MAE',
-                            'name': 'Cpo. de Marte',
-                            'label': 'MAE - Cpo. de Marte',
-                            'local': 'Sao Paulo - Cpo de Marte-SP',
-                            'site': 'http://www.infraero.gov.br/index.php/aeroportos/sao-paulo/aeroporto-campo-de-marte.html'},
-                   'sbkp': {'codigo': 'VCP',
-                            'name': 'Viracopos',
-                            'label': 'VCP- Viracopos',
-                            'local': 'Campinas-SP',
-                            'site': 'http://www.viracopos.com/passageiros/voos/'}}
+
+    list_aeport = {'asbsp': {'codigo': 'CGH',
+                             'name': 'Congonhas',
+                             'label': 'CGH - Congonhas',
+                             'local': 'Sao Paulo - Congonhas-SP',
+                             'site': 'http://www.infraero.gov.br/index.php/aeroportos/sao-paulo/aeroporto-de-sao-paulo-congonhas.html'},
+                   'bsbgr': {'codigo': 'GRU',
+                             'name': 'Guarulhos',
+                             'label': 'GRU - Guarulhos',
+                             'local': 'Sao Paulo - Guarulhos-SP',
+                             'site': 'http://www.gru.com.br/pt-br'},
+                   'csbmt': {'codigo': 'MAE',
+                             'name': 'Cpo. de Marte',
+                             'label': 'MAE - Cpo. de Marte',
+                             'local': 'Sao Paulo - Cpo de Marte-SP',
+                             'site': 'http://www.infraero.gov.br/index.php/aeroportos/sao-paulo/aeroporto-campo-de-marte.html'},
+                   'dsbkp': {'codigo': 'VCP',
+                             'name': 'Viracopos',
+                             'label': 'VCP- Viracopos',
+                             'local': 'Campinas-SP',
+                             'site': 'http://www.viracopos.com/passageiros/voos/'}}
 
     situation_aeport = {'pontoVerde': 'Operando Normalmente',
                         'pontoAmarelo': 'Restrições meteorológicas',
@@ -701,8 +702,9 @@ class SpAgora(BrowserView):
             response = urllib2.urlopen(dt, timeout=8).read()
             soup = BeautifulSoup(response)
             retorno = {}
-            for aeroporto in self.list_aeport:
-                aeroporto_congonhas = soup.find(id=aeroporto)
+
+            for aeroporto in sorted(self.list_aeport.keys()):
+                aeroporto_congonhas = soup.find(id=aeroporto[1:])
                 situacao_aeroporto = self.situation_aeport[aeroporto_congonhas['class'][0]]
                 retorno[aeroporto] = {'aeroporto': self.list_aeport[aeroporto]['local'], 'status': situacao_aeroporto, 'label': self.list_aeport[aeroporto]['label']}
 
@@ -713,12 +715,11 @@ class SpAgora(BrowserView):
                       <ul id="aero-lista">
                       """
             for aeroport in retorno:
-                print retorno[aeroport]['status'][:-11] + "-" + 'Indisponivel'
-                if retorno[aeroport]['status'][:-11] == str('Indisponivel'):
+                print str(aeroport[1:])
+                css_bolinha = "verde"
+                if aeroport[1:] in ['sbkp', 'sbgr']:
                     css_bolinha = "vermelho"
-                else:
-                    css_bolinha = "verde"
-                if 'sbsp' == str(aeroport):
+                if 'sbsp' == str(aeroport[1:]):
                     statusVooCongonhas = self.AeroportoVooSatus()
                     content += """
                                <li class="cgh"><strong class="aeronome">%(aeroporto)s</strong><small>
@@ -729,7 +730,7 @@ class SpAgora(BrowserView):
                 else:
                     content += """
                                <li class="cgh"><strong class="aeronome">%(aeroporto)s</strong><small>
-                               <span class="verde"><b class="ball-status verde"></b>%(status)s</span></li>
+                               <span class="%(css_bolinha)s"><b class="ball-status %(css_bolinha)s"></b>%(status)s</span></li>
                                """ % {'aeroporto': retorno[aeroport]['label'], 'status': retorno[aeroport]['status'], 'css_bolinha': css_bolinha}
 
             content += "</ul></div>"
