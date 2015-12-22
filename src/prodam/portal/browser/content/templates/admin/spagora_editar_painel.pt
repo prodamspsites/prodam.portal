@@ -60,7 +60,7 @@
                     </div>
                     <input id="painel-id" type="hidden" name="painel-id" value="painel1" tal:attributes="value python:view.getId()">
                     <input type="button" class="btnEnviar" value="Publicar"  />
-                    <input type="button" class="btnEnviar" value="Detalhar"  />
+                    <input tal:replace="nothing" type="button" class="btnEnviar" value="Detalhar"  />
                     <input type="button" class="btnCancelar" value="Cancelar" />
                 </fieldset>
             </form>
