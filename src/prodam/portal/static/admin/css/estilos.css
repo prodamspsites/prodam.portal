@@ -23,6 +23,17 @@ time, mark, audio, video {
 }
 
 
+#mensagem {
+    width: 708px;
+    border: 1px solid green;
+    padding: 10px;
+    background-color: #90EE90;
+    margin-bottom: 10px;
+}
+
+#mensagem p {
+    padding: 0;
+}
 
 body{
     background:#e0e0e0;

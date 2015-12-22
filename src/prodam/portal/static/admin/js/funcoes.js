@@ -75,6 +75,9 @@ jQuery(document).ready(function($) {
             start: start,
             end: end 
         })
+        if (img && titulo && descricao) {
+            $('.divPainel').prepend('<div id="mensagem"><p>Alerta cadastrado com sucesso</p></div>');
+        }
     })
     $('.boxAtivo .btnSalvar').click(function() {
         desativar = $('.divBorderCheck input').is(":checked");
@@ -132,5 +135,6 @@ jQuery(document).ready(function($) {
             texto: texto,
             editar: editar
         })
+        $('.divPainel').prepend('<div id="mensagem"><p>Painel atualizado com sucesso</p></div>');
     })
 });
