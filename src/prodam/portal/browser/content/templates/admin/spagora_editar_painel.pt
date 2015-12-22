@@ -22,7 +22,7 @@
 
 </head>
 
-<body>
+<body class="spagora">
 <div class="divHeader">
     <h1>Gerenciador de funcionalidades</h1>
     <p class="breadcrumb"><a href="http://www.capital.sp.gov.br/" tal:attributes="href string:${context/portal_url}" title="Portal da Prefeitura">Portal da Prefeitura</a> &gt; <a href="#" tal:attributes="href string:${context/portal_url}/admin" title="Gerenciador de funcionalidades">Gerenciador de funcionalidades</a> &gt; <a href="#" tal:attributes="href string:${context/portal_url}/admin-spagora" title="São Paulo Agora">São Paulo Agora</a> &gt; Editar painel</p>
@@ -56,8 +56,9 @@
                          <input type="checkbox" name="edicao" value="Ativar edição de texto" class="ativarEdicao" />Ativar edição de texto
                     </label>
                     <div class="richText">
-                        <img src="++resource++prodam.portal/admin/img/richTextMarcao.jpg" width="431" height="172" />
+                        <textarea rows="4" cols="50" class="inputTexto"></textarea>
                     </div>
+                    <input id="painel-id" type="hidden" name="painel-id" value="painel1" tal:attributes="value python:view.getId()">
                     <input type="button" class="btnEnviar" value="Publicar"  />
                     <input type="button" class="btnEnviar" value="Detalhar"  />
                     <input type="button" class="btnCancelar" value="Cancelar" />

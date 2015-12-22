@@ -86,6 +86,95 @@ class SPAgora(BrowserView):
     pass
 
 
+class SPAgoraEditar(BrowserView):
+    def __call__(self):
+        painelid = self.getPainelId or None
+        titulo = self.getTitulo or None
+        ativarEdicao = self.getAtivarEdicao or None
+        texto = self.getTexto or None
+        editar = self.getEditar or None
+        portal = api.portal.get()
+        if painelid and titulo and editar:
+            self.createTitulo(portal, titulo)
+            if ativarEdicao and texto:
+                self.createTexto(portal, texto)
+        if editar and painelid and not ativarEdicao:
+            self.delTitulo(portal)
+        if editar and painelid and not titulo:
+            self.delTitulo(portal)
+        return ViewPageTemplateFile('templates/admin/spagora_editar_painel.pt')(self)
+
+    def getPainelId(self):
+        try:
+            painelid = self.request.form['painelid']
+            self.propertyTitle = painelid + '-titulo'
+            self.propertyText = painelid + '-texto'
+        except:
+            painelid = None
+        return painelid
+
+    def getTitulo(self):
+        try:
+            titulo = self.request.form['titulo']
+        except:
+            titulo = None
+        return titulo
+
+    def getAtivarEdicao(self):
+        try:
+            ativarEdicao = self.request.form['ativarEdicao']
+        except:
+            ativarEdicao = None
+        return ativarEdicao
+
+    def getTexto(self):
+        try:
+            texto = self.request.form['texto']
+        except:
+            texto = None
+        return texto
+
+    def getEditar(self):
+        try:
+            editar = self.request.form['editar']
+        except:
+            editar = None
+        return editar
+
+    def createTitulo(self, portal, titulo):
+        propertyTitle = self.propertyTitle
+        if not portal.hasProperty(propertyTitle):
+            portal.manage_addProperty(id=propertyTitle, type='string', value=titulo)
+        elif portal.hasProperty(propertyTitle):
+            portal.manage_delProperties([propertyTitle])
+            portal.manage_addProperty(id=propertyTitle, type='string', value=titulo)
+
+    def createTexto(self, portal, texto):
+        propertyText = self.propertyText
+        if not portal.hasProperty(propertyText):
+            portal.manage_addProperty(id=propertyText, type='string', value=texto)
+        elif portal.hasProperty(propertyText):
+            portal.manage_delProperties([propertyText])
+            portal.manage_addProperty(id=propertyText, type='string', value=texto)
+
+    def delTexto(self, portal):
+        propertyText = self.propertyText
+        if portal.hasProperty(propertyText):
+            portal.manage_delProperties([propertyText])
+
+    def delTitulo(self, portal):
+        propertyTitle = self.propertyTitle
+        if portal.hasProperty(propertyTitle):
+            portal.manage_delProperties([propertyTitle])
+
+    def getId(self):
+        try:
+            pannelid = self.request.form['id']
+            return pannelid
+        except:
+            return False
+
+
 class ListaAlertas(BrowserView):
     def __call__(self):
         try:

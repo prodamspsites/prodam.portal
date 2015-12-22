@@ -87,7 +87,7 @@
       name="admin-spagora-editar-painel"
       for="*"
       permission="zope2.View"
-      class=".admin.SPAgora"
+      class=".admin.SPAgoraEditar"
       template="templates/admin/spagora_editar_painel.pt"
       layer="prodam.portal.interfaces.IProdamPortal"
       />

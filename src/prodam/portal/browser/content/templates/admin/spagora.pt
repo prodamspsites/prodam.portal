@@ -36,12 +36,12 @@
         <div class="divPainel">
             <p>Clique para editar o painel</p>
             <ul class="listPainel">
-                <li><a href="#" tal:attributes="href string:${context/portal_url}/admin-spagora-editar-painel" title="Painel 2">Painel 1</a></li>
-                <li><a href="#" tal:attributes="href string:${context/portal_url}/admin-spagora-editar-painel" title="Painel 2">Painel 2</a></li>
-                <li><a href="#" tal:attributes="href string:${context/portal_url}/admin-spagora-editar-painel" title="Painel 3">Painel 3</a></li>
-                <li><a href="#" tal:attributes="href string:${context/portal_url}/admin-spagora-editar-painel" title="Painel 4">Painel 4</a></li>
-                <li><a href="#" tal:attributes="href string:${context/portal_url}/admin-spagora-editar-painel" title="Painel 5">Painel 5</a></li>
-                <li><a href="#" tal:attributes="href string:${context/portal_url}/admin-spagora-editar-painel" title="Painel 6">Painel 6</a></li>
+                <li><a href="#" id="painel1" tal:attributes="href string:${context/portal_url}/admin-spagora-editar-painel" title="Painel 1">Painel 1</a></li>
+                <li><a href="#" id="painel2" tal:attributes="href string:${context/portal_url}/admin-spagora-editar-painel" title="Painel 2">Painel 2</a></li>
+                <li><a href="#" id="painel3" tal:attributes="href string:${context/portal_url}/admin-spagora-editar-painel" title="Painel 3">Painel 3</a></li>
+                <li><a href="#" id="painel4" tal:attributes="href string:${context/portal_url}/admin-spagora-editar-painel" title="Painel 4">Painel 4</a></li>
+                <li><a href="#" id="painel5" tal:attributes="href string:${context/portal_url}/admin-spagora-editar-painel" title="Painel 5">Painel 5</a></li>
+                <li><a href="#" id="painel6" tal:attributes="href string:${context/portal_url}/admin-spagora-editar-painel" title="Painel 6">Painel 6</a></li>
             </ul>
         </div>
     </div>

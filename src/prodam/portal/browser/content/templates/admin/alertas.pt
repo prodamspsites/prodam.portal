@@ -24,7 +24,7 @@
 
 </head>
 
-<body>
+<body class="alertas">
 <div class="divHeader">
     <h1>Gerenciador de funcionalidades</h1>
     <p class="breadcrumb">

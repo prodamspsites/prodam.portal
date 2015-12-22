@@ -75,6 +75,15 @@
       />
 
   <browser:viewlet
+      name="prodam.prefeitura.alertas"
+      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      class=".viewlets.SPAgora"
+      layer="prodam.portal.interfaces.IProdamPortal"
+      template="templates/alerta.pt"
+      permission="zope2.View"
+      />
+
+  <browser:viewlet
       name="prodam.prefeitura.footer"
       manager="plone.app.layout.viewlets.interfaces.IPortalFooter"
       class=".viewlets.FooterPrefeitura"
