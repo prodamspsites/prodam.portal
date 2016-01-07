@@ -28,6 +28,12 @@
                                   data python:DateTime(date).strftime('%d/%m/%Y');
                                   hora python:DateTime(date).strftime('%H:%M')"
                       tal:content="python:hora + ' ' + data" />
+                  <tal:modified tal:condition="python: context.EffectiveDate() != context.ModificationDate()">
+                    - Atualizado às <span tal:define="mDate context/ModificationDate;
+                                                      mData python:DateTime(mDate).strftime('%d/%m/%Y');
+                                                      mHora python:DateTime(mDate).strftime('%H:%M')"
+                                          tal:replace="python:mHora + ' ' + mData" />
+                  </tal:modified>
               </tal:published>
 
               <div class="autor">De <strong tal:content="context/Creator | nothing" /></div>
