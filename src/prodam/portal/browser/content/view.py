@@ -38,7 +38,7 @@ class governoMunicipal(BrowserView):
         return secretarias
 
     def getSubPrefeituras(self):
-        subprefeituras = '<select name="lista-subprefeituras" id="lista-subprefeituras" class="lista-institucionais leave-page lista-subprefeituras"><option disabled="" selected="" value="Subprefeituras">Subprefeituras</option>'
+        subprefeituras = '<select name="lista-subprefeituras" id="lista-subprefeituras" class="lista-institucionais leave-page lista-subprefeituras"><option selected="" value="Subprefeituras">Subprefeituras</option>'
         subprefeituras += '<option value="http://aricanduva.prefeitura.sp.gov.br">Aricanduva/V.Formosa</option>'
         subprefeituras += '<option value="http://butanta.prefeitura.sp.gov.br">Butantã</option>'
         subprefeituras += '<option value="http://campolimpo.prefeitura.sp.gov.br">Campo Limpo</option>'
@@ -75,7 +75,7 @@ class governoMunicipal(BrowserView):
         return subprefeituras
 
     def getOrgaos(self):
-        orgaos = '<select name="lista-orgaos" id="lista-orgaos" class="lista-institucionais leave-page w50 lista-orgaos"><option disabled="" selected="" value="Orgaos">Outros órgãos</option>'
+        orgaos = '<select name="lista-orgaos" id="lista-orgaos" class="lista-institucionais leave-page w50 lista-orgaos"><option selected="" value="Orgaos">Outros órgãos</option>'
         orgaos += '<option value="http://www.prefeitura.sp.gov.br/ahm">Autarquia Hospitalar do Município de São Paulo - AHMSP</option>'
         orgaos += '<option value="http://www.prefeitura.sp.gov.br/cidade/secretarias/desenvolvimento_urbano/ctlu/index.php?p=853">Câmara Técnica de Legislação Urbanística – CTLU</option>'
         orgaos += '<option value="http://www.cgesp.org/">Centro de Gerenciamento de Emergências - CGE</option>'
