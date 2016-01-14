@@ -36,7 +36,9 @@
                   </tal:modified>
               </tal:published>
 
-              <div class="autor">De <strong tal:content="context/Creator | nothing" /></div>
+              <div class="autor">De
+                <strong tal:content="context/autor | string:Secretaria Executiva de Comunicação" />
+              </div>
               <div class="noticias_media_col2">
                 <div class="noticias_actions">
                   <ul>
