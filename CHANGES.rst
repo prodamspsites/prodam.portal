@@ -3,6 +3,8 @@ Histórico de Alterações
 
 0.5a1 (unreleased)
 ^^^^^^^^^^^^^^^^^^
+* Adiciona fixes.cfg como extensions [mosesjr]
+* Adiciona hotfix PloneHotfix20151208 [mosesjr]
 * Adiciona campo customizado de autor para news_item [mosesjr]
 * Cria item geolocalizacao [mosesjr]
 * Adiciona collective.geolocationbehavior como dependência [mosesjr]
