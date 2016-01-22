@@ -31,6 +31,13 @@
       />
 
   <browser:page
+    name="news-import"
+    for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+    class=".browser.ImportForm"
+    permission="zope2.View"
+    />
+
+  <browser:page
       name="agenda-prefeito"
       for="*"
       permission="zope2.View"
