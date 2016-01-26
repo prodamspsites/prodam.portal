@@ -6,8 +6,7 @@ from collective.transmogrifier.transmogrifier import Transmogrifier
 
 
 class ImportForm(form.Form):
-
-    @button.buttonAndHandler(u'Import News')
+    @button.buttonAndHandler(u'Importar Noticias')
     def handle_import_news(self, action):
         transmogrifier = Transmogrifier(getSite())
         transmogrifier(u'news-import')
