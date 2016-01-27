@@ -1,6 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:transmogrifier="http://namespaces.plone.org/transmogrifier"
     i18n_domain="prodam.portal">
 
   <browser:page
@@ -31,13 +32,6 @@
       />
 
   <browser:page
-    name="news-import"
-    for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
-    class=".browser.ImportForm"
-    permission="zope2.View"
-    />
-
-  <browser:page
       name="agenda-prefeito"
       for="*"
       permission="zope2.View"
@@ -53,4 +47,18 @@
       template="templates/chamada.pt"
       permission="zope2.View"
       />
+
+      <!-- Transmogrifier -->
+  <browser:page
+    name="news-import"
+    for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+    class=".browser.ImportForm"
+    permission="zope2.View"
+    />
+
+  <utility
+    component=".news.AddTypeSection"
+    name="prodam.portal.addtypesection"
+  />
+
 </configure>
