@@ -1,7 +1,6 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:transmogrifier="http://namespaces.plone.org/transmogrifier"
     i18n_domain="prodam.portal">
 
   <browser:page
@@ -56,9 +55,9 @@
     permission="zope2.View"
     />
 
-  <utility
+   <utility
     component=".news.AddTypeSection"
-    name="prodam.portal.addtypesection"
+    name="prodam.portal.transmogrifier.news.addtypesection"
   />
 
 </configure>
