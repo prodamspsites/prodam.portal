@@ -45,19 +45,25 @@
       class=".chamada.chamadaView"
       template="templates/chamada.pt"
       permission="zope2.View"
+      layer="prodam.portal.interfaces.IProdamPortal"
       />
 
-      <!-- Transmogrifier -->
+  <browser:page
+      name="importar_arquivos"
+      for="*"
+      class=".importacao.Importacao"
+      template="templates/importacao.pt"
+      permission="zope2.View"
+      layer="prodam.portal.interfaces.IProdamPortal"
+      />
+
+
+  <!-- Transmogrifier -->
   <browser:page
     name="news-import"
     for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
     class=".browser.ImportForm"
     permission="zope2.View"
     />
-
-   <utility
-    component=".news.AddTypeSection"
-    name="prodam.portal.transmogrifier.news.addtypesection"
-  />
 
 </configure>

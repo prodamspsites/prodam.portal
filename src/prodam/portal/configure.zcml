@@ -32,6 +32,7 @@
   <include package=".browser" />
   <include package=".portlets" />
 
+
   <transmogrifier:registerConfig
     name="news-import"
     title="News import pipeline"
