@@ -48,15 +48,15 @@
       layer="prodam.portal.interfaces.IProdamPortal"
       />
 
+
   <browser:page
-      name="importar_arquivos"
+      name="mudaid"
       for="*"
-      class=".importacao.Importacao"
-      template="templates/importacao.pt"
+      class=".importacao.MudaId"
+      template="templates/mudaid.pt"
       permission="zope2.View"
       layer="prodam.portal.interfaces.IProdamPortal"
       />
-
 
   <!-- Transmogrifier -->
   <browser:page
@@ -64,6 +64,11 @@
     for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
     class=".browser.ImportForm"
     permission="zope2.View"
+    />
+
+  <utility
+    component=".trataid.TrataId"
+    name="prodam.portal.trataid"
     />
 
 </configure>
