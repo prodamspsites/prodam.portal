@@ -29,5 +29,7 @@ src/collective.transmogrifier/
 src/prodam.tema
 src/prodam.tiles
 src/prodam.secoes
+src/prodam/portal/browser/content/imagens/
+src/prodam/portal/data/
 var/
 dist/
