@@ -58,10 +58,31 @@
                 <span tal:condition="not:repeat/img/end" tal:content="string: |" />
               </tal:links>
             </div>
-            <div id="imagens">
-              <tal:images tal:repeat="img images">
-                <img src="" tal:attributes="src python:img.getObject().absolute_url()" width='600' />
-              </tal:images>
+            <div id="rg-gallery" class="rg-gallery">
+              <div class="rg-thumbs">
+                <div class="es-carousel-wrapper">
+                  <div class="es-nav">
+                    <span class="es-nav-prev">Previous</span>
+                    <span class="es-nav-next">Next</span>
+                  </div>
+                  <div class="es-carousel">
+                    <ul>
+                      <tal:images tal:repeat="img images">
+                        <li><a href="#" tal:define="scales python:img.getObject().restrictedTraverse('@@images');
+                                                    thumbnail python:scales.scale('image', width=65, height=65);
+                                                    large python:scales.scale('image', scale='large')">
+                          <img src="" tal:attributes="src python:img.getObject().absolute_url()" width='600' />
+                          <img src="thumbs.png" data-large="large.jpg" alt="image01" data-description=""
+                               tal:attributes="src thumbnail/url;
+                                               data-large large/url;
+                                               alt img/Title
+                                               data-description img/Description" />
+                        </a></li>
+                      </tal:images>
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div tal:replace="structure provider:plone.belowcontentbody" />
