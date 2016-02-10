@@ -6,7 +6,6 @@
     xmlns:cmf="http://namespaces.zope.org/cmf"
     xmlns:zcml="http://namespaces.zope.org/zcml"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-    xmlns:transmogrifier="http://namespaces.plone.org/transmogrifier"
     i18n_domain="prodam.portal">
 
   <genericsetup:importStep
@@ -31,14 +30,7 @@
 
   <include package=".browser" />
   <include package=".portlets" />
-
-
-  <transmogrifier:registerConfig
-    name="news-import"
-    title="News import pipeline"
-    description="Transmogrifier pipeline to import news"
-    configuration="news.cfg"
-    />
+  <include package=".portal-migracao" />
 
   <!-- Registra pasta de elementos estaticos -->
   <browser:resourceDirectory

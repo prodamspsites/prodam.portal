@@ -1,0 +1,36 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:transmogrifier="http://namespaces.plone.org/transmogrifier"
+    i18n_domain="prodam.portal">
+
+  <browser:page
+      name="mudaid"
+      for="*"
+      class=".importacao.MudaId"
+      template="templates/mudaid.pt"
+      permission="zope2.View"
+      layer="prodam.portal.interfaces.IProdamPortal"
+      />
+
+  <transmogrifier:registerConfig
+    name="news-import"
+    title="News import pipeline"
+    description="Transmogrifier pipeline to import news"
+    configuration="import.cfg"
+    />
+
+  <!-- Transmogrifier -->
+  <browser:page
+    name="news-importacao"
+    for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+    class=".browser.ImportForm"
+    permission="zope2.View"
+    />
+
+  <utility
+    component=".normalizaurl.NormalizaTitle"
+    name="prodam.portal.normalize.url"
+  />
+
+</configure>
