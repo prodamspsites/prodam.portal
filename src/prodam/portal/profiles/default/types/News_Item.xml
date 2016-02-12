@@ -11,15 +11,17 @@
  <property name="immediate_view">view</property>
  <property name="global_allow">True</property>
  <property name="filter_content_types">True</property>
- <property name="allowed_content_types"/>
+ <property name="allowed_content_types">
+  <element value="Image"/>
+ </property>
  <property name="allow_discussion">False</property>
  <property name="default_view">noticias_view</property>
  <property name="view_methods">
   <element value="noticias_view"/>
  </property>
  <property name="default_view_fallback">False</property>
- <property name="add_permission">plone.app.contenttypes.addNewsItem</property>
- <property name="klass">plone.app.contenttypes.content.NewsItem</property>
+ <property name="add_permission">cmf.AddPortalContent</property>
+ <property name="klass">plone.dexterity.content.Container</property>
  <property name="behaviors">
   <element value="plone.app.dexterity.behaviors.metadata.IDublinCore"/>
   <element value="plone.app.content.interfaces.INameFromTitle"/>
@@ -29,9 +31,50 @@
   <element value="plone.app.relationfield.behavior.IRelatedItems"/>
   <element value="plone.app.contenttypes.behaviors.leadimage.ILeadImage"/>
   <element value="plone.app.versioningbehavior.behaviors.IVersionable"/>
+  <element
+     value="Products.CMFPlone.interfaces.constrains.ISelectableConstrainTypes"/>
  </property>
  <property name="schema"></property>
- <property name="model_source"></property>
+ <property
+    name="model_source">&lt;model xmlns:i18n="http://xml.zope.org/namespaces/i18n" xmlns:security="http://namespaces.plone.org/supermodel/security" xmlns:marshal="http://namespaces.plone.org/supermodel/marshal" xmlns:form="http://namespaces.plone.org/supermodel/form" xmlns="http://namespaces.plone.org/supermodel/schema"&gt;
+    &lt;schema&gt;
+      &lt;field name="autor" type="zope.schema.Choice"&gt;
+        &lt;default&gt;Secretaria Executiva de Comunica&amp;#231;&amp;#227;o&lt;/default&gt;
+        &lt;description/&gt;
+        &lt;title&gt;Autor&lt;/title&gt;
+        &lt;values&gt;
+          &lt;element&gt;Secretaria Executiva de Comunica&amp;#231;&amp;#227;o&lt;/element&gt;
+        &lt;/values&gt;
+      &lt;/field&gt;
+      &lt;field name="text" type="plone.app.textfield.RichText"&gt;
+        &lt;description/&gt;
+        &lt;required&gt;False&lt;/required&gt;
+        &lt;title&gt;Text&lt;/title&gt;
+      &lt;/field&gt;
+      &lt;fieldset name="capas" label="Capas"&gt;
+        &lt;field name="slider_home" type="zope.schema.TextLine"&gt;
+          &lt;description/&gt;
+          &lt;required&gt;False&lt;/required&gt;
+          &lt;title&gt;T&amp;#237;tulo para destaque principal&lt;/title&gt;
+        &lt;/field&gt;
+        &lt;field name="descricao_slider_home" type="zope.schema.Text"&gt;
+          &lt;description/&gt;
+          &lt;required&gt;False&lt;/required&gt;
+          &lt;title&gt;Linha fina para destaque principal&lt;/title&gt;
+        &lt;/field&gt;
+        &lt;field name="listagem_noticias" type="zope.schema.TextLine"&gt;
+          &lt;description/&gt;
+          &lt;required&gt;False&lt;/required&gt;
+          &lt;title&gt;T&amp;#237;tulo para listagem de not&amp;#237;cias&lt;/title&gt;
+        &lt;/field&gt;
+        &lt;field name="descricao_listagem_noticia" type="zope.schema.Text"&gt;
+          &lt;description/&gt;
+          &lt;required&gt;False&lt;/required&gt;
+          &lt;title&gt;Linha fina para listagem de not&amp;#237;cias&lt;/title&gt;
+        &lt;/field&gt;
+      &lt;/fieldset&gt;
+    &lt;/schema&gt;
+  &lt;/model&gt;</property>
  <property
     name="model_file">plone.app.contenttypes.schema:news_item.xml</property>
  <property name="schema_policy">dexterity</property>
