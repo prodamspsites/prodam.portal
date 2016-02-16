@@ -9,6 +9,6 @@
   <h2> Encontre as subprefeituras</h2>
   <span tal:replace="structure governoMunicipal/getSubPrefeituras"></span>
   <div class="tile-footer">
-    <a href="/Prefeitura/noticias">Agenda do prefeito <span class="iconeMais"></span></a>
+    <a href="/Prefeitura/agenda">Agenda do prefeito <span class="iconeMais"></span></a>
   </div>
 </div>

@@ -46,6 +46,8 @@ def createChamada(site, objId, title, path, url, exclude_from_nav=False):
 
 
 def createMaisBuscados(site):
+    createObj(site, 'img-admin', 'Imagens admin', 'Folder', '', exclude_from_nav=True)
+    createObj(site, 'alertas', 'Alertas', 'Folder', '', exclude_from_nav=True)
     createObj(site, 'mais-buscados', 'Mais Buscados', 'Folder', '', exclude_from_nav=True)
     createChamada(site, 'iptu', 'IPTU', 'mais-buscados', '/portal/secoes/nav-cidadao/#/MSwxMDc2LDExNDYsOTUx')
     createChamada(site, 'bilhete-unico', 'Bilhete Único', 'mais-buscados', '/portal/secoes/nav-cidadao/#/MSwzOSw0MDgsNDE3LDEwNw')

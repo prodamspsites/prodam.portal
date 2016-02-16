@@ -3,4 +3,5 @@
  <property name="title">Controls the available content types in your portal</property>
  <object name="prodam.chamadas" meta_type="Dexterity FTI"/>
  <object name="geolocalizacao" meta_type="Dexterity FTI"/>
+ <object name="alerta" meta_type="Dexterity FTI"/>
 </object>

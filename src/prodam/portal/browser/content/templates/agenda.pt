@@ -1,1 +1,35 @@
-<h1 tal:content="view/getDate" />
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="prodam.portal">
+<body>
+
+<metal:main fill-slot="main">
+    <tal:main-macro metal:define-macro="main">
+      <header class="titulo_principal">
+        <h1 class="titulo">Agendas da Prefeitura</h1>
+      </header>
+      <div class="prefeito">
+        <h2 id="agendaPrefeitura" tal:content="context/Title"></h2>
+      </div>
+      <header class="agendaHeader">
+        <strong id="agendaDia" tal:content="view/getTitle">HOJE: Quinta-Feira, 3 de Dezembro de 2015</strong>
+      </header>
+
+      <ul id="agenda" tal:define="events view/getEvents">
+        <li tal:repeat="event events">
+          <article>
+            <time tal:content="python: str(event.start)[11:16]">11:00</time>
+            <h3 tal:content="event/Title">Despachos internos</h3>
+            <p tal:content="event/Description"></p>
+          </article>
+        </li>
+      </ul>
+    </tal:main-macro>
+</metal:main>
+
+</body>
+</html>

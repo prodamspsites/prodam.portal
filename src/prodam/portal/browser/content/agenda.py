@@ -4,9 +4,8 @@ from DateTime import DateTime
 
 
 class Agenda(BrowserView):
-    pass
 
-    def getDate(self):
+    def getDay(self):
         try:
             requested_date = self.request.form["date"]
             start_date = DateTime(requested_date)
@@ -20,11 +19,23 @@ class Agenda(BrowserView):
                                                  review_state='published')
             return events
         except:
-            return False
+            return DateTime().strftime('%m/%d/%Y')
 
-# from zope.component import getMultiAdapter
+    def getEvents(self):
+        requested_date = self.getDay()
+        start_date = DateTime(requested_date)
+        events = self.context.portal_catalog(portal_type='Event',
+                                             start={'query': start_date,
+                                                    'range': 'min'},
+                                             sort_on='start',
+                                             review_state='published')
+        return events
 
-# plone = getMultiAdapter((self.context, self.request), name="plone")
-# time = DateTime()
+    def getTitle(self):
+        requested_date = DateTime(self.getDay())
+        title = ''
+        isToday = requested_date.isCurrentDay()
+        title = isToday and 'HOJE: ' or title
+        title += requested_date.strftime('%A, %d de %B de %Y')
 
-# return plone.toLocalizedTime(time)
+        return title

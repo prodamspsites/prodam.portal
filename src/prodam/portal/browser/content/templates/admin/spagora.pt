@@ -1,0 +1,50 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Portal da Prefeitura</title>
+
+<!--FONTS-->
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+
+<!--JS-->
+<script src="++resource++prodam.portal/admin/js/jquery.1.11.3.min.js"></script>
+<script src="++resource++prodam.portal/admin/js/funcoes.js"></script>
+
+<!--CSS-->
+<link href='++resource++prodam.portal/admin/css/estilos.css' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+<div class="divHeader">
+    <h1>Gerenciador de funcionalidades</h1>
+    <p class="breadcrumb"><a href="http://www.capital.sp.gov.br/" tal:attributes="href string:${context/portal_url}" title="Portal da Prefeitura">Portal da Prefeitura</a> &gt; <a href="#" tal:attributes="href string:${context/portal_url}/admin" title="Gerenciador de funcionalidades">Gerenciador de funcionalidades</a> &gt; São Paulo Agora</p>
+</div>
+<div class="contentGeral">
+    <div class="divSidebar">
+        <ul class="menuNav">
+            <li><a href="#" tal:attributes="href string:${context/portal_url}/admin-spagora" title="SÃO PAULO AGORA" class="active"><span class="lnr lnr-sync"></span><p>SÃO PAULO AGORA</p></a></li>
+            <li><a href="#" tal:attributes="href string:${context/portal_url}/admin-alertas" title="ALERTAS"><span class="lnr lnr-warning"></span><p>ALERTAS</p></a></li>
+            <li><a href="#" title="GALERIA DE ÍCONES"><span class="lnr lnr-picture"></span><p>GALERIA DE ÍCONES</p></a></li>
+        </ul>
+    </div>
+    <div class="contentRight">
+        <h2>São Paulo Agora</h2>
+
+        <div class="divPainel">
+            <p>Clique para editar o painel</p>
+            <ul class="listPainel">
+                <li><a href="#" id="painel1" tal:attributes="href string:${context/portal_url}/admin-spagora-editar-painel" title="Painel 1">Painel 1</a></li>
+                <li><a href="#" id="painel2" tal:attributes="href string:${context/portal_url}/admin-spagora-editar-painel" title="Painel 2">Painel 2</a></li>
+                <li><a href="#" id="painel3" tal:attributes="href string:${context/portal_url}/admin-spagora-editar-painel" title="Painel 3">Painel 3</a></li>
+                <li><a href="#" id="painel4" tal:attributes="href string:${context/portal_url}/admin-spagora-editar-painel" title="Painel 4">Painel 4</a></li>
+                <li><a href="#" id="painel5" tal:attributes="href string:${context/portal_url}/admin-spagora-editar-painel" title="Painel 5">Painel 5</a></li>
+                <li><a href="#" id="painel6" tal:attributes="href string:${context/portal_url}/admin-spagora-editar-painel" title="Painel 6">Painel 6</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

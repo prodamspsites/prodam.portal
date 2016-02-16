@@ -1,10 +1,5 @@
 (function($) {
   $(document).ready(function() {
-    $('[data-role=page]').live('pageshow', function(event) {
-      if (event.target.id.indexOf(yourPageId) == 0) {
-            //do refresh here.
-      }
-    });
 
     if ($('body').hasClass('portaltype-collective-cover-content') || $('body').hasClass('portaltype-document') || $('body').hasClass('portaltype-topic')
         || $('body').hasClass('portaltype-service') || $('body').hasClass('portaltype-section') || $('body').hasClass('portaltype-news-item') || $('header').hasClass('dash-header')) {
@@ -173,11 +168,8 @@
     }
 
     $('select.lista-institucionais').change(function(){
-      // var url = $(this).val();
-      // window.location = url;
-      window.open( this.options[ this.selectedIndex ].value, '_blank');
-      //$("select.lista-institucionais").selectedIndex = "0";
-      $("select.lista-institucionais").val($("select.lista-institucionais option:first").val());
+      var url = $(this).val();
+      window.location = url;
     });
     $("#clickVideo a").bind("click", function () {
       event.preventDefault();

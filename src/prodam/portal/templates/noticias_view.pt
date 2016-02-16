@@ -36,9 +36,7 @@
                   </tal:modified>
               </tal:published>
 
-              <div class="autor">De
-                <strong tal:content="context/autor | string:Secretaria Executiva de Comunicação" />
-              </div>
+              <div class="autor">De <strong tal:content="context/autor | nothing" /></div>
               <div class="noticias_media_col2">
                 <div class="noticias_actions">
                   <ul>
@@ -52,8 +50,25 @@
               </div>
             </div>
           </header>
-          <div class="contentBody" tal:define="texto context/text/raw | nothing">
+          <div class="contentBody" tal:define="texto context/text/output | nothing">
             <p tal:replace="structure texto">Conteúdo</p>
+          </div>
+          <div id="galeriaImagem" tal:define="catalog python:context.portal_catalog;
+                                              path python:'/'.join(context.getPhysicalPath());
+                                              images python:catalog(path=path,portal_type='Image')"
+                                  tal:condition="images">
+            <div id="image_links">
+              <h4>Imagens para download</h4>
+              <tal:links tal:repeat="img images">
+                <a href="" tal:attributes="href python:img.getObject().absolute_url() + '/view'" tal:content="string:Foto ${repeat/img/number}" />
+                <span tal:condition="not:repeat/img/end" tal:content="string: |" />
+              </tal:links>
+            </div>
+            <div id="imagens">
+              <tal:images tal:repeat="img images">
+                <img src="" tal:attributes="src python:img.getObject().absolute_url()" width='600' />
+              </tal:images>
+            </div>
           </div>
           <div tal:replace="structure provider:plone.belowcontentbody" />
         </article>

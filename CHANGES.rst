@@ -3,11 +3,13 @@ Histórico de Alterações
 
 0.5a1 (unreleased)
 ^^^^^^^^^^^^^^^^^^
+
 * Adiciona fixes.cfg como extensions [mosesjr]
 * Adiciona hotfix PloneHotfix20151208 [mosesjr]
 * Adiciona campo customizado de autor para news_item [mosesjr]
 * Cria item geolocalizacao [mosesjr]
 * Adiciona collective.geolocationbehavior como dependência [mosesjr]
+* Cria viewlet manager para SP Agora [mosesjr]
 * Atualiza versão do plone.app.blocks [mosesjr]
 * Adiciona a pasta src/collective.transmogrifier/ no gitignore [mosesjr]
 * Altera versão do collective.transmogrifier para dev [mosesjr]

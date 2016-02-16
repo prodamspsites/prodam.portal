@@ -1,16 +1,2 @@
-<aside id="externos" role="complementary" tal:define="spagora python:context.restrictedTraverse('sp-agora')">
-  <header class="dash-header">
-    São Paulo agora:
-    <button class="e-fechar"> </button>
-  </header>
-
-  <ul id="servicos-externos">
-    <tal:servicos replace="structure python:spagora.getPrincipal()"></tal:servicos>
-  </ul>
-
-  <a href="/portal/mapa"><div id="mapa-serv"></div></a>
-
-  <div class="tweets" tal:condition="python:spagora.getTweets()">
-    <tal:tweets replace="structure python:spagora.getTweets()" />
-  </div>
-</aside>
+<div class="call-spagora">
+</div>

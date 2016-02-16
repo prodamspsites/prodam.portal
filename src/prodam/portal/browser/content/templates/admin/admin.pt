@@ -1,0 +1,54 @@
+
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="prodam.portal">
+<head>
+<meta charset="utf-8">
+<title>Portal da Prefeitura</title>
+
+<!--FONTS-->
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+
+<!--JS-->
+<script src="++resource++prodam.portal/++resource++prodam.portal/admin/js/jquery.1.11.3.min.js"></script>
+<script src="++resource++prodam.portal/admin/js/funcoes.js"></script>
+
+<!--CSS-->
+<link href='++resource++prodam.portal/admin/css/estilos.css' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+<div class="divHeader">
+    <h1>Gerenciador de funcionalidades</h1>
+    <p class="breadcrumb"><a href="http://www.capital.sp.gov.br/" tal:attributes="href string:${context/portal_url}"  title="Portal da Prefeitura">Portal da Prefeitura</a> &gt; Gerenciador de funcionalidades</p>
+</div>
+<div class="contentGeral">
+    <div class="boxHome">
+        <a href="#" tal:attributes="href string:${context/portal_url}/admin-spagora" title="SÃO PAULO AGORA">
+            <span class="lnr lnr-sync"></span>
+            <h2>SÃO PAULO AGORA</h2>
+            <p>Painel 1 ativo em 15/12/2015 às 10h</p>
+        </a>
+    </div>
+    <div class="boxHome">
+        <a href="#" tal:attributes="href string:${context/portal_url}/admin-alertas" title="ALERTAS">
+            <span class="lnr lnr-warning"></span>
+            <h2>ALERTAS</h2>
+            <p>Painel 1 ativo em 15/12/2015 às 10h</p>
+        </a>
+    </div>
+    <div class="boxHome">
+        <a href="#" tal:attributes="href string:${context/portal_url}/#" title="GALERIA DE ÍCONES">
+            <span class="lnr lnr-picture"></span>
+            <h2>GALERIA DE ÍCONES</h2>
+            <p>Painel 1 ativo em 15/12/2015 às 10h</p>
+        </a>
+    </div>
+</div>
+</body>
+</html>

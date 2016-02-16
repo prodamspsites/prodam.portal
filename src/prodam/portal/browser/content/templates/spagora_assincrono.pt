@@ -1,0 +1,26 @@
+<aside id="externos" role="complementary">
+  <header class="dash-header">
+    São Paulo agora:
+    <button class="e-fechar"> </button>
+  </header>
+
+  <ul id="servicos-externos">
+    <tal:servicos replace="structure view/getCapa"></tal:servicos>
+  </ul>
+
+  <a href="/mapa" tal:attributes="href string:${context/portal_url}/mapa"><div id="mapa-serv"></div></a>
+
+  <div class="tweets" tal:condition="view/getTweets">
+    <h4><a href="https://twitter.com/" target="_blank" class="labelsp">Alertas
+         <span>@saopaulo_agora </span>
+      </a>
+    </h4>
+    <div class="tweetlist">
+      <tal:tweets define="tweets view/getTweets" repeat="tweet tweets">
+        <span tal:replace="structure tweet" />
+      </tal:tweets>
+        <button id="voltar" class="sprite-verao rw"> </button>
+        <button id="ir" class="sprite-verao fw"> </button>
+    </div>
+  </div>
+</aside>
