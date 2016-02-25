@@ -55,6 +55,19 @@ jQuery(document).ready(function($) {
         $('.divPublicacoes .sidebarCinza .inputTitGaleria').val(titleIco);
         return false;
     });
+
+    $( 'body.alertas .btnRestaurar' ).click( function(event) {
+        event.preventDefault();
+        href = $(this).attr('href');
+        site_url = $('.breadcrumb a').first().attr('href');
+        url = site_url + '/@@admin-alertas';
+        var form = $('<form action="' + url + '" method="post">' +
+                     '<input type="text" name="href" value="' + href + '" />' +
+                     '</form>');
+        $('body').append(form).hide();
+        form.submit();
+        return false
+    })
     $( 'body.alertas .btnEnviar' ).click( function() {
         img = $('.listIcones ul li .active').attr('src');
         titulo = $('.inputTitulo').val();
@@ -97,7 +110,7 @@ jQuery(document).ready(function($) {
         desativar = $('.divBorderCheck input').is(":checked");
         id = $(this).attr('href');
         site_url = $('.breadcrumb a').first().attr('href');
-        url = site_url + '/@@lista-alertas';
+        url = site_url + '/@@lista-alertas/?id=' + id;
         var form = $('<form action="' + url + '" method="post">' +
                      '<input type="text" name="del_id" value="' + id + '" />' +
                      '</form>');

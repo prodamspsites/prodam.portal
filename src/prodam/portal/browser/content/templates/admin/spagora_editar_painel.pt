@@ -33,7 +33,7 @@
         <ul class="menuNav">
             <li><a href="#" tal:attributes="href string:${context/portal_url}/admin-spagora" title="SÃO PAULO AGORA" class="active"><span class="lnr lnr-sync"></span><p>SÃO PAULO AGORA</p></a></li>
             <li><a href="#" tal:attributes="href string:${context/portal_url}/admin-alertas" title="ALERTAS"><span class="lnr lnr-warning"></span><p>ALERTAS</p></a></li>
-            <li><a href="#" title="GALERIA DE ÍCONES"><span class="lnr lnr-picture"></span><p>GALERIA DE ÍCONES</p></a></li>
+            <li><a href="#" title="GALERIA DE ÍCONES" tal:attributes="href string:${context/portal_url}/icones" target="_blank"><span class="lnr lnr-picture"></span><p>GALERIA DE ÍCONES</p></a></li>
         </ul>
     </div>
     <div class="contentRight">
@@ -49,14 +49,14 @@
 
                     <label>
                         <span>Título</span>
-                        <input type="text" class="inputText" />
+                        <input type="text" class="inputText" tal:attributes="value view/getPainelTitulo" />
                     </label>
                     <label class="textCheck">
                         <span>Texto</span>
                          <input type="checkbox" name="edicao" value="Ativar edição de texto" class="ativarEdicao" />Ativar edição de texto
                     </label>
                     <div class="richText">
-                        <textarea rows="4" cols="50" class="inputTexto"></textarea>
+                        <textarea rows="4" cols="50" class="inputTexto" tal:content="view/getPainelText"></textarea>
                     </div>
                     <input id="painel-id" type="hidden" name="painel-id" value="painel1" tal:attributes="value python:view.getId()">
                     <input type="button" class="btnEnviar" value="Publicar"  />
