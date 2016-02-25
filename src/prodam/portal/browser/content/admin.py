@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*
 
 from Products.Five import BrowserView
 from zope.component import getUtility
@@ -173,7 +173,6 @@ class SPAgoraEditar(BrowserView):
             return portal.getProperty(propertyTitle)
         else:
             return ''
-
 
     def createTitulo(self, portal, propertyTitle, titulo):
         if not portal.hasProperty(propertyTitle):
