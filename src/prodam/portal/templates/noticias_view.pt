@@ -51,6 +51,11 @@
                                               path python:'/'.join(context.getPhysicalPath());
                                               images python:catalog(path=path,portal_type='Image')"
                                   tal:condition="images">
+            <script src="++resource++prodam.portal/js/gallery/jquery.tmpl.min.js"></script>
+            <script src="++resource++prodam.portal/js/gallery/jquery.elastislide.js"></script>
+            <script src="++resource++prodam.portal/js/gallery/jquery.easing.1.3.js"></script>
+            <script src="++resource++prodam.portal/js/gallery/gallery.js"></script>
+
             <div id="image_links">
               <h4>Imagens para download</h4>
               <tal:links tal:repeat="img images">
@@ -58,24 +63,42 @@
                 <span tal:condition="not:repeat/img/end" tal:content="string: |" />
               </tal:links>
             </div>
+
+            <script id="img-wrapper-tmpl" type="text/x-jquery-tmpl">
+              <div class="rg-image-wrapper">
+                {{if itemsCount > 1}}
+                  <div class="rg-image-nav">
+                    <a href="#" class="rg-image-nav-prev">Previous Image</a>
+                    <a href="#" class="rg-image-nav-next">Next Image</a>
+                  </div>
+                {{/if}}
+                <div class="rg-image"></div>
+                <div class="rg-loading"></div>
+                <div class="rg-caption-wrapper">
+                  <div class="rg-caption" style="display:none;">
+                    <p></p>
+                  </div>
+                </div>
+              </div>
+            </script>
+
             <div id="rg-gallery" class="rg-gallery">
               <div class="rg-thumbs">
                 <div class="es-carousel-wrapper">
                   <div class="es-nav">
-                    <span class="es-nav-prev">Previous</span>
-                    <span class="es-nav-next">Next</span>
+<!--                     <span class="es-nav-prev">Previous</span>
+                    <span class="es-nav-next">Next</span> -->
                   </div>
                   <div class="es-carousel">
                     <ul>
                       <tal:images tal:repeat="img images">
                         <li><a href="#" tal:define="scales python:img.getObject().restrictedTraverse('@@images');
-                                                    thumbnail python:scales.scale('image', width=65, height=65);
+                                                    thumbnail python:scales.scale('image', width=150, height=150);
                                                     large python:scales.scale('image', scale='large')">
-                          <img src="" tal:attributes="src python:img.getObject().absolute_url()" width='600' />
                           <img src="thumbs.png" data-large="large.jpg" alt="image01" data-description=""
                                tal:attributes="src thumbnail/url;
                                                data-large large/url;
-                                               alt img/Title
+                                               alt img/Title;
                                                data-description img/Description" />
                         </a></li>
                       </tal:images>
@@ -85,6 +108,8 @@
               </div>
             </div>
           </div>
+
+
           <div tal:replace="structure provider:plone.belowcontentbody" />
         </article>
       </metal:block>
