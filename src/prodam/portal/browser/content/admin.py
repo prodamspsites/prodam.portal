@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*
 
 from Products.Five import BrowserView
 from zope.component import getUtility
@@ -10,7 +10,12 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 
 class Admin(BrowserView):
-    pass
+    def getHref(self):
+        try:
+            href = self.request.form['href']
+        except:
+            href = None
+        return href
 
 
 class createAlertas(BrowserView):
@@ -142,6 +147,32 @@ class SPAgoraEditar(BrowserView):
         except:
             editar = None
         return editar
+
+    def getPainelTitulo(self):
+        try:
+            painelid = self.request.form["id"]
+        except:
+            painelid = ''
+        portal = api.portal.get()
+        propertyTitle = painelid + '-titulo'
+        print propertyTitle
+        if portal.hasProperty(propertyTitle):
+            return portal.getProperty(propertyTitle)
+        else:
+            return ''
+
+    def getPainelText(self):
+        try:
+            painelid = self.request.form["id"]
+        except:
+            painelid = ''
+        portal = api.portal.get()
+        propertyTitle = painelid + '-texto'
+        print propertyTitle
+        if portal.hasProperty(propertyTitle):
+            return portal.getProperty(propertyTitle)
+        else:
+            return ''
 
     def createTitulo(self, portal, propertyTitle, titulo):
         if not portal.hasProperty(propertyTitle):

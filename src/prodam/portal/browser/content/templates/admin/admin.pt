@@ -43,7 +43,7 @@
         </a>
     </div>
     <div class="boxHome">
-        <a href="#" tal:attributes="href string:${context/portal_url}/#" title="GALERIA DE ÍCONES">
+        <a href="#" tal:attributes="href string:${context/portal_url}/icones" target="_blank" title="GALERIA DE ÍCONES">
             <span class="lnr lnr-picture"></span>
             <h2>GALERIA DE ÍCONES</h2>
             <p>Painel 1 ativo em 15/12/2015 às 10h</p>

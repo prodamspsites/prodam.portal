@@ -19,7 +19,7 @@
 
 </head>
 
-<body>
+<body class="alertas">
 <div class="divHeader">
     <h1>Gerenciador de funcionalidades</h1>
     <p class="breadcrumb">
@@ -31,7 +31,7 @@
         <ul class="menuNav">
             <li><a href="#" tal:attributes="href string:${context/portal_url}/admin-spagora" title="SÃO PAULO AGORA"><span class="lnr lnr-sync"></span><p>SÃO PAULO AGORA</p></a></li>
             <li><a href="#" title="ALERTAS" tal:attributes="href string:${context/portal_url}/admin-alertas" class="active"><span class="lnr lnr-warning"></span><p>ALERTAS</p></a></li>
-            <li><a href="#" title="GALERIA DE ÍCONES"><span class="lnr lnr-picture"></span><p>GALERIA DE ÍCONES</p></a></li>
+            <li><a href="#" title="GALERIA DE ÍCONES" tal:attributes="href string:${context/portal_url}/icones" target="_blank"><span class="lnr lnr-picture"></span><p>GALERIA DE ÍCONES</p></a></li>
         </ul>
     </div>
     <div class="contentRight">
@@ -70,7 +70,7 @@
                     <ul class="menuAcoes">
                         <li><a href="#" title="Excluir" class="btnExcluir" tal:attributes="href alerta/id">Excluir</a></li>
                         <li>|</li>
-                        <li tal:condition="rascunho"><a href="#" title="Restaurar rascunho" class="btnRestaurar">Restaurar rascunho</a></li>
+                        <li tal:condition="rascunho"><a href="#" title="Restaurar rascunho" class="btnRestaurar" tal:attributes="href python:'/'.join(alerta.getObject().getPhysicalPath())">Restaurar rascunho</a></li>
                     </ul>
                     <span tal:condition="rascunho" class="tag">rascunho</span>
                     <div class="divPreview active rascunho" tal:attributes="class python:rascunho and 'divPreview active rascunho' or 'divPreview active' ">
