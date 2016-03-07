@@ -66,7 +66,7 @@ $(function() {
             init            = function() {
                 
                 // (not necessary) preloading the images here...
-                $items.add('<img src="images/ajax-loader.gif"/><img src="images/black.png"/>').imagesLoaded( function() {
+                $items.add('').imagesLoaded( function() {
                     // add options
                     _addViewModes();
                     
@@ -209,17 +209,23 @@ $(function() {
                 
                 $items.removeClass('selected');
                 $item.addClass('selected');
-                     
+                $('.thumbAtual').text($item.attr('data-current'));
                 var $thumb      = $item.find('img'),
                     largesrc    = $thumb.data('large'),
-                    title       = $thumb.data('description');
-                
+                    title       = $('span', $item).html();
+
+                if( title ) {
+                    $rgGallery.find('div.rg-caption').show().children('p').empty().html( title );
+                } else {
+                    $('.rg-caption').hide()
+                }
+
                 $('<img/>').load( function() {
                     
                     $rgGallery.find('div.rg-image').empty().append('<img src="' + largesrc + '"/>');
                     
                     if( title )
-                        $rgGallery.find('div.rg-caption').show().children('p').empty().text( title );
+                        $rgGallery.find('div.rg-caption').show().children('p').empty().html( title );
                     
                     $loader.hide();
                     

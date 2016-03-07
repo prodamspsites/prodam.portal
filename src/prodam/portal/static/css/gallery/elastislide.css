@@ -4,9 +4,11 @@
     position:relative;
     position:relative;
     margin-bottom:20px;
+    width: 568px;
 }
 .es-carousel{
     overflow:hidden;
+    margin: 0 0 0 36px;
 }
 .es-carousel ul{
     display:none;
@@ -14,7 +16,7 @@
 .es-carousel ul li{
     height:100%;
     float:left;
-    width: 120px !important;
+    width: 100px !important;
     max-height: 64px;
     overflow: hidden;
     display:block;
@@ -46,7 +48,6 @@
     position:absolute;
     top:50%;
     left:8px;
-    background:transparent url(../images/nav_thumbs.png) no-repeat top left;
     width:14px;
     height:26px;
     margin-top:-13px;
@@ -55,13 +56,81 @@
     opacity:0.8;
 }
 .es-nav span.es-nav-next{
-    right:8px;
-    left:auto;
-    background-position:top right;
+    right:-27px;
+    top: 55px;
+    left:auto;    
+    background:url(../../img/img-next-galery.png) no-repeat top right; 
+}
+.es-nav span.es-nav-prev{
+    background:url(../../img/img-back-galery.png) no-repeat top left;
+    top: 55px;
+}
+.rg-image-nav-prev{
+    background:url(../../img/ad_prev.png) no-repeat top left;
+    position:absolute;
+    left:0;
+    top: 0;
+    width: 40px;
+    display: block;
+float: left;    
+}
+.rg-image-nav-next{
+    background:url(../../img/ad_next.png) no-repeat top left;
+    position:absolute;
+    left:0;
+    top: 0;
+    width: 40px;
+    display: block;
+    float: left;
 }
 .es-nav span:hover{
     opacity:1.0;
 }
 .rg-view{
     display:none;
+}
+.rg-caption-wrapper{
+    position: relative;
+}
+.rg-caption-wrapper .rg-caption{
+    position:absolute;
+    top: -56px;
+    background: rgba(0, 0, 0, 0.6);
+    text-transform: uppercase;
+    width: 100%;
+}
+.rg-caption-wrapper .rg-caption p{
+    color:#fff;
+    padding: 8px 0 3px 10px;
+}
+.rg-image-wrapper{
+    width:568px;
+    margin: 30px 0 0 0;
+}
+.playbutton{
+    float: left;
+    padding:10px 0 0 431px;
+}
+.pausebutton{
+    float: left;
+    padding: 10px 0 100px 7px;
+}
+#rg-gallery .rg-thumbs{
+    position:relative;
+}
+#rg-gallery .rg-thumbs .es-carousel-wrapper{
+    position:absolute;
+    top: 400px;
+    left:0;
+}
+.es-carousel ul li.selected{
+    border:3px solid #616161;
+}
+.es-carousel ul li{
+    border:3px solid #fff;
+}
+.counterThumbs{
+    float:left;
+    padding:15px 0 0 20px;
+    clear: both;
 }

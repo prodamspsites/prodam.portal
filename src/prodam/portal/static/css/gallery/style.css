@@ -1,7 +1,6 @@
 .rg-image-wrapper{
     position:relative;
-    padding:0;
-    background:transparent url(../images/black.png) repeat top left;
+    padding:0 0 0 20px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
     border-radius: 10px;
@@ -18,24 +17,34 @@
 }
 .rg-image-nav a{
     position:absolute;
-    display: none;
-    top:0px;
+    display: block;
+    top:45%;
     left:0px;
-    background:transparent url(../images/nav.png) no-repeat -20% 50%;
     width:28px;
-    height:100%;
-    text-indent:-9000px;
+    height:34px;
     cursor:pointer;
-    opacity:0.3;
+    opacity:0.5;
     outline:none;
-    -moz-border-radius: 10px 0px 0px 10px;
-    -webkit-border-radius: 10px 0px 0px 10px;
-    border-radius: 10px 0px 0px 10px;
+    background:#fff;
 }
 .rg-image-nav a.rg-image-nav-next{
     right:0px;
     left:auto;
-    background-position:115% 50%;
+    background-image: url(../../img/img-next-galery.png);
+    background-position: 9px 7px;
+    background-repeat: no-repeat; 
+    z-index: 1;
+    text-indent: -9999px;
+    -moz-border-radius: 10px 0px 0px 10px;
+    -webkit-border-radius: 10px 0px 0px 10px;
+    border-radius: 10px 0px 0px 10px;
+}
+.rg-image-nav a.rg-image-nav-prev{
+    left:0px;
+    left:auto;
+    text-indent: -9999px;
+    background: #fff url(../../img/img-back-galery.png) no-repeat 4px 7px !important;
+    z-index: 1;
     -moz-border-radius: 0px 10px 10px 0px;
     -webkit-border-radius: 0px 10px 10px 0px;
     border-radius: 0px 10px 10px 0px;
@@ -88,7 +97,6 @@
     position:absolute;
     top:50%;
     left:50%;
-    background:#000 url(../images/ajax-loader.gif) no-repeat center center;
     margin:-23px 0px 0px -23px;
     z-index:100;
     -moz-border-radius: 10px;
