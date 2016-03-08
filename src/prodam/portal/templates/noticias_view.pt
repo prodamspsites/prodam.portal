@@ -49,7 +49,7 @@
           </div>
           <div id="galeriaImagem" tal:define="catalog python:context.portal_catalog;
                                               path python:'/'.join(context.getPhysicalPath());
-                                              images python:catalog(path=path,portal_type='Image')"
+                                              images python:context.listFolderContents(contentFilter={'portal_type': 'Image'});"
                                   tal:condition="images">
             <script src="++resource++prodam.portal/js/gallery/jquery.tmpl.min.js"></script>
             <script src="++resource++prodam.portal/js/gallery/jquery.elastislide.js"></script>
@@ -84,7 +84,7 @@
             <div id="image_links">
               <h4>Imagens para download</h4>
               <tal:links tal:repeat="img images">
-                <a href="" tal:attributes="href python:img.getObject().absolute_url() + '/view'" tal:content="string:Foto ${repeat/img/number}" />
+                <a href="" tal:attributes="href python:img.absolute_url() + '/view'" tal:content="string:Foto ${repeat/img/number}" />
                 <span tal:condition="not:repeat/img/end" tal:content="string: |" />
               </tal:links>
             </div>
@@ -119,7 +119,7 @@
                   <div class="es-carousel">
                     <ul tal:attributes="data-size python:len(images)">
                       <tal:images tal:repeat="img images">
-                        <li tal:attributes="data-current repeat/img/number;"><a href="#" tal:define="scales python:img.getObject().restrictedTraverse('@@images');
+                        <li tal:attributes="data-current repeat/img/number;"><a href="#" tal:define="scales python:img.restrictedTraverse('@@images');
                                                     thumbnail python:scales.scale('image', width=100, height=66);
                                                     large python:scales.scale('image', scale='large')">
                           <img src="thumbs.png" data-large="large.jpg" alt="image01" data-description=""
