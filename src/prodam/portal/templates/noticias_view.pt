@@ -129,7 +129,7 @@
                                                data-description img/Description" />
                           <span class="descricao" tal:content="structure img/Description" />
                           <tal:hasAutor tal:condition="python:img.getObject().autor">
-                            <span class="autor" tal:content="img/getObject/autor">
+                            <span class="autor" tal:content="python:img.getObject().autor">
                           </tal:hasAutor>
                         </a></li>
                       </tal:images>
