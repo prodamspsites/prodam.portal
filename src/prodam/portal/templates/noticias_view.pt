@@ -49,7 +49,7 @@
           </div>
           <div id="galeriaImagem" tal:define="catalog python:context.portal_catalog;
                                               path python:'/'.join(context.getPhysicalPath());
-                                              images python:context.listFolderContents(contentFilter={'portal_type': 'Image'});"
+                                              images python:catalog(path=path,portal_type='Image')"
                                   tal:condition="images">
             <script src="++resource++prodam.portal/js/gallery/jquery.tmpl.min.js"></script>
             <script src="++resource++prodam.portal/js/gallery/jquery.elastislide.js"></script>
