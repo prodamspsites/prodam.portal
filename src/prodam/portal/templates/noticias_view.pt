@@ -119,7 +119,7 @@
                   <div class="es-carousel">
                     <ul tal:attributes="data-size python:len(images)">
                       <tal:images tal:repeat="img images">
-                        <li tal:attributes="data-current repeat/img/number;"><a href="#" tal:define="scales python:img.restrictedTraverse('@@images');
+                        <li tal:attributes="data-current repeat/img/number;"><a href="#" tal:define="scales python:img.getObject().restrictedTraverse('@@images');
                                                     thumbnail python:scales.scale('image', width=100, height=66);
                                                     large python:scales.scale('image', scale='large')">
                           <img src="thumbs.png" data-large="large.jpg" alt="image01" data-description=""
