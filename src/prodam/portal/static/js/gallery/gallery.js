@@ -212,7 +212,14 @@ $(function() {
                 $('.thumbAtual').text($item.attr('data-current'));
                 var $thumb      = $item.find('img'),
                     largesrc    = $thumb.data('large'),
-                    title       = $('span', $item).html();
+                    title       = $('span.descricao', $item).html();
+                    autor       = $('span.autor', $item).html();
+
+                if ( autor ) {
+                    title += '<br />';
+                    title += $('span.autor', $item).html();
+
+                }
 
                 if( title ) {
                     $rgGallery.find('div.rg-caption').show().children('p').empty().html( title );
