@@ -94,7 +94,7 @@ float: left;
 }
 .rg-caption-wrapper .rg-caption{
     position:absolute;
-    top: -56px;
+    bottom: 5px;
     background: rgba(0, 0, 0, 0.6);
     text-transform: uppercase;
     width: 100%;
