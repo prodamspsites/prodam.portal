@@ -1,7 +1,3 @@
-<h3 class="maisBuscadosTitulo">Mais Buscados
-  <span class="maisBuscadosLupa"></span>
-</h3>
-
 <tal:maisBuscados tal:define="maisBuscados python:context.restrictedTraverse('mais-buscados');
                               path python:'/'.join(maisBuscados.getPhysicalPath());
                               chamadas python:context.portal_catalog(path=path, sort_on='getObjPositionInParent');">
