@@ -3,6 +3,14 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="prodam.portal">
 
+    <!-- Folder contents -->
+    <browser:page
+        for="*"
+        class=".folder_contents.FolderContentsView"
+        name="prodam_folder_contents"
+        template="templates/folder_contents.pt"
+        permission="cmf.ListFolderContents" />
+
   <browser:page
       name="batchnavigation"
       for="*"
