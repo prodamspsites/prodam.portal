@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from Products.Five import BrowserView
 from DateTime import DateTime
+import locale
 
 
 class Agenda(BrowserView):
@@ -25,9 +26,9 @@ class Agenda(BrowserView):
 
     def getTitle(self):
         requested_date = DateTime(self.getDay())
+        locale.setlocale(locale.LC_TIME, "pt_BR")
         title = ''
         isToday = requested_date.isCurrentDay()
         title = isToday and 'HOJE: ' or title
         title += requested_date.strftime('%A, %d de %B de %Y')
-
         return title
