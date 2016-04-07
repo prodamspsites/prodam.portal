@@ -1,5 +1,16 @@
 (function($) {
   $(document).ready(function() {
+    //BANNER SLIDE HOME
+
+/*
+   $(".tile.tile-default.ui-droppable").each(function(i) {
+    thisItem =-$(this)
+    controle = "controle" + (i+1)
+    $(this).addClass(controle);
+    $('.bannerInfo h2', thisItem).addClass(controle)
+
+    });*/
+
 
     if ($('body').hasClass('portaltype-collective-cover-content') || $('body').hasClass('portaltype-document') || $('body').hasClass('portaltype-topic')
         || $('body').hasClass('portaltype-service') || $('body').hasClass('portaltype-section') || $('body').hasClass('portaltype-news-item') || $('header').hasClass('dash-header')) {
