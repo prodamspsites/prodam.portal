@@ -1,7 +1,7 @@
 <aside id="externos" role="complementary">
   <header class="dash-header">
     São Paulo agora:
-    <button class="e-fechar"> </button>
+    <button class="e-abrir"> </button>
   </header>
 
   <ul id="servicos-externos">
