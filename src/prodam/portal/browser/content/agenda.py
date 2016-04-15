@@ -30,5 +30,6 @@ class Agenda(BrowserView):
         title = ''
         isToday = requested_date.isCurrentDay()
         title = isToday and 'HOJE: ' or title
-        title += requested_date.strftime('%A, %d de %B de %Y')
+        encode_data_iso = unicode(requested_date.strftime('%A, %d de %B de %Y'), 'iso-8859-1')
+        title += encode_data_iso
         return title
