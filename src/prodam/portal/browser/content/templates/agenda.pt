@@ -23,7 +23,7 @@
         <li tal:repeat="event events">
           <article>
             <time tal:content="python: str(event.start)[11:16]">11:00</time>
-            <a tal:attributes="href python:event.getObject().absolute_url()">
+            <a tal:define="dayEvent view/getDayEvent;yearEvent view/getYearEvent; monthEvent view/getMonthEvent" tal:attributes="href python:event.getObject().absolute_url()+'?year='+yearEvent+'&month='+monthEvent+'&day='+dayEvent">
               <h3 tal:content="event/Title">Despachos internos</h3>
             </a>
             <p tal:content="event/Description"></p>

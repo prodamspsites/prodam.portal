@@ -25,13 +25,21 @@
 
 
     $(document).on('click', '.ploneCalendar td a', function(e) {
-      e.preventDefault()
+      e.preventDefault();
       year = $('#calendar-previous').data('year');
-      month = parseInt($('#calendar-previous').data('month')) +1;
+        if(parseInt($('#calendar-previous').data('month')) == 12){
+          month = 1;
+          year = $('#calendar-previous').data('year') + 1;
+        }else{
+          month = parseInt($('#calendar-previous').data('month')) + 1;
+        }
       day = $(this).text();
       date = month + '/' + day + '/' + year;
       var form = $('<form action="' + portal_url + '/agenda/agenda-prefeito" method="post">' +
                    '<input type="text" name="date" value="' + date + '" />' +
+                   '<input type="text" name="year" value="' + year  + '" />' +
+                   '<input type="text" name="month" value="' + month + '" />' +
+                   '<input type="text" name="day" value="' + day + '" />' +
                    '</form>');
       $('body').append(form);
       form.submit();
@@ -165,11 +173,20 @@
       $(document).on('click', '.ploneCalendar td a', function(e) {
         e.preventDefault()
         year = $('#calendar-previous').data('year');
-        month = parseInt($('#calendar-previous').data('month')) +1;
+        //month = parseInt($('#calendar-previous').data('month')) +1;
+        if(parseInt($('#calendar-previous').data('month')) == 12){
+          month = 1;
+         year = $('#calendar-previous').data('year') + 1;
+        }else{
+          month = parseInt($('#calendar-previous').data('month')) + 1;
+        }
         day = $(this).text();
         date = month + '/' + day + '/' + year;
         var form = $('<form action="' + portal_url + '/agenda/agenda-prefeito" method="post">' +
                      '<input type="text" name="date" value="' + date + '" />' +
+                   '<input type="text" name="year" value="' + year  + '" />' +
+                   '<input type="text" name="month" value="' + month + '" />' +
+                    '<input type="text" name="day" value="' + day + '" />' +
                      '</form>');
         $('body').append(form);
         form.submit();

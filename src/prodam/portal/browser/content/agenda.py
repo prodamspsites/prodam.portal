@@ -24,6 +24,24 @@ class Agenda(BrowserView):
                                              review_state='published')
         return events
 
+    def getYearEvent(self):
+        if('year' in self.request):
+            return self.request.form['year']
+        else:
+            return ''
+
+    def getMonthEvent(self):
+        if('month' in self.request):
+            return self.request.form['month']
+        else:
+            return ''
+
+    def getDayEvent(self):
+        if('day' in self.request):
+            return self.request.form['day']
+        else:
+            return ''
+
     def getTitle(self):
         requested_date = DateTime(self.getDay())
         locale.setlocale(locale.LC_TIME, "pt_BR")
