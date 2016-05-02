@@ -21,29 +21,25 @@
                     <tr>
                         <th i18n:translate="event_when">When</th>
                         <td>
-                            <tal:differentday tal:condition="python:not toLocalizedTime(context.start_date) == toLocalizedTime(context.end_date)"
-                                              i18n:translate="event_when_differentday">
-                                <abbr i18n:name="startdate"
-                                      metal:define-macro="startdate-field-view"
+                            <tal:differentday tal:condition="python:not toLocalizedTime(context.start_date) == toLocalizedTime(context.end_date)">
+                                <abbr metal:define-macro="startdate-field-view"
                                       id="parent-fieldname-startDate"
                                       tal:attributes="class string:dtstart;
                                                       title python:context.start_date">
                                   <span metal:define-slot="inside" class="explain">
                                     <span tal:replace="python:toLocalizedTime(context.start_date)">Start Date</span>
-                                    <tal:word i18n:translate="event_when_differentday_optional_word_between_date_and_time" />
+                                    -
                                     <span tal:replace="python:toLocalizedTime(context.start_date, time_only=1)">Start Time</span>
                                   </span>
                                 </abbr>
-                                to
-                                <br i18n:name="linebreak" />
-                                <abbr i18n:name="enddate"
-                                      metal:define-macro="enddate-field-view"
+                                até
+                                <abbr metal:define-macro="enddate-field-view"
                                       id="parent-fieldname-endDate"
                                       tal:attributes="class string:dtend;
                                                       title python:context.end_date">
                                    <span metal:define-slot="inside" class="explain">
                                      <span tal:replace="python:toLocalizedTime(context.end_date)">End Date</span>
-                                     <tal:word i18n:translate="event_when_differentday_optional_word_between_date_and_time" />
+                                    -
                                      <span tal:replace="python:toLocalizedTime(context.end_date, time_only=1)">End Time</span>
                                   </span>
                                 </abbr>
@@ -51,27 +47,23 @@
 
                             <tal:sameday tal:condition="python:toLocalizedTime(context.start_date) == toLocalizedTime(context.end_date)"
                                          tal:define=" lltf python: site_properties.getProperty('localLongTimeFormat');
-                                         ampm python:lltf and lltf.find('%p') >= 0"
-                                         i18n:translate="event_when_sameday">
-                                <span tal:replace="python:toLocalizedTime(context.start_date)"
-                                      i18n:name="date">
+                                         ampm python:lltf and lltf.find('%p') >= 0">
+                                <span tal:replace="python:toLocalizedTime(context.start_date)">
                                     Start Date Time</span>
-                                <br i18n:name="linebreak" />
-                                from
+
+                                das
                                 <abbr metal:define-macro="startdatesame-field-view"
                                       id="parent-fieldname-startDate"
                                       tal:attributes="class string:dtstart;
-                                                      title python:context.start_date"
-                                      i18n:name="starttime">
+                                                      title python:context.start_date">
                                       <span metal:define-slot="inside"
                                             class="explain"
                                             tal:content="python:toLocalizedTime(context.start_date, time_only=1)">Start Time</span>
-                                </abbr> to
+                                </abbr> até
                                 <abbr metal:define-macro="enddatesame-field-view"
                                       id="parent-fieldname-endDate"
                                       tal:attributes="class string:dtend;
-                                                      title python:context.end_date"
-                                      i18n:name="endtime">
+                                                      title python:context.end_date">
                                       <span metal:define-slot="inside"
                                             class="explain"
                                             tal:content="python:toLocalizedTime(context.end_date, time_only=1)">End Time</span>
