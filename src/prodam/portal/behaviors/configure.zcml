@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone">
+
+    <include package="plone.behavior" file="meta.zcml" />
+
+    <plone:behavior
+        title="Galeria"
+        description="Implementa funcionalidade de galeria de imagens."
+        provides=".galeria.IGaleria"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        />
+
+</configure>
