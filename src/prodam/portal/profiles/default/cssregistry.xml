@@ -11,4 +11,8 @@
 <stylesheet title="" cacheable="True" compression="safe" cookable="True"
     enabled="1" expression="" id="++resource++prodam.portal/css/gallery/elastislide.css" media="screen"
     rel="stylesheet" rendering="link" insert-after="++resource++prodam.portal/css/main-print.css"/>
+
+<stylesheet title="" cacheable="True" compression="safe" cookable="True"
+    enabled="1" expression="" id="++resource++prodam.portal/css/gallery/style.css" media="screen"
+    rel="stylesheet" rendering="link" insert-after="++resource++prodam.portal/css/gallery/elastislide.css"/>
 </object>
