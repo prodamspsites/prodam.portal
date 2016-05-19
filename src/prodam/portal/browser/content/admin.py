@@ -241,5 +241,5 @@ class ListaAlertas(BrowserView):
 
     def getListaAlertas(self):
         catalog = self.context.portal_catalog
-        alertas = catalog(portal_type='alerta')
+        alertas = catalog(portal_type='alerta', sort_on='modified', sort_order='descending')
         return alertas

@@ -11,8 +11,8 @@ class IGaleria(model.Schema):
     """Behavior interface to make a type support related items.
     """
 
-    relatedItems = RelationList(
-        title=u"Related Items",
+    galeria = RelationList(
+        title=u"Galeria de imagens",
         default=[],
-        value_type=RelationChoice(title=u"Related", source=ObjPathSourceBinder(portal_type='Image')),
+        value_type=RelationChoice(title=u"Galeria de imagens", source=ObjPathSourceBinder(portal_type='Image')),
         required=False,)

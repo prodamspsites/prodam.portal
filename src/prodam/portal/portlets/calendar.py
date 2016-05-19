@@ -8,6 +8,8 @@ class Renderer(BaseRenderer):
 
     def checkIsDayEvent(self, day):
         day_event = self.request.get('day', 0)
+        if(day_event == ''):
+            return False
         if(int(day_event) == int(day)):
             return True
         else:
