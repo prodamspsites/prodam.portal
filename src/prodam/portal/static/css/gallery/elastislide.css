@@ -120,7 +120,7 @@ float: left;
 }
 #rg-gallery .rg-thumbs .es-carousel-wrapper{
     position:absolute;
-    top: 400px;
+    top: 30px;
     left:0;
 }
 .es-carousel ul li.selected{
