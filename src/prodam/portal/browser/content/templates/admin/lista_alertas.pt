@@ -55,7 +55,7 @@
                     </div>
                     <span class="publicado">Publicado em
                         <span tal:define="date alerta/EffectiveDate;
-                                          data python: date[5:7] + '/' + date[8:10]+ '/' + date[0:4]"
+                                          data python: date[8:10] + '/' + date[5:7]+ '/' + date[0:4]"
                               tal:content="data">20/11/2015</span></span>
                     <input type="button" class="btnSalvar" value="Salvar" />
               </tal:alerta>
@@ -80,7 +80,7 @@
                     </div>
                     <span class="publicado">Criado em
                         <span tal:define="date python:str(alerta.created);
-                                          data python: date[5:7] + '/' + date[8:10]+ '/' + date[0:4]"
+                                          data python: date[8:10] + '/' + date[5:7]+ '/' + date[0:4]"
                               tal:content="data">20/11/2015</span></span>
                   </tal:alerta>
                 </div>
