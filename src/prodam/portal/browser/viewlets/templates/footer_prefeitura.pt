@@ -95,20 +95,7 @@
           </li>
         </ul>
       </nav>
-      <div role="navigation" class="width-4 last" id="bloco4"
-           tal:define="aplicativos python:view.getObjectInFooter('aplicativos');
-                       item python:view.getObjectInFooter('aplicativos/aplicativos')">
-        <strong tal:content="aplicativos/Title">APLICATIVOS</strong>
-        <ul tal:replace="structure python:item.text.output">
-          <li>
-            <a target="_blank" class="app-icone app-iphone" href="https://itunes.apple.com/us/app/prefeitura-sao-paulo/id829248485?mt=8"><img height="45px" width="118px" src="++resource++prodam.portal/img/icon_appestore_disponivel.png"></a>
-          </li>
-          <li>
-            <a target="_blank" class="app-icone app-android" href="https://play.google.com/store/apps/details?id=br.inf.call.dashboard_sp"><img height="45px" width="118px" src="++resource++prodam.portal/img/icon_googleplay.png"></a>
-          </li>
-        </ul>
-      </div>
-      <div class="visualClear"><!-- --></div>
+     <div class="visualClear"><!-- --></div>
     </section>
     <div class="visualClear"><!-- --></div>
   </div>
