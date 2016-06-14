@@ -1,0 +1,22 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:transmogrifier="http://namespaces.plone.org/transmogrifier"
+    i18n_domain="prodam.portal">
+
+
+  <transmogrifier:registerConfig
+    name="news-import"
+    title="News import pipeline"
+    description="Transmogrifier pipeline to import news"
+    configuration="migracao.cfg"
+    />
+
+      <browser:page
+        name="migracao"
+        for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+        class=".migracao.ImportForm"
+        permission="zope2.View"
+        />
+
+</configure>
