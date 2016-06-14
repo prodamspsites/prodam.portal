@@ -30,6 +30,7 @@
   <include package=".browser" />
   <include package=".portlets" />
   <include package=".behaviors" />
+  <include package=".portal-migracao" />
 
   <!-- Registra pasta de elementos estaticos -->
   <browser:resourceDirectory

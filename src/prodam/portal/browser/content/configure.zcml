@@ -126,4 +126,5 @@
       template="templates/chamada.pt"
       permission="zope2.View"
       />
+
 </configure>
