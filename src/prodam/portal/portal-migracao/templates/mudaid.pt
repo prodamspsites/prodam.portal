@@ -1,5 +1,10 @@
 <h1>Mudar informações (browser view)</h1>
 <!-- <p tal:content="view/get_id" />
 <p tal:content="view/mudar_itens" /> -->
-<p tal:content="view/mudar_id_noticias" />
+<!-- <p tal:content="view/mudar_id_noticias" /> -->
 <!-- <p tal:content="view/importar_imagens" /> -->
+<!-- <p tal:content="view/urlprefeitura" /> -->
+<!-- <p tal:content="view/removeImgs" /> -->
+<!-- <p tal:content="view/titulo" /> -->
+<!-- <p tal:content="view/urlprefeitura" /> -->
+<p tal:content="view/refactor" />

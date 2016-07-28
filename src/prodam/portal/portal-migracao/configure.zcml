@@ -5,7 +5,7 @@
     i18n_domain="prodam.portal">
 
   <browser:page
-      name="mudaid"
+      name="migracao-conteudo"
       for="*"
       class=".importacao.MudaId"
       template="templates/mudaid.pt"
