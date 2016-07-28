@@ -89,8 +89,7 @@ class MudaId(BrowserView):
     #                 i.portal_workflow.doActionFor(i.getObject(), 'publish')
 
     def refactor(self):
-        # import pdb; pdb.set_trace();
-        handle = os.path.abspath('data/atualizado.csv')
+        handle = os.path.abspath('src/prodam.portal/data/atualizado.csv')
         portal = api.portal.get()
         folder = portal['noticia']
         datas = open(handle, 'r+').readlines()
