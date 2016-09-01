@@ -18,11 +18,10 @@
            class="calendarPrev"
            tal:define="prevMonthMonth view/prevMonthMonth;
                        prevMonthYear view/prevMonthYear"
-           tal:attributes="id python:showPrevMonth and 'calendar-previous' or '';
+           tal:attributes="id python:'calendar-previous';
                            href python:'?%smonth:int=%d&amp;year:int=%d&amp;orig_query=%s' % (query_string, prevMonthMonth, prevMonthYear, url_quote_plus(query_string));
                            data-year prevMonthYear;
                            data-month prevMonthMonth;"
-           tal:condition="showPrevMonth"
            i18n:attributes="title title_previous_month;">&laquo;</a>
 
         <span i18n:translate="" tal:omit-tag="">
@@ -39,11 +38,10 @@
            class="calendarNext"
            tal:define="nextMonthMonth view/nextMonthMonth;
                        nextMonthYear view/nextMonthYear"
-           tal:attributes="id python:showNextMonth and 'calendar-next' or '';
+           tal:attributes="id python:'calendar-next';
                            href python:'?%smonth:int=%d&amp;year:int=%d&amp;orig_query=%s' % (query_string, nextMonthMonth, nextMonthYear, url_quote_plus(query_string));
                            data-year nextMonthYear;
                            data-month nextMonthMonth;"
-           tal:condition="showNextMonth"
            i18n:attributes="title title_next_month;">&raquo;</a>
         <span class="portletTopRight"></span>
     </dt>

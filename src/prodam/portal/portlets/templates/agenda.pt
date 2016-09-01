@@ -1,5 +1,5 @@
 <div class="prefeito">
-  <h2 id="agendaPrefeitura" tal:content="view/getPortletTitle"></h2>
+  <h2 id="agendaPrefeitura"><a href="" tal:attributes="href string:${context/portal_url}/agenda"><span tal:replace="structure view/getPortletTitle" /></a></h2>
 </div>
 
 <ul id="agenda" tal:define="events view/getEvents">
@@ -13,3 +13,4 @@
     </article>
   </li>
 </ul>
+<a href="#" tal:attributes="href string:${context/portal_url}/agenda" class="veragendaCompleta">Ver agenda completa <span class="sprite-arrowright2"></span></a>
