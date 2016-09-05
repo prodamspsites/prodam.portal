@@ -9,6 +9,8 @@ from zope import schema
 from zope.formlib import form
 from zope.interface import implements
 from twitter import Api
+from pymongo import MongoClient
+
 from time import strptime, mktime, localtime
 from zope.i18n import translate
 
@@ -117,22 +119,27 @@ class Renderer(base.Renderer):
     """
 
     def getTweets(self):
-        api = Api(consumer_key=self.data.consumer_key, consumer_secret=self.data.consumer_secret, access_token_key=self.data.access_token, access_token_secret=self.data.token_secret)
-        try:
-            api.VerifyCredentials()
-            statuses = api.GetUserTimeline(screen_name=self.data.user)[:int(self.data.count)]
+        mongo_client = MongoClient('mongodb://mongo0.prodam:27017')
+        database = mongo_client.prodam
+        tweets = database.tweets.find()
+        if tweets.count > 0:
             ocorrencias = []
-            ocorrencias.append('<div>')
-            for i in statuses:
+            for i in tweets:
+                print i
                 text = ""
-                dtt = str(i.created_at)
-                dtf = self.relative_time(str(self.converteTweetData(dtt)))
-                text = '<a href="https://twitter.com/' + self.data.user + '/statuses/' + str(i.id) + '" target="_blank"> <time>' + dtf + '</time><p>' + str(i.text) + '</p></a>'
+                try:
+                    dtt = str(i["created_at"])
+                    dtf = self.relative_time(str(self.converteTweetData(dtt)))
+                except:
+                    dtf = False
+
+                if dtf:
+                    text = '<a href="' + i["url"] + '" target="_blank"> <time>' + dtf + '</time><p>' + str(i["text"]) + '</p></a>'
+                else:
+                    text = '<a href="' + i["url"] + '" target="_blank"><p>' + str(i["text"]) + '</p></a>'
+
                 ocorrencias.append(text)
-            ocorrencias.append('</div>')
             return ocorrencias
-        except:
-            return False
 
     def getTitle(self):
         if self.data.header:

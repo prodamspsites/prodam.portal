@@ -178,7 +178,6 @@
                       <span class="itemTitle" tal:content="item/Title" > </span>
 
                       <span i18n:domain="plone"
-                        tal:condition="show_about"
                         tal:define="item_type item/PortalType">
 
                         <span class="itemType" i18n:translate="" i18n:domain="plone"

@@ -16,11 +16,13 @@
       </a>
     </h4>
     <div class="tweetlist">
+      <div>
       <tal:tweets define="tweets view/getTweets" repeat="tweet tweets">
-        <span tal:replace="structure tweet" />
+        <span tal:replace="structure tweet"  />
       </tal:tweets>
         <button id="voltar" class="sprite-verao rw"> </button>
         <button id="ir" class="sprite-verao fw"> </button>
+      </div>
     </div>
   </div>
 </aside>
