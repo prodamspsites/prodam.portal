@@ -3,7 +3,7 @@
         <div id="mostra-alerta">
             <tal:alerta define="alerta python:alertaAtivo[0].getObject()">
                 <div class="alerta-ativo">
-                    <img src="++resource++prodam.portal/admin/img/ico03.gif" class="icoPreview" tal:attributes="src python:alerta.img" />
+                    <img src="++resource++prodam.portal/admin/img/ico03.gif" width="42" class="icoPreview" tal:attributes="src python:alerta.img" />
                     <h3 class="changeh3"><span tal:replace="structure python:alerta.titulo">Pellentesque at vestibulum tortor. Duis cursus, orci at consequat iaculis, libero.</span></h3>
                     <p class="changep"><span tal:replace="structure python:alerta.descricao">In gravida quis lectus eget feugiat. Sed diam arcu, vehicula a iaculis eget, efficitur posuere lacus. Praesent sed tempor purus, fermentum facilisis turpis. Quisque non purus eu</span></p>
                 </div>

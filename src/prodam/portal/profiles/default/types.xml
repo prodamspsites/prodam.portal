@@ -4,4 +4,5 @@
  <object name="prodam.chamadas" meta_type="Dexterity FTI"/>
  <object name="geolocalizacao" meta_type="Dexterity FTI"/>
  <object name="alerta" meta_type="Dexterity FTI"/>
+ <object name="Link" meta_type="Dexterity FTI"/>
 </object>

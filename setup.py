@@ -47,6 +47,7 @@ setup(
         'prodam.tiles',
         'prodam.secoes',
         'collective.nitf',
+        'wildcard.tinymceplugins.youtube',
         'sc.social.like',
         'five.pt',
         'Pillow',

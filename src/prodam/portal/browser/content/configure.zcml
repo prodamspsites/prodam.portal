@@ -56,6 +56,7 @@
       layer="prodam.portal.interfaces.IProdamPortal"
       />
 
+<!--
   <browser:page
       name="admin"
       for="*"
@@ -64,11 +65,21 @@
       template="templates/admin/admin.pt"
       layer="prodam.portal.interfaces.IProdamPortal"
       />
+-->
+
+  <browser:page
+      name="admin"
+      for="*"
+      permission="cmf.ModifyPortalContent"
+      class=".admin.Admin"
+      template="templates/admin/admin.pt"
+      layer="prodam.portal.interfaces.IProdamPortal"
+      />
 
   <browser:page
       name="admin-alertas"
       for="*"
-      permission="zope2.View"
+      permission="cmf.ModifyPortalContent"
       class=".admin.Admin"
       template="templates/admin/alertas.pt"
       layer="prodam.portal.interfaces.IProdamPortal"
@@ -77,7 +88,7 @@
   <browser:page
       name="criar-alertas"
       for="*"
-      permission="zope2.View"
+      permission="cmf.ModifyPortalContent"
       class=".admin.createAlertas"
       layer="prodam.portal.interfaces.IProdamPortal"
       />
@@ -85,7 +96,7 @@
     <browser:page
       name="admin-spagora"
       for="*"
-      permission="zope2.View"
+      permission="cmf.ModifyPortalContent"
       class=".admin.SPAgora"
       template="templates/admin/spagora.pt"
       layer="prodam.portal.interfaces.IProdamPortal"
@@ -94,7 +105,7 @@
     <browser:page
       name="admin-spagora-editar-painel"
       for="*"
-      permission="zope2.View"
+      permission="cmf.ModifyPortalContent"
       class=".admin.SPAgoraEditar"
       template="templates/admin/spagora_editar_painel.pt"
       layer="prodam.portal.interfaces.IProdamPortal"

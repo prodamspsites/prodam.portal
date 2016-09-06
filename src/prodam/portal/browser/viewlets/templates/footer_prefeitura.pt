@@ -1,4 +1,107 @@
-<footer id="footer-nav">
+<footer id="footer-nav" condition="view/showCustomRodape">
+  <div class="container-wrapper">
+    <section class="width-16 first">
+
+      <tal:governoMunicipal condition="python:view.getObjectInFooter('governo-municipal')">
+        <nav role="navigation" class="width-4 first" id="bloco1"
+             tal:define="item python:view.getObjectInFooter('governo-municipal/governo-municipal');">
+          <strong tal:content="item/Title">Governo Municipal</strong>
+            <ul tal:replace="structure python:item.text.output">
+              <li>
+                <span>Prefeito</span>
+                <strong>Fernando Haddad</strong>
+              </li>
+              <li><a target="_blank" href="http://www.prefeitura.sp.gov.br/guiadeservicos/content/equipe-de-governo">
+              <strong>Equipe de Governo</strong></a></li>
+          </ul>
+          <ul class="lista">
+            <li><a href="/Prefeitura/agenda">Agenda do prefeito</a></li>
+          </ul>
+        </nav>
+      </tal:governoMunicipal>
+
+      <nav role="navigation" class="width-4" id="bloco2"
+           tal:define="acontece python:view.getObjectInFooter('acontece-na-cidade')">
+        <strong tal:content="acontece/Title">Acontece na Cidade</strong>
+        <ul class="lista" tal:define="path python:'/'.join(acontece.getPhysicalPath());
+                                      links python:acontece.portal_catalog(path=path, portal_type='Link')">
+          <li tal:repeat="link links">
+            <a tal:attributes="href python:link.getObject().remoteUrl" tal:content="link/Title">ÚLTIMAS NOTÍCIAS</a>
+          </li>
+        </ul>
+      </nav>
+      <nav role="navigation" class="width-4" id="bloco3" tal:define="spPara python:view.getObjectInFooter('sao-paulo-para');">
+        <strong tal:content="spPara/Title">São Paulo para</strong>
+        <ul class="upper lista" tal:define="path python:'/'.join(spPara.getPhysicalPath());
+                                            links python:spPara.portal_catalog(path=path, portal_type='Link')">
+          <li tal:repeat="link links">
+            <a tal:attributes="href python:link.getObject().remoteUrl" tal:content="link/Title">ÚLTIMAS NOTÍCIAS</a>
+          </li>
+        </ul>
+      </nav>
+      <div class="width-4 last" id="bloco4"
+           tal:define="atendimento python:view.getObjectInFooter('atendimento');
+                       item python:view.getObjectInFooter('atendimento/atendimento')">
+        <strong tal:content="atendimento/Title">Atendimento</strong>
+        <ul class="box_content" tal:replace="structure python:item.text.output">
+            <li><a target="_blank" aria-label="Faça sua Solicitação" href="http://sac.prefeitura.sp.gov.br/">Faça sua Solicitação</a></li>
+        </ul><div class="visualClear"><!-- --></div>
+      </div>
+      <div class="visualClear"><!-- --></div>
+    </section>
+    <section class="width-16 last">
+      <form class="width-4" id="socials" method="GET" action="footer.php">
+        <fieldset class="five columns alpha">
+          <legend class="legend">Prefeitura</legend>
+          <tal:imports tal:define="governoMunicipal python:context.restrictedTraverse('@@governoMunicipal');
+                                   subPrefeituras governoMunicipal/getSubPrefeituras;
+                                   secretarias governoMunicipal/getSecretarias;
+                                   orgaos governoMunicipal/getOrgaos">
+
+            <tal:secretarias tal:replace="structure secretarias"></tal:secretarias>
+            <tal:subPrefeituras tal:replace="structure subPrefeituras"></tal:subPrefeituras>
+            <tal:orgaos tal:replace="structure orgaos"></tal:orgaos>
+          </tal:imports>
+       </fieldset>
+      </form>
+      <div id="bloco2" class="width-4"
+           tal:define="canais python:view.getObjectInFooter('canais-oficiais');
+                       item python:view.getObjectInFooter('canais-oficiais/canais-oficiais')">
+        <strong tal:content="canais/Title">Canais Oficiais</strong>
+        <ul class="social_footer" id="social_footer" tal:replace="structure python:item.text.output">
+          <li>
+            <a target="_blank" href="https://www.facebook.com/PrefSP"><span id="facebook">Facebook</span></a>
+          </li>
+          <li>
+            <a target="_blank" href="http://www.twitter.com/prefsp"><span id="twitter">Twitter</span></a>
+          </li>
+          <li>
+            <a target="_blank" href="http://www.youtube.com/prefeiturasaopaulo"><span id="youtube">Youtube</span></a>
+          </li>
+          <li style="clear: both;padding-top: 14px;">
+            <a target="_blank" href="http://www.docidadesp.imprensaoficial.com.br"><span id="diario"></span>
+              Diário Oficial
+            </a>
+          </li>
+        </ul>
+      </div>
+      <nav id="bloco3" class="width-4"
+           tal:define="consultas python:view.getObjectInFooter('consultas')">
+        <strong tal:content="consultas/Title">Consultas</strong>
+        <ul class="lista" tal:define="path python:'/'.join(consultas.getPhysicalPath());
+                                      links python:consultas.portal_catalog(path=path, portal_type='Link')">
+          <li tal:repeat="link links">
+            <a tal:attributes="href python:link.getObject().remoteUrl" tal:content="link/Title">ÚLTIMAS NOTÍCIAS</a>
+          </li>
+        </ul>
+      </nav>
+     <div class="visualClear"><!-- --></div>
+    </section>
+    <div class="visualClear"><!-- --></div>
+  </div>
+</footer>
+
+<footer id="footer-nav" tal:condition="not: view/showCustomRodape">
   <div class="container-wrapper">
     <section class="width-16 first">
       <nav role="navigation" class="width-4 first" id="bloco1">
@@ -99,6 +202,7 @@
     <div class="visualClear"><!-- --></div>
   </div>
 </footer>
+
 
 <div class="footer-texto">
   <div class="container-wrapper">

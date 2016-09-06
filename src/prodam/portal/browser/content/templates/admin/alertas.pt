@@ -109,13 +109,40 @@
                             <select>
                                 <option>Intervalo de datas</option>
                             </select>
-                            <span class="labeldate">Início</span>
-                            <input type="text" id="datepicker" class="inputdate startdate">
-                            <input type="time" class="inputtime timestart" />
-                            <span class="labeldate">Término</span>
-                            <input type="text" id="datepicker2" class="inputdate enddate">
-                            <input type="time" class="inputtime timeend" />
-                            <input type="button" class="btnEnviar" value="Publicar"  />
+
+                            <tal:new condition="not:view/getHref">
+                                <span class="labeldate">Início</span>
+                                <input type="text" id="datepicker" class="inputdate startdate">
+                                <input type="time" class="inputtime timestart" />
+                                <span class="labeldate">Término</span>
+                                <input type="text" id="datepicker2" class="inputdate enddate">
+                                <input type="time" class="inputtime timeend" />
+                                <input type="button" class="btnEnviar" value="Publicar"  />
+                            </tal:new>
+
+                            <tal:edit condition="view/getHref">
+                                <tal:obj define="obj python:context.portal_catalog(path=view.getHref())[0].getObject()">
+                                    <span class="labeldate">Início</span>
+                                    <input type="text" id="datepicker" class="inputdate startdate"
+                                        tal:define="start python:obj.start;
+                                                    date python:'%s/%s/%s' %(start.day, start.month, start.year)"
+                                        tal:attributes="value date">
+                                    <input type="time" class="inputtime timestart"
+                                        tal:define="start python:obj.start;
+                                                    time python:'%02d:%02d' %(start.hour, start.minute)"
+                                        tal:attributes="value time" />
+                                    <span class="labeldate">Término</span>
+                                    <input type="text" id="datepicker2" class="inputdate enddate"
+                                        tal:define="end python:obj.end;
+                                                    date python:'%s/%s/%s' %(end.day, end.month, end.year)"
+                                        tal:attributes="value date">
+                                    <input type="time" class="inputtime timeend"
+                                        tal:define="end python:obj.end;
+                                                    time python:'%02d:%02d' %(end.hour, end.minute)"
+                                        tal:attributes="value time"/>
+                                    <input type="button" class="btnEnviar" value="Publicar"  />
+                                </tal:obj>
+                            </tal:edit>
                     </div>
                     <div class="salvar">
                         <input type="button" class="btnCancelar" value="Cancelar"  />

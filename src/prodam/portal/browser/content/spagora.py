@@ -15,12 +15,15 @@ from plone.memoize import ram
 from time import localtime
 from time import time
 from twitter import Api
+from pymongo import MongoClient
 from urllib import urlencode
 from urllib2 import HTTPCookieProcessor
 from urllib2 import HTTPError
 from urllib2 import ProxyHandler
 from urllib2 import Request
 from urllib2 import build_opener
+from zope.i18n import translate
+from time import strptime, mktime
 try:
     import cPickle as pickle
 except ImportError:
@@ -948,25 +951,81 @@ class SpAgora(BrowserView):
     ##########################################################################
     """
 
-    @ram.cache(lambda *args: time() // (60 * 15))
-    def getTweets(self, consumer_key='OOXF8haUGyWq2YNoSciDTLGXd', consumer_secret='sZfagT290goGqJG94H0Nng2gsEStqvpEbz3wEw0UTHgboxrUmh', access_token_secret='A0DEgOpSCTu44NZcyMHCtXdNBFq8vsFwMKSv7Neenl7AY', access_token='3397165841-g80Y2QqVEEjhzqMsQTDBpyWiz1Mcm0pwv519GfN', screen_name='saopaulo_agora', count=5):
-        api = Api(consumer_key=consumer_key, consumer_secret=consumer_secret, access_token_key=access_token, access_token_secret=access_token_secret)
-        try:
-            api.VerifyCredentials()
-            statuses = api.GetUserTimeline(screen_name=screen_name)[:int(count)]
+    @ram.cache(lambda *args: time() // (30 * 1))
+    def getTweets(self):
+        mongo_client = MongoClient('mongodb://mongo0.prodam:27017')
+        database = mongo_client.prodam
+        tweets = database.tweets.find()
+        if tweets.count > 0:
             ocorrencias = []
-            ocorrencias.append('<div>')
-            y = 0
-            for i in statuses:
+            for i in tweets:
+                first = ocorrencias and '' or 'selecionado';
+                print first
                 text = ""
-                if y == int(0):
-                    text = '<a href="https://twitter.com/' + screen_name + '/statuses/' + str(i.id) + '" class="selecionado" target="_blank">' + str(i.text) + '<time>' + str(i.relative_created_at) + '</time></a>'
-                    # ocorrencias.append(status)
+                try:
+                    dtt = str(i["created_at"])
+                    dtf = self.relative_time(str(self.converteTweetData(dtt)))
+                except:
+                    dtf = False
+
+                if dtf:
+                    text = '<a href="' + i["url"] + '" target="_blank" class="'+ first  +'"> <time>' + dtf + '</time><p>' + str(i["text"]) + '</p></a>'
                 else:
-                    text = '<a href="https://twitter.com/' + screen_name + '/statuses/' + str(i.id) + '" target="_blank">' + str(i.text) + '<time>' + str(i.relative_created_at) + '</time></a>'
-                ocorrencias.append(text)
-                y = y + 1
-            ocorrencias.append('</div>')
+                    text = '<a href="' + i["url"] + '" target="_blank"  class="'+ first +'"><p>' + str(i["text"]) + '</p></a>'
+
+                ocorrencias.append(str(text))
+            print ocorrencias
             return ocorrencias
-        except:
-            return False
+
+
+_partialMinute = 45 * 60
+_partialHour = 90 * 60
+_fullDay = 24 * 60 * 60
+_twoDays = _fullDay * 2
+
+
+def relative_time(dateString, currentTime=None):
+    """
+Take the created_at timestamp string and convert
+it to a relative text expression
+    """
+    if currentTime is not None:
+        now = currentTime
+    else:
+        now = mktime(localtime())
+    import math
+    date = dateString.replace(' +0000', '')
+    parsed = mktime(strptime(date, '%a %b %d %H:%M:%S %Y'))
+    delta = now - parsed
+    if delta < 60:
+        return translate('Há 1 minuto')
+    elif delta < 120:
+        return translate('Há 2 minuto')
+    elif delta < _partialMinute:
+        return translate('Há %d minutos') % (delta / 60)
+    elif delta < _partialHour:
+        return translate('Há 1 hora atrás')
+    elif delta < _fullDay:
+            d = math.ceil(delta / 3600)
+            return translate('Há %d horas atrás') % d
+    elif delta < _twoDays:
+        return translate('Há 1 dia atrás')
+    else:
+        return translate('Há %d dias atrás') % (delta / 86400)
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+
+
+def converteTweetData(dt):
+    import datetime
+    try:
+        import pytz
+        eastern = pytz.timezone('America/Sao_Paulo')
+        test2 = datetime.datetime.strptime(str(dt), '%a %b %d %H:%M:%S +0000 %Y')
+        test3 = pytz.utc.localize(test2)
+        test4 = test3.astimezone(eastern)
+        return test4.strftime('%a %b %d %H:%M:%S +0000 %Y')
+    except:
+        print('NAO FOI POSSIVEL IMPORTAR BIBLIOTECA PYTZ')

@@ -47,9 +47,7 @@
           <div class="contentBody" tal:define="texto context/text/raw | nothing">
             <p tal:replace="structure texto">Conteúdo</p>
           </div>
-          <div id="galeriaImagem" tal:define="catalog python:context.portal_catalog;
-                                              path python:'/'.join(context.getPhysicalPath());
-                                              images python:catalog(path=path,portal_type='Image')"
+          <div id="galeriaImagem" tal:define="images context/galeria"
                                   tal:condition="images">
             <script src="++resource++prodam.portal/js/gallery/jquery.tmpl.min.js"></script>
             <script src="++resource++prodam.portal/js/gallery/jquery.elastislide.js"></script>
@@ -84,7 +82,7 @@
             <div id="image_links">
               <h4>Imagens para download</h4>
               <tal:links tal:repeat="img images">
-                <a href="" tal:attributes="href python:img.absolute_url() + '/view'" tal:content="string:Foto ${repeat/img/number}" />
+                <a href="" tal:attributes="href python:img.to_object.absolute_url() + '/view'" tal:content="string:Foto ${repeat/img/number}" />
                 <span tal:condition="not:repeat/img/end" tal:content="string: |" />
               </tal:links>
             </div>
@@ -119,17 +117,17 @@
                   <div class="es-carousel">
                     <ul tal:attributes="data-size python:len(images)">
                       <tal:images tal:repeat="img images">
-                        <li tal:attributes="data-current repeat/img/number;"><a href="#" tal:define="scales python:img.getObject().restrictedTraverse('@@images');
+                        <li tal:attributes="data-current repeat/img/number;"><a href="#" tal:define="scales python:img.to_object.restrictedTraverse('@@images');
                                                     thumbnail python:scales.scale('image', width=100, height=66);
                                                     large python:scales.scale('image', scale='large')">
                           <img src="thumbs.png" data-large="large.jpg" alt="image01" data-description=""
                                tal:attributes="src thumbnail/url;
                                                data-large large/url;
-                                               alt img/Title;
-                                               data-description img/Description" />
-                          <span class="descricao" tal:content="structure img/Description" />
-                          <tal:hasAutor tal:condition="python:img.getObject().autor">
-                            <span class="autor" tal:content="python:img.getObject().autor">
+                                               alt python:img.to_object.Title();
+                                               data-description python:img.to_object.Description()" />
+                          <span class="descricao" tal:content="structure python:img.to_object.Description()" />
+                          <tal:hasAutor tal:condition="python:img.to_object.autor">
+                            <span class="autor" tal:content="python:img.to_object.autor" />
                           </tal:hasAutor>
                         </a></li>
                       </tal:images>

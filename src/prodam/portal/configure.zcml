@@ -29,6 +29,7 @@
 
   <include package=".browser" />
   <include package=".portlets" />
+  <include package=".behaviors" />
 
   <!-- Registra pasta de elementos estaticos -->
   <browser:resourceDirectory

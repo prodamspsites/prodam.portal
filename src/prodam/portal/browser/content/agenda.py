@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from Products.Five import BrowserView
 from DateTime import DateTime
+import locale
 
 
 class Agenda(BrowserView):
@@ -23,11 +24,30 @@ class Agenda(BrowserView):
                                              review_state='published')
         return events
 
+    def getYearEvent(self):
+        if('year' in self.request):
+            return self.request.form['year']
+        else:
+            return ''
+
+    def getMonthEvent(self):
+        if('month' in self.request):
+            return self.request.form['month']
+        else:
+            return ''
+
+    def getDayEvent(self):
+        if('day' in self.request):
+            return self.request.form['day']
+        else:
+            return ''
+
     def getTitle(self):
         requested_date = DateTime(self.getDay())
+        locale.setlocale(locale.LC_TIME, "pt_BR")
         title = ''
         isToday = requested_date.isCurrentDay()
         title = isToday and 'HOJE: ' or title
-        title += requested_date.strftime('%A, %d de %B de %Y')
-
+        encode_data_iso = unicode(requested_date.strftime('%A, %d de %B de %Y'), 'iso-8859-1')
+        title += encode_data_iso
         return title
