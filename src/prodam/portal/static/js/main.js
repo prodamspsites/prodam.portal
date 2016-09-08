@@ -61,6 +61,9 @@
     });
 
     $(document).on('click', '#ir', function(e) {
+      if($(".tweetlist > div > a").not(".tweet-oculto").length == 0 ) {
+        $('.tweetlist > div > a').addClass('selecionado');
+      }
       var tweetSelecionado = $('.tweetlist > div > a.selecionado');
       if(tweetSelecionado.next().length){
           tweetSelecionado.removeClass('selecionado').addClass('tweet-oculto').next().addClass('selecionado').removeClass('tweet-oculto');
