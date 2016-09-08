@@ -8,7 +8,6 @@ from plone.portlets.interfaces import IPortletDataProvider
 from zope import schema
 from zope.formlib import form
 from zope.interface import implements
-from twitter import Api
 from pymongo import MongoClient
 
 from time import strptime, mktime, localtime

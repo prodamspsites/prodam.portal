@@ -14,7 +14,6 @@ from gzip import GzipFile
 from plone.memoize import ram
 from time import localtime
 from time import time
-from twitter import Api
 from pymongo import MongoClient
 from urllib import urlencode
 from urllib2 import HTTPCookieProcessor
@@ -959,7 +958,7 @@ class SpAgora(BrowserView):
         if tweets.count > 0:
             ocorrencias = []
             for i in tweets:
-                first = ocorrencias and '' or 'selecionado';
+                first = ocorrencias and '' or 'selecionado'
                 print first
                 text = ""
                 try:
@@ -967,11 +966,10 @@ class SpAgora(BrowserView):
                     dtf = self.relative_time(str(self.converteTweetData(dtt)))
                 except:
                     dtf = False
-
                 if dtf:
-                    text = '<a href="' + i["url"] + '" target="_blank" class="'+ first  +'"> <time>' + dtf + '</time><p>' + str(i["text"]) + '</p></a>'
+                    text = '<a href="' + i["url"] + '" target="_blank" class="' + first + '"> <time>' + dtf + '</time><p>' + str(i["text"]) + '</p></a>'
                 else:
-                    text = '<a href="' + i["url"] + '" target="_blank"  class="'+ first +'"><p>' + str(i["text"]) + '</p></a>'
+                    text = '<a href="' + i["url"] + '" target="_blank" class="' + first + '"><p>' + str(i["text"]) + '</p></a>'
 
                 ocorrencias.append(str(text))
             print ocorrencias

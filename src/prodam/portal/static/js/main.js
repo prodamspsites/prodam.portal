@@ -12,7 +12,7 @@
     });*/
 
 
-    if ($('body').hasClass('portaltype-collective-cover-content') || $('body').hasClass('portaltype-document') || $('body').hasClass('portaltype-topic')
+    if ($('body').hasClass('portaltype-collective-cover-content') || $('body').hasClass('template-agenda-prefeito') || $('body').hasClass('portaltype-document') || $('body').hasClass('portaltype-topic')
         || $('body').hasClass('portaltype-service') || $('body').hasClass('portaltype-section') || $('body').hasClass('portaltype-news-item') || $('header').hasClass('dash-header')) {
       spagora_url = portal_url + '/spagora-assincrono';
       console.log(spagora_url);
