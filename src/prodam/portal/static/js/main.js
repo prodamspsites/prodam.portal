@@ -61,7 +61,7 @@
     });
 
     $(document).on('click', '#ir', function(e) {
-      if($(".tweetlist > div > a").not(".tweet-oculto").length == 0 ) {
+      if($(".tweetlist > div > a").not(".tweet-oculto").length == 1 ) {
         $('.tweetlist > div > a').addClass('selecionado');
       }
       var tweetSelecionado = $('.tweetlist > div > a.selecionado');
