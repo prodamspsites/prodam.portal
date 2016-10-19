@@ -64,7 +64,7 @@
                 <a href=""
                     i18n:name="go_here"
                     i18n:translate="label_folder_contents_view"
-                    tal:attributes="href string:${folder_default_page}/@@folder_contents">folder contents view</a>
+                    tal:attributes="href string:${folder_default_page}/@@prodam_folder_contents">folder contents view</a>
                 and use the add menu.
             </dd>
           </dl>
@@ -73,7 +73,7 @@
              class="link-parent"
              tal:define="parent_url view/parent_url"
              tal:condition="parent_url"
-             tal:attributes="href string:${parent_url}/folder_contents"
+             tal:attributes="href string:${parent_url}/prodam_folder_contents"
              i18n:translate="go_to_parent_url">
               Up one level
           </a>

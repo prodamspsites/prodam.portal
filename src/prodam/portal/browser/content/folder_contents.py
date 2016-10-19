@@ -124,7 +124,7 @@ class FolderContentsTable(object):
         self.pagesize = int(self.request.get('pagesize', 20))
         self.items = self.folderitems()
         url = context.absolute_url()
-        view_url = url + '/folder_contents'
+        view_url = url + '/prodam_folder_contents'
         self.table = Table(request, url, view_url, self.items,
                            show_sort_column=self.show_sort_column,
                            buttons=self.buttons,
@@ -210,7 +210,7 @@ class FolderContentsTable(object):
             if obj.portal_type in use_view_action:
                 view_url = url + '/view'
             elif obj.is_folderish:
-                view_url = url + "/folder_contents"
+                view_url = url + "/prodam_folder_contents"
             else:
                 view_url = url
 
