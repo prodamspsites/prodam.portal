@@ -120,7 +120,7 @@
       />
 
   <browser:page
-      name="chamadaView"
+      name="portalchamadaView"
       for="*"
       class=".chamada.chamadaView"
       template="templates/chamada.pt"
