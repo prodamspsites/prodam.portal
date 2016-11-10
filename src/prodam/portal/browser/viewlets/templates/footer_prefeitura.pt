@@ -26,7 +26,7 @@
         <ul class="lista" tal:define="path python:'/'.join(acontece.getPhysicalPath());
                                       links python:acontece.portal_catalog(path=path, portal_type='Link')">
           <li tal:repeat="link links">
-            <a tal:attributes="href python:link.getObject().remoteUrl" tal:content="link/Title">ÚLTIMAS NOTÍCIAS</a>
+            <a tal:attributes="href python:link.getObject().remoteUrl; target python: link.getObject().target and '_blank' or '_self'" tal:content="link/Title">ÚLTIMAS NOTÍCIAS</a>
           </li>
         </ul>
       </nav>
