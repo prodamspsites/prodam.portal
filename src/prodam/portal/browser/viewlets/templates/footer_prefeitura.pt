@@ -15,7 +15,7 @@
               <strong>Equipe de Governo</strong></a></li>
           </ul>
           <ul class="lista">
-            <li><a href="/Prefeitura/agenda">Agenda do prefeito</a></li>
+            <li><a href="/agenda" tal:attributes="href string:${context/portal_url}/agenda">Agenda do prefeito</a></li>
           </ul>
         </nav>
       </tal:governoMunicipal>
