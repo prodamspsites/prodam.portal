@@ -156,10 +156,27 @@ jQuery(function ($) {
     $search_filter.delegate('input, select', 'change',
         function (e) {
             query = '';
+            //console.log('CAIU AQUI');
+
+            var st = location.search.substring(1);
+            console.log(st);
+            var re = /([^&=]+)=([^&]*)/g, m, queryParameters = [], key;
+            while (m = re.exec(st)) {
+                 key = decodeURIComponent(m[1]);
+                 if(key == 'SearchableText'){
+                     //console.log(key);
+                     query = 'SearchableText=' + decodeURIComponent(m[2].replace(/\+/g, ' '))  + '&';
+                 }
+            }
+
+            //re = /([^&=]+)=([^&]*)/g, m, queryParameters = [], key;
+            //st = $search_field.find('input[name="SearchableText"]').val();
+            //queryParameters.push({"name":"SearchableText", "value": st});
+
             // only fill query when there is at least one type selected
             // by default we have a checked date radio input button
             if ($search_filter.find('input:checked').length > 1) {
-                query = $form_search_page.serialize();
+                query = query + $form_search_page.serialize();
             }
             $default_res_container.pullSearchResults(query);
             pushState(query);
