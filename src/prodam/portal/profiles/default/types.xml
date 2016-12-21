@@ -5,4 +5,5 @@
  <object name="geolocalizacao" meta_type="Dexterity FTI"/>
  <object name="alerta" meta_type="Dexterity FTI"/>
  <object name="Link" meta_type="Dexterity FTI"/>
+ <object name="Google Video" meta_type="Dexterity FTI"/>
 </object>

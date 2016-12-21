@@ -27,6 +27,7 @@ class Fixture(PloneSandboxLayer):
         super(Fixture, self).tearDown()
         configuration_registry.clear()
 
+
 FIXTURE = Fixture()
 INTEGRATION_TESTING = IntegrationTesting(
     bases=(FIXTURE,),

@@ -1011,6 +1011,7 @@ it to a relative text expression
     else:
         return translate('Há %d dias atrás') % (delta / 86400)
 
+
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
