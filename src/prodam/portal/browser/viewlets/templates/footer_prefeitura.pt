@@ -14,7 +14,15 @@
               <li><a target="_blank" href="http://www.prefeitura.sp.gov.br/guiadeservicos/content/equipe-de-governo">
               <strong>Equipe de Governo</strong></a></li>
           </ul>
-        </nav>
+
+          <!-- Agenda do prefeito  -->
+          <ul class="lista" tal:define="item_rodape python:view.getObjectInFooter('governo-municipal');path python:'/'.join(item_rodape.getPhysicalPath());
+                                      links python:item_rodape.portal_catalog(path=path, portal_type='Link')">
+          <li tal:repeat="link links">
+            <a tal:attributes="href python:link.getObject().remoteUrl; target python: link.getObject().target and '_blank' or '_self'" tal:content="link/Title">ÚLTIMAS NOTÍCIAS</a>
+          </li>
+        </ul>
+      </nav>
       </tal:governoMunicipal>
 
       <nav role="navigation" class="width-4" id="bloco2"
