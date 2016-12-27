@@ -116,7 +116,7 @@
                       </span>
 
                     <div style="float:left; margin-right: 2em;"
-                       tal:define="typeLists python:context.createMultiColumnList(types_list, numCols=1, sort_on='self');"
+                       tal:define="typeLists python:context.createMultiColumnList(types_list, numCols=1, sort_on=None);"
                        tal:repeat="sublist typeLists">
                       <tal:items repeat="type sublist">
                         <input type="checkbox"

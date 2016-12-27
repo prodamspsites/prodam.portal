@@ -76,7 +76,7 @@ def createGovernoMunicipal(site):
     createObj(site, 'governo-municipal', 'Governo Municipal', 'Folder', 'rodape', exclude_from_nav=True)
 
     url_site = site.absolute_url() + '/agenda'
-    # createDoc(site, 'governo-municipal', 'Governo Municipal', 'rodape/governo-municipal', '<ul><li><span>Prefeito</span><strong>Fernando Haddad</strong></li><li><a target="_blank" href="http://www.prefeitura.sp.gov.br/guiadeservicos/content/equipe-de-governo"><strong>Equipe de Governo</strong></a></li></ul><ul class="lista"><li><a href="../../agenda">Agenda do prefeito</a></li></ul>')
+    # createDoc(site, 'governo-municipal', 'Governo Municipal', 'rodape/governo-municipal', '<ul><li><span>Prefeito</span> <strong>João Dória</strong></li><li><a target="_blank" href="http://www.prefeitura.sp.gov.br/guiadeservicos/content/equipe-de-governo"><strong>Equipe de Governo</strong></a></li></ul><ul class="lista"><li><a href="../../agenda">Agenda do prefeito</a></li></ul>')
     createDoc(site, 'governo-municipal', 'Governo Municipal', 'rodape/governo-municipal', '<ul><li><span>Prefeito</span><strong>Fernando Haddad</strong></li><li><a target="_blank" href="http://www.prefeitura.sp.gov.br/guiadeservicos/content/equipe-de-governo"><strong>Equipe de Governo</strong></a></li></ul><ul class="lista"><li><a href="' + url_site + '">Agenda do prefeito</a></li></ul>')
 
 

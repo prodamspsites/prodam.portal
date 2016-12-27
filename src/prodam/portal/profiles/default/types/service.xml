@@ -1,20 +1,22 @@
 <?xml version="1.0"?>
-<object name="alerta" meta_type="Dexterity FTI" i18n:domain="plone"
+<object name="service" meta_type="Dexterity FTI" i18n:domain="prodam.secoes"
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
- <property name="title" i18n:translate="">Alerta</property>
- <property name="description" i18n:translate="">None</property>
+ <property name="title" i18n:translate="">Service</property>
+ <property name="description" i18n:translate="">Adds a service</property>
  <property name="icon_expr">string:${portal_url}/document_icon.png</property>
- <property name="factory">alerta</property>
- <property name="add_view_expr">string:${folder_url}/++add++alerta</property>
+ <property name="factory">service</property>
+ <property name="add_view_expr">string:${folder_url}/++add++service</property>
  <property name="link_target"></property>
  <property name="immediate_view">view</property>
- <property name="global_allow">True</property>
+ <property name="global_allow">False</property>
  <property name="filter_content_types">True</property>
- <property name="allowed_content_types"/>
+ <property name="allowed_content_types">
+  <element value="geolocalizacao"/>
+ </property>
  <property name="allow_discussion">False</property>
- <property name="default_view">view</property>
+ <property name="default_view">service_view</property>
  <property name="view_methods">
-  <element value="view"/>
+  <element value="service_view"/>
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">cmf.AddPortalContent</property>
@@ -22,35 +24,20 @@
  <property name="behaviors">
   <element value="plone.app.dexterity.behaviors.metadata.IDublinCore"/>
   <element value="plone.app.content.interfaces.INameFromTitle"/>
+  <element
+     value="plone.app.dexterity.behaviors.exclfromnav.IExcludeFromNavigation"/>
+  <element
+     value="plone.app.referenceablebehavior.referenceable.IReferenceable"/>
+  <element value="plone.app.relationfield.behavior.IRelatedItems"/>
  </property>
  <property name="schema"></property>
  <property
     name="model_source">&lt;model xmlns:i18n="http://xml.zope.org/namespaces/i18n" xmlns:security="http://namespaces.plone.org/supermodel/security" xmlns:marshal="http://namespaces.plone.org/supermodel/marshal" xmlns:form="http://namespaces.plone.org/supermodel/form" xmlns="http://namespaces.plone.org/supermodel/schema"&gt;
   &lt;schema&gt;
-  &lt;field name="img" type="zope.schema.TextLine"&gt;
+  &lt;field name="conteudo" type="plone.app.textfield.RichText"&gt;
   &lt;description/&gt;
   &lt;required&gt;False&lt;/required&gt;
-  &lt;title&gt;Img&lt;/title&gt;
-  &lt;/field&gt;
-  &lt;field name="titulo" type="zope.schema.TextLine"&gt;
-  &lt;description/&gt;
-  &lt;required&gt;False&lt;/required&gt;
-  &lt;title&gt;titulo&lt;/title&gt;
-  &lt;/field&gt;
-  &lt;field name="descricao" type="zope.schema.TextLine"&gt;
-  &lt;description/&gt;
-  &lt;required&gt;False&lt;/required&gt;
-  &lt;title&gt;Descri&amp;#231;&amp;#227;o&lt;/title&gt;
-  &lt;/field&gt;
-  &lt;field name="start" type="zope.schema.Datetime"&gt;
-  &lt;description/&gt;
-  &lt;required&gt;False&lt;/required&gt;
-  &lt;title&gt;Start&lt;/title&gt;
-  &lt;/field&gt;
-  &lt;field name="end" type="zope.schema.Datetime"&gt;
-  &lt;description/&gt;
-  &lt;required&gt;False&lt;/required&gt;
-  &lt;title&gt;End&lt;/title&gt;
+  &lt;title&gt;Conte&amp;#250;do&lt;/title&gt;
   &lt;/field&gt;
   &lt;/schema&gt;
   &lt;/model&gt;</property>

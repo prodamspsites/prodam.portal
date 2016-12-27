@@ -1,9 +1,49 @@
 <?xml version="1.0"?>
 <object name="portal_types" meta_type="Plone Types Tool">
- <property name="title">Controls the available content types in your portal</property>
+ <property
+    name="title">Controls the available content types in your portal</property>
+ <object name="ATBooleanCriterion"
+    meta_type="Factory-based Type Information"/>
+ <object name="ATCurrentAuthorCriterion"
+    meta_type="Factory-based Type Information"/>
+ <object name="ATDateCriteria" meta_type="Factory-based Type Information"/>
+ <object name="ATDateRangeCriterion"
+    meta_type="Factory-based Type Information"/>
+ <object name="ATListCriterion" meta_type="Factory-based Type Information"/>
+ <object name="ATPathCriterion" meta_type="Factory-based Type Information"/>
+ <object name="ATRelativePathCriterion"
+    meta_type="Factory-based Type Information"/>
+ <object name="ATPortalTypeCriterion"
+    meta_type="Factory-based Type Information"/>
+ <object name="ATReferenceCriterion"
+    meta_type="Factory-based Type Information"/>
+ <object name="ATSelectionCriterion"
+    meta_type="Factory-based Type Information"/>
+ <object name="ATSimpleIntCriterion"
+    meta_type="Factory-based Type Information"/>
+ <object name="ATSimpleStringCriterion"
+    meta_type="Factory-based Type Information"/>
+ <object name="ATSortCriterion" meta_type="Factory-based Type Information"/>
+ <object name="Discussion Item" meta_type="Factory-based Type Information"/>
+ <object name="Plone Site"
+    meta_type="Factory-based Type Information with dynamic views"/>
+ <object name="TempFolder" meta_type="Factory-based Type Information"/>
+ <object name="section" meta_type="Dexterity FTI"/>
+ <object name="topic" meta_type="Dexterity FTI"/>
+ <object name="service" meta_type="Dexterity FTI"/>
+ <object name="Google Video"
+    meta_type="Factory-based Type Information with dynamic views"/>
+ <object name="tipo_de_conteudo_de_teste" meta_type="Dexterity FTI"/>
+ <object name="Collection" meta_type="Dexterity FTI"/>
+ <object name="Document" meta_type="Dexterity FTI"/>
+ <object name="Folder" meta_type="Dexterity FTI"/>
+ <object name="Link" meta_type="Dexterity FTI"/>
+ <object name="File" meta_type="Dexterity FTI"/>
+ <object name="Image" meta_type="Dexterity FTI"/>
+ <object name="News Item" meta_type="Dexterity FTI"/>
+ <object name="Event" meta_type="Dexterity FTI"/>
  <object name="prodam.chamadas" meta_type="Dexterity FTI"/>
  <object name="geolocalizacao" meta_type="Dexterity FTI"/>
  <object name="alerta" meta_type="Dexterity FTI"/>
- <object name="Link" meta_type="Dexterity FTI"/>
- <object name="Google Video" meta_type="Dexterity FTI"/>
+ <object name="collective.cover.content" meta_type="Dexterity FTI"/>
 </object>

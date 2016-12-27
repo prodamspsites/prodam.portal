@@ -1,21 +1,25 @@
 <?xml version="1.0"?>
-<object name="prodam.chamadas" meta_type="Dexterity FTI" i18n:domain="plone"
+<object name="topic" meta_type="Dexterity FTI" i18n:domain="prodam.secoes"
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
- <property name="title" i18n:translate="">Prodam Chamadas</property>
- <property name="description" i18n:translate="">None</property>
- <property name="icon_expr">string:${portal_url}/document_icon.png</property>
- <property name="factory">prodam.chamadas</property>
- <property
-    name="add_view_expr">string:${folder_url}/++add++prodam.chamadas</property>
+ <property name="title" i18n:translate="">Topic</property>
+ <property name="description"
+    i18n:translate="">Allows you to add services and subtopics</property>
+ <property name="icon_expr"></property>
+ <property name="factory">topic</property>
+ <property name="add_view_expr">string:${folder_url}/++add++topic</property>
  <property name="link_target"></property>
  <property name="immediate_view">view</property>
- <property name="global_allow">True</property>
+ <property name="global_allow">False</property>
  <property name="filter_content_types">True</property>
- <property name="allowed_content_types"/>
+ <property name="allowed_content_types">
+  <element value="topic"/>
+  <element value="Link"/>
+  <element value="service"/>
+ </property>
  <property name="allow_discussion">False</property>
- <property name="default_view">chamadaView</property>
+ <property name="default_view">topic_view</property>
  <property name="view_methods">
-  <element value="chamadaView"/>
+  <element value="topic_view"/>
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">cmf.AddPortalContent</property>
@@ -29,19 +33,8 @@
  </property>
  <property name="schema"></property>
  <property
-    name="model_source">&lt;model xmlns:i18n="http://xml.zope.org/namespaces/i18n" xmlns:security="http://namespaces.plone.org/supermodel/security" xmlns:marshal="http://namespaces.plone.org/supermodel/marshal" xmlns:form="http://namespaces.plone.org/supermodel/form" xmlns="http://namespaces.plone.org/supermodel/schema"&gt;
+    name="model_source">&lt;model xmlns="http://namespaces.plone.org/supermodel/schema"&gt;
   &lt;schema&gt;
-  &lt;field name="url" type="zope.schema.TextLine"&gt;
-  &lt;default&gt;http://www.capital.sp.gov.br/portal/&lt;/default&gt;
-  &lt;description/&gt;
-  &lt;title&gt;url&lt;/title&gt;
-  &lt;/field&gt;
-  &lt;field name="target" type="zope.schema.Bool"&gt;
-  &lt;default&gt;False&lt;/default&gt;
-  &lt;description/&gt;
-  &lt;title&gt;Abrir em nova janela&lt;/title&gt;
-  &lt;form:widget type="z3c.form.browser.radio.RadioFieldWidget"/&gt;
-  &lt;/field&gt;
   &lt;/schema&gt;
   &lt;/model&gt;</property>
  <property name="model_file"></property>

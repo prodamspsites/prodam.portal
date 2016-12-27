@@ -33,27 +33,27 @@
  <property name="schema"></property>
  <property
     name="model_source">&lt;model xmlns:i18n="http://xml.zope.org/namespaces/i18n" xmlns:security="http://namespaces.plone.org/supermodel/security" xmlns:marshal="http://namespaces.plone.org/supermodel/marshal" xmlns:form="http://namespaces.plone.org/supermodel/form" xmlns="http://namespaces.plone.org/supermodel/schema" i18n:domain="plone"&gt;
-    &lt;schema&gt;
-      &lt;field name="title" type="zope.schema.TextLine"&gt;
-        &lt;description/&gt;
-        &lt;required&gt;False&lt;/required&gt;
-        &lt;title&gt;Title&lt;/title&gt;
-      &lt;/field&gt;
-      &lt;field name="description" type="zope.schema.Text"&gt;
-        &lt;description/&gt;
-        &lt;required&gt;False&lt;/required&gt;
-        &lt;title&gt;Description&lt;/title&gt;
-      &lt;/field&gt;
-      &lt;field name="autor" type="zope.schema.TextLine"&gt;
-        &lt;description&gt;Cr&amp;#233;ditos para o autor da imagem&lt;/description&gt;
-        &lt;required&gt;False&lt;/required&gt;
-        &lt;title&gt;Autor&lt;/title&gt;
-      &lt;/field&gt;
-      &lt;field name="image" type="plone.namedfile.field.NamedBlobImage" marshal:primary="true"&gt;
-        &lt;description/&gt;
-        &lt;title i18n:translate="Image"&gt;Image&lt;/title&gt;
-      &lt;/field&gt;
-    &lt;/schema&gt;
+  &lt;schema&gt;
+  &lt;field name="title" type="zope.schema.TextLine"&gt;
+  &lt;description/&gt;
+  &lt;required&gt;False&lt;/required&gt;
+  &lt;title&gt;Title&lt;/title&gt;
+  &lt;/field&gt;
+  &lt;field name="description" type="zope.schema.Text"&gt;
+  &lt;description/&gt;
+  &lt;required&gt;False&lt;/required&gt;
+  &lt;title&gt;Description&lt;/title&gt;
+  &lt;/field&gt;
+  &lt;field name="autor" type="zope.schema.TextLine"&gt;
+  &lt;description&gt;Cr&amp;#233;ditos para o autor da imagem&lt;/description&gt;
+  &lt;required&gt;False&lt;/required&gt;
+  &lt;title&gt;Autor&lt;/title&gt;
+  &lt;/field&gt;
+  &lt;field name="image" type="plone.namedfile.field.NamedBlobImage" marshal:primary="true"&gt;
+  &lt;description/&gt;
+  &lt;title i18n:translate="Image"&gt;Image&lt;/title&gt;
+  &lt;/field&gt;
+  &lt;/schema&gt;
   &lt;/model&gt;</property>
  <property
     name="model_file">plone.app.contenttypes.schema:image.xml</property>
