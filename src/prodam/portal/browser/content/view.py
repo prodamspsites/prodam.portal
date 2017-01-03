@@ -13,7 +13,7 @@ class governoMunicipal(BrowserView):
             rodape = portal['rodape']
             linkSecretarias = rodape.restrictedTraverse('prefeitura/secretarias')
             path = '/'.join(linkSecretarias.getPhysicalPath())
-            link = portal.portal_catalog(path=path, portal_type="Link")
+            link = portal.portal_catalog(path=path, portal_type="Link", sort_on="sortable_title")
             for i in link:
                 secretarias += '<option value="' + i.getObject().remoteUrl + '">' + i.Title + '</option>'
         except:
@@ -56,7 +56,7 @@ class governoMunicipal(BrowserView):
             rodape = portal['rodape']
             linkSubPrefeituras = rodape.restrictedTraverse('prefeitura/subprefeituras')
             path = '/'.join(linkSubPrefeituras.getPhysicalPath())
-            link = portal.portal_catalog(path=path, portal_type="Link")
+            link = portal.portal_catalog(path=path, portal_type="Link", sort_on="sortable_title")
             for i in link:
                 subprefeituras += '<option value="' + i.getObject().remoteUrl + '">' + i.Title + '</option>'
 
@@ -105,7 +105,7 @@ class governoMunicipal(BrowserView):
             rodape = portal['rodape']
             linkorgaos = rodape.restrictedTraverse('prefeitura/outros-orgaos')
             path = '/'.join(linkorgaos.getPhysicalPath())
-            link = portal.portal_catalog(path=path, portal_type="Link")
+            link = portal.portal_catalog(path=path, portal_type="Link", sort_on="sortable_title")
             for i in link:
                 orgaos += '<option value="' + i.getObject().remoteUrl + '">' + i.Title + '</option>'
 
