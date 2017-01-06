@@ -75,10 +75,10 @@ def createFooter(site):
 def createGovernoMunicipal(site):
     createObj(site, 'governo-municipal', 'Governo Municipal', 'Folder', 'rodape', exclude_from_nav=True)
 
-    url_site = site.absolute_url() + '/agenda'
+    url_site = site.absolute_url() + '/agenda/agenda-prefeito'
     # createDoc(site, 'governo-municipal', 'Governo Municipal', 'rodape/governo-municipal', '<ul><li><span>Prefeito</span> <strong>João Dória</strong></li><li><a target="_blank" href="http://www.prefeitura.sp.gov.br/guiadeservicos/content/equipe-de-governo"><strong>Equipe de Governo</strong></a></li></ul><ul class="lista"><li><a href="../../agenda">Agenda do prefeito</a></li></ul>')
     createDoc(site, 'governo-municipal', 'Governo Municipal', 'rodape/governo-municipal', '<ul class="lista"><li><span>Prefeito</span> <strong>João Dória</strong></li><li><a target="_blank" href="http://www.prefeitura.sp.gov.br/guiadeservicos/content/equipe-de-governo"><strong>Equipe de Governo</strong></a></li></ul>')
-    createLinkObject(site, 'agenda-prefeito', 'Agenda do prefeito', 'rodape/governo-municipal', url_site)
+    createLinkObject(site, 'agenda-prefeito', 'Agenda do prefeito', 'rodape/governo-municipal', url_site, exclude_from_nav=True)
 
 
 def createAconteceNaCidade(site):
