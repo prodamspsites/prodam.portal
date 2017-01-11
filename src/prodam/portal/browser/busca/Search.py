@@ -12,8 +12,8 @@ class SearchOrdered(Search):
     def results(self, query=None, batch=True, b_size=10, b_start=0):
         if query is None:
             query = {}
-        query['sort_on'] = 'Date'
-        query['sort_order'] = 'descending'
+            query['sort_on'] = 'Date'
+            query['sort_order'] = 'descending'
         return Search.results(self, query, batch, b_size, b_start)
 
     def types_list(self):

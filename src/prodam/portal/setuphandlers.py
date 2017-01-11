@@ -6,6 +6,7 @@ def importSteps(context):
     site = context.getSite()
     createMaisBuscados(site)
     createFooter(site)
+    # updateCreatorsNews(site)
 
 
 def createObj(site, objId, title, type, path, exclude_from_nav=False):
@@ -255,3 +256,40 @@ def createMaisBuscados(site):
     createChamada(site, 'construcoes-e-reformas', 'Construções e reformas', 'mais-buscados', '/portal/secoes/nav-cidadao/#/MSwxMDc2LDExMjQ=')
     createChamada(site, 'vagas-em-escolas', 'Vagas em escolas', 'mais-buscados', '/portal/secoes/nav-cidadao/#/MSwzNCw5MzMsNjIw')
     createChamada(site, 'operacao-cata-bagulho', 'Operação Cata-Bagulho', 'mais-buscados', '/portal/secoes/nav-cidadao/#/MSwzMiwxMDUyLDExNjY=')
+
+# Atualiza lista de autores das noticias. Os que tiverem como autor 'Secretaria Executiva de Comunicação' terá como autor 'Secretaria Especial de Comunicação'
+
+
+def updateCreatorsNews(site):
+    parent = site.restrictedTraverse('noticia')
+    elementos = parent.objectIds()
+    for i in elementos:
+        obj = parent[i]
+        print('Lista de autores associados: ')
+        print(obj.listCreators())
+        creators = obj.listCreators()
+        novos = []
+        canupd = False
+        for creator in creators:
+            if creator == 'Secretaria Executiva de Comunicação':
+                canupd = True
+        if canupd:
+            try:
+                for creator in creators:
+                    if creator == 'Secretaria Executiva de Comunicação':
+                        novos.append('Secretaria Especial de Comunicação')
+                        continue
+                    else:
+                        novos.append(creator)
+
+                print('Lista de autores atualizada: ')
+                dados = tuple(novos)
+                print(dados)
+                # TODO: Persistir a informação acima
+                print('Lista de autores a ser atualizada')
+                print(obj.creators)
+                obj.creators = dados
+                site.portal_catalog.reindexObject(obj)
+            except:
+                print('PROBLEMAS NA ATUALIZACAO DO REGISTRO: ')
+                print(obj)
