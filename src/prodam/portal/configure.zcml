@@ -37,4 +37,8 @@
     directory="static"
     />
 
+
+<!-- Registro do indice 'autor'  -->
+<adapter factory=".index.autorIndexer" name="autor" />
+
 </configure>

@@ -7,8 +7,11 @@
   <ul id="servicos-externos">
     <tal:servicos replace="structure view/getCapa"></tal:servicos>
   </ul>
-
+<!--
   <a href="/mapa" tal:attributes="href string:${context/portal_url}/mapa"><div id="mapa-serv"></div></a>
+-->
+
+<a href="/mapa" tal:attributes="href string:http://geosampa.prefeitura.sp.gov.br/"><div id="mapa-serv"></div></a>
 
   <div class="tweets" tal:condition="view/getTweets">
     <h4><a href="https://twitter.com/" target="_blank" class="labelsp">Alertas

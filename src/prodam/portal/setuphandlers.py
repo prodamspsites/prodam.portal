@@ -7,6 +7,25 @@ def importSteps(context):
     createMaisBuscados(site)
     createFooter(site)
     # updateCreatorsNews(site)
+    # Reindexando noticias
+    # reIndexNews(site)
+    # testeUpdateNews(site)
+
+
+def reIndexNews(site):
+    news = site.portal_catalog(Type='News Item')
+    try:
+        for i in news:
+            i.getObject().reindexObject()
+            if i.autor == 'Secretaria Executiva de Comunicação':
+                print('ALTERANDO AUTOR: ')
+                print(i)
+                # i.autor = 'Secretaria Especial de Comunicação'
+                i.setTitle('DDD')
+                i.getObject().reindexObject(idxs=['Title'])
+    except Exception, e:
+        print('FALHA NA TENTATIVA DE ATUALIZAR OS INDICES DAS NOTICIAS')
+        print(e)
 
 
 def createObj(site, objId, title, type, path, exclude_from_nav=False):
@@ -258,6 +277,19 @@ def createMaisBuscados(site):
     createChamada(site, 'operacao-cata-bagulho', 'Operação Cata-Bagulho', 'mais-buscados', '/portal/secoes/nav-cidadao/#/MSwzMiwxMDUyLDExNjY=')
 
 # Atualiza lista de autores das noticias. Os que tiverem como autor 'Secretaria Executiva de Comunicação' terá como autor 'Secretaria Especial de Comunicação'
+
+
+def testeUpdateNews(site):
+    parent = site.restrictedTraverse('noticia')
+    elementos = parent.objectIds()
+    for i in elementos:
+        obj = parent[i]
+        try:
+            obj.autor = u'Secretaria Especial de Comunicação'
+            site.portal_catalog.reindexObject(obj)
+        except Exception, e:
+            print('PROBLEMAS NA ATUALIZACAO DO REGISTRO: ')
+            print(e)
 
 
 def updateCreatorsNews(site):
