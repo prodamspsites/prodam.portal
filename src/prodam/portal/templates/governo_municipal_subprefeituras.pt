@@ -1,6 +1,6 @@
 <div class="tile-header">
                 <h1>
-                  Subprefeituras
+                  Prefeituras Regionais
                 </h1>
 </div>
 <div class="governo-lista" tal:define="governoMunicipal python:context.restrictedTraverse('governoMunicipal')">

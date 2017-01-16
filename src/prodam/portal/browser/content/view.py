@@ -49,7 +49,7 @@ class governoMunicipal(BrowserView):
         return secretarias
 
     def getSubPrefeituras(self):
-        subprefeituras = '<select name="lista-subprefeituras" id="lista-subprefeituras" class="lista-institucionais leave-page lista-subprefeituras"><option disabled="" selected="" value="Subprefeituras">Subprefeituras</option>'
+        subprefeituras = '<select name="lista-subprefeituras" id="lista-subprefeituras" class="lista-institucionais leave-page lista-subprefeituras"><option disabled="" selected="" value="Subprefeituras">Prefeituras Regionais</option>'
         portal = api.portal.get()
 
         try:
