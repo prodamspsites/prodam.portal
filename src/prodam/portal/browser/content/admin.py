@@ -17,6 +17,17 @@ class Admin(BrowserView):
             href = None
         return href
 
+    def getIcones(self):
+        from zope.component.hooks import getSite
+        site = getSite()
+        parent = site.restrictedTraverse('icones')
+        elementos = parent.objectIds()
+        icones = []
+        for i in elementos:
+            obj = parent[i]
+            icones.append(obj)
+        return icones
+
 
 class createAlertas(BrowserView):
     def __call__(self):

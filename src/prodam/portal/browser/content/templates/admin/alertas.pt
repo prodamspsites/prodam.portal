@@ -62,11 +62,24 @@
                             <span>Galeria de ícones</span>
                         </label>
                         <div class="listIcones">
+<!--
                             <ul tal:define="icons python:context.portal_catalog(path='/Prefeitura/icones', portal_type='Image')">
                                 <tal:icones repeat="icon icons">
                                     <li><a href="#" title=""><img src="++resource++prodam.portal/admin/img/ico01.png" width="42" height="42" alt="" tal:attributes="src python:'/'.join(icon.getObject().getPhysicalPath())" /></a></li>
                                 </tal:icones>
+
                             </ul>
+-->
+
+                             <ul tal:define="icons view/getIcones">
+                                <tal:icones repeat="icon icons">
+                                    <li><a href="#" title=""><img src="++resource++prodam.portal/admin/img/ico01.png" width="42" height="42" alt="" tal:attributes="src python:'/'.join(icon.getPhysicalPath())" /></a></li>
+                                </tal:icones>
+
+                            </ul>
+
+
+
                         </div>
                         <a href="#" title="Adicionar ícone" class="addIcone" tal:attributes="href string:${context/portal_url}/icones/++add++Image" target="_blank">Adicionar ícone</a>
 
