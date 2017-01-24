@@ -23,6 +23,8 @@ from urllib2 import Request
 from urllib2 import build_opener
 from zope.i18n import translate
 from time import strptime, mktime
+from prodam.portal.browser.content import configuracao
+
 try:
     import cPickle as pickle
 except ImportError:
@@ -974,6 +976,10 @@ class SpAgora(BrowserView):
                 ocorrencias.append(str(text))
             print ocorrencias
             return ocorrencias
+
+    def getParametroAbreDashboard(self):
+        res = configuracao.Configuracao.getParametroConfiguracaoAbreDashboard()
+        return res
 
 
 _partialMinute = 45 * 60

@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
-<object name="tipo_de_conteudo_de_teste" meta_type="Dexterity FTI"
+<object name="parametro_de_configuracao" meta_type="Dexterity FTI"
    i18n:domain="plone" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
  <property name="title"
-    i18n:translate="">tipo de conteúdo de teste</property>
+    i18n:translate="">Parametro de configuração</property>
  <property name="description"
-    i18n:translate="">Testando permissões</property>
+    i18n:translate="">Parâmetro de configuração personalizável para o usuário</property>
  <property name="icon_expr">string:${portal_url}/document_icon.png</property>
- <property name="factory">tipo_de_conteudo_de_teste</property>
+ <property name="factory">parametro_de_configuracao</property>
  <property
-    name="add_view_expr">string:${folder_url}/++add++tipo_de_conteudo_de_teste</property>
+    name="add_view_expr">string:${folder_url}/++add++parametro_de_configuracao</property>
  <property name="link_target"></property>
  <property name="immediate_view">view</property>
  <property name="global_allow">True</property>
@@ -25,11 +25,20 @@
  <property name="behaviors">
   <element value="plone.app.dexterity.behaviors.metadata.IDublinCore"/>
   <element value="plone.app.content.interfaces.INameFromTitle"/>
+  <element
+     value="plone.app.dexterity.behaviors.exclfromnav.IExcludeFromNavigation"/>
  </property>
  <property name="schema"></property>
  <property
     name="model_source">&lt;model xmlns:security="http://namespaces.plone.org/supermodel/security" xmlns:marshal="http://namespaces.plone.org/supermodel/marshal" xmlns:form="http://namespaces.plone.org/supermodel/form" xmlns="http://namespaces.plone.org/supermodel/schema"&gt;
-  &lt;schema/&gt;
+    &lt;schema&gt;
+      &lt;field name="habilitado" type="zope.schema.Bool"&gt;
+        &lt;default&gt;True&lt;/default&gt;
+        &lt;description&gt;Este campo define se o sistema ir&amp;#225; ter determinado comportamento ou n&amp;#227;o&lt;/description&gt;
+        &lt;title&gt;habilitado&lt;/title&gt;
+        &lt;form:widget type="z3c.form.browser.radio.RadioFieldWidget"/&gt;
+      &lt;/field&gt;
+    &lt;/schema&gt;
   &lt;/model&gt;</property>
  <property name="model_file"></property>
  <property name="schema_policy">dexterity</property>

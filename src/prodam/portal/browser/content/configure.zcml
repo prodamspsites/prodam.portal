@@ -93,6 +93,18 @@
       layer="prodam.portal.interfaces.IProdamPortal"
       />
 
+
+  <browser:page
+      name="habilitar-dashboard"
+      for="*"
+      permission="cmf.ModifyPortalContent"
+      class=".admin.habilitaDashboard"
+      layer="prodam.portal.interfaces.IProdamPortal"
+      />
+
+
+
+
     <browser:page
       name="admin-spagora"
       for="*"

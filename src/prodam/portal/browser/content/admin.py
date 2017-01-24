@@ -7,6 +7,7 @@ from plone import api
 from DateTime import DateTime
 from datetime import datetime
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from prodam.portal.browser.content import configuracao
 
 
 class Admin(BrowserView):
@@ -99,7 +100,9 @@ class createAlertas(BrowserView):
 
 
 class SPAgora(BrowserView):
-    pass
+
+    def getParametroConfiguracaoAdmin(self):
+        return configuracao.Configuracao.getParametroConfiguracaoAbreDashboard()
 
 
 class SPAgoraEditar(BrowserView):
@@ -215,7 +218,29 @@ class SPAgoraEditar(BrowserView):
             return False
 
 
+class habilitaDashboard(SPAgora):
+
+    def __call__(self):
+        try:
+            habilita = self.request.form['habilita']
+            self.habilita(habilita)
+            return 'OK'
+        except:
+            return 'NOK'
+
+    def habilita(self, habilita):
+        habilita_persistencia = False
+        if habilita == 'S':
+            habilita_persistencia = True
+
+        try:
+            configuracao.Configuracao.setParametroConfiguracaoAbreDashboard(habilita_persistencia)
+        except:
+            pass
+
+
 class ListaAlertas(BrowserView):
+
     def __call__(self):
         try:
             id = self.request.form['id']

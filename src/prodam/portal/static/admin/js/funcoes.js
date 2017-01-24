@@ -56,6 +56,34 @@ jQuery(document).ready(function($) {
         return false;
     });
 
+
+    $('#paramConfiguracaoSPAgora .btnSalvar').click(function(event){
+        event.preventDefault();
+        var habilita;
+        try{
+            habilita = $("input[name='rdbHabilita']:checked").attr('value');
+            if(!habilita){
+                habilita = '';
+            }
+        }catch(err){
+            habilita = '';
+        }
+        if(habilita.length > 0){
+           site_url = $('.breadcrumb a').first().attr('href');
+           url = site_url + '/@@habilitar-dashboard';
+           $.post( url,
+           {
+               habilita: habilita
+            },function(res){
+                $("#mensagem").remove();
+                if(res == 'OK'){
+                    $('.divPainel').prepend('<div id="mensagem"><p>Configuração alterada com sucesso</p></div>');
+                }else{
+                 $('.divPainel').prepend('<div id="mensagem"><p>Erro na atualização do registro</p></div>');}
+            }); 
+        }
+    });
+
     $( 'body.alertas .btnRestaurar' ).click( function(event) {
         event.preventDefault();
         href = $(this).attr('href');

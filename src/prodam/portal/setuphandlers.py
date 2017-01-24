@@ -6,6 +6,7 @@ def importSteps(context):
     site = context.getSite()
     createMaisBuscados(site)
     createFooter(site)
+    createConfigurationFolder(site)
     # updateCreatorsNews(site)
     # Reindexando noticias
     # reIndexNews(site)
@@ -67,6 +68,19 @@ def createLinkObject(site, objId, title, path, url, exclude_from_nav=False):
         pass
 
 
+def createParametroConfiguracao(site, objId, title, path, description, habilitado):
+    try:
+        parent = site.restrictedTraverse(path)
+        if objId not in parent.objectIds():
+            parent.invokeFactory('parametro_de_configuracao', objId, title=title, description=description, habilitado=habilitado)
+            obj = parent[objId]
+            site.portal_workflow.doActionFor(obj, 'publish')
+            site.portal_catalog.reindexObject(obj)
+            # obj.exclude_from_nav = exclude_from_nav
+    except:
+        pass
+
+
 def createChamada(site, objId, title, path, url, exclude_from_nav=False):
     try:
         parent = site.restrictedTraverse(path)
@@ -76,6 +90,14 @@ def createChamada(site, objId, title, path, url, exclude_from_nav=False):
             site.portal_workflow.doActionFor(obj, 'publish')
             site.portal_catalog.reindexObject(obj)
             obj.exclude_from_nav = exclude_from_nav
+    except:
+        pass
+
+
+def createConfigurationFolder(site):
+    try:
+        createObj(site, 'configuracao', 'Configurações', 'Folder', '', exclude_from_nav=True)
+        createParametroConfiguracao(site, 'habilita-dashboard', 'Exibição automática do dashboard', 'configuracao', 'Controle que habilita exibição automárica do dashboard na página inicial', True)
     except:
         pass
 

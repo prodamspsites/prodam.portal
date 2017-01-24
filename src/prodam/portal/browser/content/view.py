@@ -169,3 +169,15 @@ class governoMunicipal(BrowserView):
 
         orgaos += '</select>'
         return orgaos
+
+    def getAgenda(self):
+        portal = api.portal.get()
+
+        try:
+            # rodape = portal['rodape']
+            id = 'agenda-prefeito'
+            results = portal.portal_catalog(id=id, portal_type="Link")
+            for i in results:
+                return i
+        except:
+            pass

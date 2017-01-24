@@ -33,7 +33,8 @@
  <object name="service" meta_type="Dexterity FTI"/>
  <object name="Google Video"
     meta_type="Factory-based Type Information with dynamic views"/>
- <object name="tipo_de_conteudo_de_teste" meta_type="Dexterity FTI"/>
+ <object name="teste" meta_type="Dexterity FTI"/>
+ <object name="collective.cover.content" meta_type="Dexterity FTI"/>
  <object name="Collection" meta_type="Dexterity FTI"/>
  <object name="Document" meta_type="Dexterity FTI"/>
  <object name="Folder" meta_type="Dexterity FTI"/>
@@ -42,8 +43,9 @@
  <object name="Image" meta_type="Dexterity FTI"/>
  <object name="News Item" meta_type="Dexterity FTI"/>
  <object name="Event" meta_type="Dexterity FTI"/>
+ <object name="tipo_de_conteudo_de_teste" meta_type="Dexterity FTI"/>
  <object name="prodam.chamadas" meta_type="Dexterity FTI"/>
  <object name="geolocalizacao" meta_type="Dexterity FTI"/>
  <object name="alerta" meta_type="Dexterity FTI"/>
- <object name="collective.cover.content" meta_type="Dexterity FTI"/>
+ <object name="parametro_de_configuracao" meta_type="Dexterity FTI"/>
 </object>

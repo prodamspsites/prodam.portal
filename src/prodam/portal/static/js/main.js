@@ -19,6 +19,7 @@
       $.ajax({
         url: spagora_url, success: function(spagora) {
           $('.call-spagora').html(spagora)
+          $('.call-spagora').trigger("checarSeAbre");
         }
       })
     }
@@ -96,6 +97,26 @@
         height: 450
       }, 1000)
     })
+
+
+    /*Implementando comportamento de abrir ou fechar o dashboard no momento do carregamento da página*/
+    $(document).on('load', '.dash-header button', function(e) {
+       console.log('OIII');
+    });
+    $(".call-spagora").on("checarSeAbre",function(event){
+        var botao = $(this).find("button");
+        if(botao.hasClass('e-fechar')){
+             $(this).find('#externos').animate({
+                 height: 450
+             }, 1000)
+        }
+    });
+    if ($(".dash-header button").hasClass('e-fechar')){
+    console.log('AKKKK');
+    $('#externos').animate({
+        height: 450
+      }, 1000)
+    }
 
     if ($('body').hasClass('section-prefeitura-de-sao-paulo')) {
       $('#externos button.e-fechar').remove();

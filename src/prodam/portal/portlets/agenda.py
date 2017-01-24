@@ -9,6 +9,7 @@ from zope import schema
 from zope.formlib import form
 from zope.interface import implements
 import locale
+from plone import api
 
 
 class iAgendaPrefeito(IPortletDataProvider):
@@ -110,6 +111,18 @@ class Renderer(base.Renderer):
         encode_data_iso = unicode(requested_date.strftime('%A, %d de %B de %Y'), 'iso-8859-1')
         title += encode_data_iso
         return title
+
+    def getAgenda(self):
+        portal = api.portal.get()
+
+        try:
+            # rodape = portal['rodape']
+            id = 'agenda-prefeito'
+            results = portal.portal_catalog(id=id, portal_type="Link")
+            for i in results:
+                return i
+        except:
+            pass
 
 
 class AddForm(base.AddForm):

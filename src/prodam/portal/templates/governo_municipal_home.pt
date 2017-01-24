@@ -8,7 +8,15 @@
   <span tal:replace="structure governoMunicipal/getSecretarias"></span>
   <h2> Encontre as prefeituras regionais</h2>
   <span tal:replace="structure governoMunicipal/getSubPrefeituras"></span>
-  <div class="tile-footer">
+<!--
+<div class="tile-footer">
     <a href="/agenda">Agenda do prefeito <span class="iconeMais"></span></a>
+-->
+  <div class="tile-footer" tal:define="agenda governoMunicipal/getAgenda">
+     <a href="#" tal:condition="agenda" tal:attributes="href agenda/getRemoteUrl; target python: agenda.getObject().target"   >
+<tal:titulo  tal:content="string:${agenda/Title}">
+
+</tal:titulo>
+  <span class="iconeMais"></span>  </a>
   </div>
 </div>

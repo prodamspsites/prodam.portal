@@ -1,8 +1,18 @@
 <aside id="externos" role="complementary">
+<!--
+
   <header class="dash-header">
-    SAIBA COMO ESTÁ SÃO PAULO AGORA:
+    SÃO PAULO EM TEMPO REAL:
     <button class="e-abrir"> </button>
   </header>
+
+-->
+ <header class="dash-header" tal:define="abreDashboard view/getParametroAbreDashboard">
+    SÃO PAULO EM TEMPO REAL:
+    <button class="e-abrir" tal:condition="abreDashboard" tal:attributes="class python: 'e-fechar' if  abreDashboard.habilitado == True else 'e-abrir' "> </button>
+  </header>
+
+
 
   <ul id="servicos-externos">
     <tal:servicos replace="structure view/getCapa"></tal:servicos>

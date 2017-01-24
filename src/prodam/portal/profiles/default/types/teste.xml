@@ -1,14 +1,11 @@
 <?xml version="1.0"?>
-<object name="tipo_de_conteudo_de_teste" meta_type="Dexterity FTI"
-   i18n:domain="plone" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
- <property name="title"
-    i18n:translate="">tipo de conteúdo de teste</property>
- <property name="description"
-    i18n:translate="">Testando permissões</property>
+<object name="teste" meta_type="Dexterity FTI" i18n:domain="plone"
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+ <property name="title" i18n:translate="">teste</property>
+ <property name="description" i18n:translate="">None</property>
  <property name="icon_expr">string:${portal_url}/document_icon.png</property>
- <property name="factory">tipo_de_conteudo_de_teste</property>
- <property
-    name="add_view_expr">string:${folder_url}/++add++tipo_de_conteudo_de_teste</property>
+ <property name="factory">teste</property>
+ <property name="add_view_expr">string:${folder_url}/++add++teste</property>
  <property name="link_target"></property>
  <property name="immediate_view">view</property>
  <property name="global_allow">True</property>
@@ -27,9 +24,10 @@
   <element value="plone.app.content.interfaces.INameFromTitle"/>
  </property>
  <property name="schema"></property>
- <property
-    name="model_source">&lt;model xmlns:security="http://namespaces.plone.org/supermodel/security" xmlns:marshal="http://namespaces.plone.org/supermodel/marshal" xmlns:form="http://namespaces.plone.org/supermodel/form" xmlns="http://namespaces.plone.org/supermodel/schema"&gt;
-  &lt;schema/&gt;
+ <property name="model_source">
+  &lt;model xmlns="http://namespaces.plone.org/supermodel/schema"&gt;
+      &lt;schema&gt;
+      &lt;/schema&gt;
   &lt;/model&gt;</property>
  <property name="model_file"></property>
  <property name="schema_policy">dexterity</property>

@@ -34,6 +34,31 @@
         <h2>São Paulo Agora</h2>
 
         <div class="divPainel">
+
+<div id="paramConfiguracaoSPAgora">
+<form id="SPAgoraConf">
+<label>
+<strong>Iniciar o dashboard aberto?</strong>
+</label>
+<label>
+
+<tal:check tal:define="parametro view/getParametroConfiguracaoAdmin" tal:condition="parametro">
+<input type="radio" name="rdbHabilita" value="S" tal:attributes="checked python:parametro.habilitado and  'checked' or '' " > Sim
+<input type="radio" name="rdbHabilita" value="N" tal:attributes="checked python:not parametro.habilitado and  'checked' or '' " > Não
+</tal:check>
+
+<tal:nocheck tal:define="parametro view/getParametroConfiguracaoAdmin" tal:condition="python: parametro == None">
+<input type="radio" name="rdbHabilita" value="S" checked > Sim
+<input type="radio" name="rdbHabilita" value="N"> Não
+</tal:nocheck>
+
+</label>
+<label>
+<input class="btnSalvar" value="Salvar" type="button">
+</label>
+</form>
+</div>
+
             <p>Clique para editar o painel</p>
             <ul class="listPainel">
                 <li><a href="#" id="painel1" tal:attributes="href string:${context/portal_url}/admin-spagora-editar-painel" title="Painel 1">Painel 1</a></li>
