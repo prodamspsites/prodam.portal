@@ -181,3 +181,15 @@ class governoMunicipal(BrowserView):
                 return i
         except:
             pass
+
+    def getDiaPrefeito(self):
+        portal = api.portal.get()
+
+        try:
+            # rodape = portal['rodape']
+            id = 'dia-prefeito'
+            results = portal.portal_catalog(id=id, portal_type="Link")
+            for i in results:
+                return i
+        except:
+            pass
