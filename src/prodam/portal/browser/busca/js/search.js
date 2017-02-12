@@ -6,7 +6,7 @@ jQuery(function ($) {
     var query, pushState, popped, initialURL,
         $default_res_container = $('#search-results'),
         $search_filter = $('#search-filter'),
-        $search_field = $('#search-field'),
+        $search_field = $('#search-field', '#livesearch2'),
         $search_gadget =  $('#searchGadget'),
         $form_search_page = $("form.searchPage"),
         navigation_root_url = $('meta[name=navigation_root_url]').attr('content') || window.navigation_root_url || window.portal_url;

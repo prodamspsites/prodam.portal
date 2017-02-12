@@ -313,12 +313,15 @@ def testeUpdateNews(site):
     elementos = parent.objectIds()
     for i in elementos:
         obj = parent[i]
+        print('ATUALIZANDO REGISTRO:')
+        print(obj)
         try:
             obj.autor = u'Secretaria Especial de Comunicação'
             site.portal_catalog.reindexObject(obj)
         except Exception, e:
             print('PROBLEMAS NA ATUALIZACAO DO REGISTRO: ')
             print(e)
+    print('ATUALIZACAO DE NOTICIAS CONCLUIDA')
 
 
 def updateCreatorsNews(site):

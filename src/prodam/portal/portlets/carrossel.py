@@ -69,11 +69,11 @@ class Renderer(base.Renderer):
             return 'Youtube'
 
     def getMoreLink(self):
-        return self.data.more
+        return 'https://www.youtube.com/channel/UCRgHhRLeLXeu3E89haOlttg'
 
     @property
     def getVideos(self):
-        count = self.data.count
+        count = 2
         catalog = getToolByName(self, 'portal_catalog')
         videos = catalog(portal_type='Google Video', sort_on='Date', sort_order='Descending')[:count]
         return videos
