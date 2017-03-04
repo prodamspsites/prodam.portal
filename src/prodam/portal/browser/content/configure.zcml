@@ -85,6 +85,43 @@
       layer="prodam.portal.interfaces.IProdamPortal"
       />
 
+
+ <browser:page
+      name="prefeito-exercicio"
+      for="*"
+      permission="cmf.ModifyPortalContent"
+      class=".admin.PrefeitoExercicio"
+      template="templates/admin/exercicio.pt"
+      layer="prodam.portal.interfaces.IProdamPortal"
+      />
+
+ <browser:page
+      name="alterar-prefeito-exercicio"
+      for="*"
+      permission="cmf.ModifyPortalContent"
+      class=".admin.AlterarPrefeitoExercicio"
+      layer="prodam.portal.interfaces.IProdamPortal"
+      />
+
+
+
+<browser:page
+      name="alterar-aba-prefeito"
+      for="*"
+      permission="cmf.ModifyPortalContent"
+      class=".admin.AlterarAbaPrefeitoExercicio"
+      layer="prodam.portal.interfaces.IProdamPortal"
+      />
+
+<browser:page
+      name="alterar-aba-vice"
+      for="*"
+      permission="cmf.ModifyPortalContent"
+      class=".admin.AlterarAbaViceExercicio"
+      layer="prodam.portal.interfaces.IProdamPortal"
+      />
+
+
   <browser:page
       name="criar-alertas"
       for="*"

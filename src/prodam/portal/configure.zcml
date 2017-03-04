@@ -40,5 +40,5 @@
 
 <!-- Registro do indice 'autor'  -->
 <adapter factory=".index.autorIndexer" name="autor" />
-
+<adapter factory=".index.emExercicioIndexer" name="habilita_agenda_exercicio" />
 </configure>

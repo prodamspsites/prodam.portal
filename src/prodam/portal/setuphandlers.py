@@ -8,10 +8,8 @@ def importSteps(context):
     createFooter(site)
     createConfigurationFolder(site)
     createLinks(site)
-    # updateCreatorsNews(site)
-    # Reindexando noticias
-    # reIndexNews(site)
-    # testeUpdateNews(site)
+    createAbasEditaveis(site)
+    # UpdateIndexAgenda(site)
 
 
 def reIndexNews(site):
@@ -82,6 +80,19 @@ def createParametroConfiguracao(site, objId, title, path, description, habilitad
         pass
 
 
+def createAbaEditavel(site, objId, title, path, description):
+    try:
+        parent = site.restrictedTraverse(path)
+        if objId not in parent.objectIds():
+            parent.invokeFactory('aba_editavel', objId, title=title, description=description)
+            obj = parent[objId]
+            site.portal_workflow.doActionFor(obj, 'publish')
+            site.portal_catalog.reindexObject(obj)
+            # obj.exclude_from_nav = exclude_from_nav
+    except:
+        pass
+
+
 def createChamada(site, objId, title, path, url, exclude_from_nav=False):
     try:
         parent = site.restrictedTraverse(path)
@@ -99,6 +110,8 @@ def createConfigurationFolder(site):
     try:
         createObj(site, 'configuracao', 'Configurações', 'Folder', '', exclude_from_nav=True)
         createParametroConfiguracao(site, 'habilita-dashboard', 'Exibição automática do dashboard', 'configuracao', 'Controle que habilita exibição automárica do dashboard na página inicial', True)
+        createParametroConfiguracao(site, 'habilita-dashboard', 'Exibição automática do dashboard', 'configuracao', 'Controle que habilita exibição automárica do dashboard na página inicial', True)
+        createParametroConfiguracao(site, 'prefeito-exercicio', 'Controle da exibição da agenda do prefeito em exercicio', 'configuracao', 'Controle da exibição da agenda do prefeito em exercicio', True)
     except:
         pass
 
@@ -324,6 +337,22 @@ def testeUpdateNews(site):
     print('ATUALIZACAO DE NOTICIAS CONCLUIDA')
 
 
+def UpdateIndexAgenda(site):
+    parent = site.restrictedTraverse('agenda')
+    elementos = parent.objectIds()
+    for i in elementos:
+        obj = parent[i]
+        print('ATUALIZANDO REGISTRO:')
+        print(obj)
+        try:
+            obj.habilita_agenda_exercicio = True
+            site.portal_catalog.reindexObject(obj)
+        except Exception, e:
+            print('PROBLEMAS NA ATUALIZACAO DO REGISTRO: ')
+            print(e)
+    print('ATUALIZACAO DE EVENTOS CONCLUIDA')
+
+
 def updateCreatorsNews(site):
     parent = site.restrictedTraverse('noticia')
     elementos = parent.objectIds()
@@ -357,3 +386,8 @@ def updateCreatorsNews(site):
             except:
                 print('PROBLEMAS NA ATUALIZACAO DO REGISTRO: ')
                 print(obj)
+
+
+def createAbasEditaveis(site):
+    createAbaEditavel(site, 'aba_prefeito', 'Prefeito João Dória', 'configuracao', '')
+    createAbaEditavel(site, 'aba_vice', 'Prefeito em Exercício Bruno Covas', 'configuracao', '')

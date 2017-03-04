@@ -37,6 +37,7 @@
             <li><a href="#" tal:attributes="href string:${context/portal_url}/admin-spagora" title="SÃO PAULO AGORA"><span class="lnr lnr-sync"></span><p>SÃO PAULO AGORA</p></a></li>
             <li><a href="#" title="ALERTAS" tal:attributes="href string:${context/portal_url}/admin-alertas" class="active"><span class="lnr lnr-warning"></span><p>ALERTAS</p></a></li>
             <li><a href="#" title="GALERIA DE ÍCONES" tal:attributes="href string:${context/portal_url}/icones" target="_blank"><span class="lnr lnr-picture"></span><p>GALERIA DE ÍCONES</p></a></li>
+            <li><a href="#" title="CONTROLE DA AGENDA DO PREFEITO EM EXERCÍCIO" tal:attributes="href string:${context/portal_url}/prefeito-exercicio"><span class="lnr lnr-calendar-full"></span><p>AGENDA DO PREFEITO EM EXERCÍCIO</p></a></li>
         </ul>
     </div>
     <div class="contentRight">

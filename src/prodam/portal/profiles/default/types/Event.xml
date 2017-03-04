@@ -31,7 +31,62 @@
   <element value="plone.app.versioningbehavior.behaviors.IVersionable"/>
  </property>
  <property name="schema"></property>
- <property name="model_source"></property>
+ <property
+    name="model_source">&lt;model xmlns:security="http://namespaces.plone.org/supermodel/security" xmlns:marshal="http://namespaces.plone.org/supermodel/marshal" xmlns:form="http://namespaces.plone.org/supermodel/form" xmlns="http://namespaces.plone.org/supermodel/schema"&gt;
+    &lt;schema&gt;
+      &lt;field name="location" type="zope.schema.TextLine"&gt;
+        &lt;description/&gt;
+        &lt;required&gt;False&lt;/required&gt;
+        &lt;title&gt;label_event_location&lt;/title&gt;
+      &lt;/field&gt;
+      &lt;field name="habilita_agenda_exercicio" type="zope.schema.Bool"&gt;
+        &lt;default&gt;True&lt;/default&gt;
+        &lt;description&gt;Se n&amp;#227;o, este evento ser&amp;#225; do prefeito em exerc&amp;#237;cio.&lt;/description&gt;
+        &lt;title&gt;Este evento &amp;#233; do Prefeito?&lt;/title&gt;
+        &lt;form:widget type="z3c.form.browser.radio.RadioFieldWidget"/&gt;
+      &lt;/field&gt;
+      &lt;field name="start_date" type="zope.schema.Datetime"&gt;
+        &lt;default&gt;2017-03-03 00:00:00&lt;/default&gt;
+        &lt;description/&gt;
+        &lt;title&gt;label_event_start&lt;/title&gt;
+      &lt;/field&gt;
+      &lt;field name="end_date" type="zope.schema.Datetime"&gt;
+        &lt;default&gt;2017-03-03 00:00:00&lt;/default&gt;
+        &lt;description/&gt;
+        &lt;title&gt;label_event_end&lt;/title&gt;
+      &lt;/field&gt;
+      &lt;field name="text" type="plone.app.textfield.RichText"&gt;
+        &lt;description/&gt;
+        &lt;required&gt;False&lt;/required&gt;
+        &lt;title&gt;Text&lt;/title&gt;
+      &lt;/field&gt;
+      &lt;field name="attendees" type="zope.schema.Text"&gt;
+        &lt;description/&gt;
+        &lt;required&gt;False&lt;/required&gt;
+        &lt;title&gt;label_event_attendees&lt;/title&gt;
+      &lt;/field&gt;
+      &lt;field name="event_url" type="zope.schema.TextLine"&gt;
+        &lt;description&gt;help_url&lt;/description&gt;
+        &lt;required&gt;False&lt;/required&gt;
+        &lt;title&gt;event_more_information&lt;/title&gt;
+      &lt;/field&gt;
+      &lt;field name="contact_name" type="zope.schema.TextLine"&gt;
+        &lt;description/&gt;
+        &lt;required&gt;False&lt;/required&gt;
+        &lt;title&gt;label_contact_name&lt;/title&gt;
+      &lt;/field&gt;
+      &lt;field name="contact_email" type="zope.schema.TextLine"&gt;
+        &lt;description/&gt;
+        &lt;required&gt;False&lt;/required&gt;
+        &lt;title&gt;label_contact_email&lt;/title&gt;
+      &lt;/field&gt;
+      &lt;field name="contact_phone" type="zope.schema.TextLine"&gt;
+        &lt;description/&gt;
+        &lt;required&gt;False&lt;/required&gt;
+        &lt;title&gt;label_contact_phone&lt;/title&gt;
+      &lt;/field&gt;
+    &lt;/schema&gt;
+  &lt;/model&gt;</property>
  <property
     name="model_file">plone.app.contenttypes.schema:event.xml</property>
  <property name="schema_policy">dexterity</property>

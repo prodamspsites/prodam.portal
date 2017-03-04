@@ -77,11 +77,17 @@ class Renderer(base.Renderer):
         requested_date = DateTime().strftime('%m/%d/%Y')
         start_date = DateTime(requested_date + ' 00:00')
         end_date = DateTime(requested_date + ' 23:59')
-        events = self.context.portal_catalog(portal_type='Event',
-                                             start={'query': [start_date, end_date],
-                                                    'range': 'min:max'},
-                                             sort_on='start',
-                                             review_state='published')
+        exercicio = self.getPrefeitoEmExercicio()
+        if exercicio:
+            events = self.context.portal_catalog(portal_type='Event',
+                                                 start={'query': [start_date, end_date], 'range': 'min:max'},
+                                                 sort_on='start',
+                                                 review_state='published', habilita_agenda_exercicio=True)
+        else:
+            events = self.context.portal_catalog(portal_type='Event',
+                                                 start={'query': [start_date, end_date], 'range': 'min:max'},
+                                                 sort_on='start',
+                                                 review_state='published', habilita_agenda_exercicio=False)
         return events
 
     def getYearEvent(self):
@@ -111,6 +117,16 @@ class Renderer(base.Renderer):
         encode_data_iso = unicode(requested_date.strftime('%A, %d de %B de %Y'), 'iso-8859-1')
         title += encode_data_iso
         return title
+
+    def getPrefeitoEmExercicio(self):
+        if 'habilita_agenda_exercicio' in self.request:
+            hae = self.request.form['habilita_agenda_exercicio']
+            if hae is True:
+                return True
+            else:
+                return True
+        else:
+            return True
 
     def getAgenda(self):
         portal = api.portal.get()

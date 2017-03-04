@@ -12,9 +12,27 @@
       <header class="titulo_principal">
         <h1 class="titulo"><span class="agendaBold">Agendas</span> da Prefeitura</h1>
       </header>
-      <div class="prefeito">
+
+
+      <div class="prefeito" tal:define="abreExercicio view/getParametroConfiguracaoPrefeitoExercicio" tal:condition="python: abreExercicio.habilitado == False">
         <h2 id="agendaPrefeitura" tal:content="context/Title"></h2>
       </div>
+<div class="prefeito" tal:define="abreExercicio view/getParametroConfiguracaoPrefeitoExercicio" tal:condition="python: abreExercicio.habilitado == True">
+
+
+<a href='?habilita_agenda_exercicio=True' style="border-bottom: none;">
+<button id="btn_agenda_prefeito" tal:define="titulo view/getTitlePrefeito" tal:content="titulo" tal:attributes="class view/getCssClass">Prefeito João Dória</button>
+</a>
+<a href='?habilita_agenda_exercicio=False' style="border-bottom: none;">
+
+<button id="btn_agenda_vice" tal:define="campo_vice view/getCampoAbaVice; getPrefeito  view/getPrefeitoEmExercicio ;css python:'btn_agenda_ativo' if getPrefeito == False else 'btn_agenda_inativo' " tal:condition="python:campo_vice != None" tal:content="campo_vice/Title" tal:attributes="class css">Vice-prefeito Bruno Covas</button>
+
+<button id="btn_agenda_vice" tal:define="campo_vice view/getCampoAbaVice" tal:condition="python:campo_vice == None">Vice-prefeito em Exercício Bruno Covas</button>
+
+</a>
+
+</div>
+
       <header class="agendaHeader">
         <strong id="agendaDia" tal:content="view/getTitle">HOJE: Quinta-Feira, 3 de Dezembro de 2015</strong>
       </header>

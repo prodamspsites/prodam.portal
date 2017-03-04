@@ -99,6 +99,60 @@ class createAlertas(BrowserView):
         return end
 
 
+class PrefeitoExercicio(BrowserView):
+    def getParametroConfiguracaoAdmin(self):
+        return configuracao.Configuracao.getParametroConfiguracaoPrefeitoExercicio()
+
+    def getCampoAbaPrefeito(self):
+        portal = api.portal.get()
+        id = 'aba_prefeito'
+        results = portal.portal_catalog(id=id, portal_type="aba_editavel")
+        for i in results:
+            return i.getObject()
+        return None
+
+    def getCampoAbaVice(self):
+        portal = api.portal.get()
+        id = 'aba_vice'
+        results = portal.portal_catalog(id=id, portal_type="aba_editavel")
+        for i in results:
+            return i.getObject()
+        return None
+
+
+class AlterarAbaPrefeitoExercicio(BrowserView):
+
+    def __call__(self):
+        try:
+            portal = api.portal.get()
+            titulo = self.request.form['titulo']
+            id = 'aba_prefeito'
+            results = portal.portal_catalog(id=id, portal_type="aba_editavel")
+            for i in results:
+                i.getObject().setTitle(titulo)
+                portal.portal_catalog.reindexObject(i.getObject())
+            return 'OK'
+        except Exception as exc:
+            print(exc)
+            return 'NOK'
+
+
+class AlterarAbaViceExercicio(BrowserView):
+    def __call__(self):
+        try:
+            portal = api.portal.get()
+            id = 'aba_vice'
+            titulo = self.request.form['titulo']
+            results = portal.portal_catalog(id=id, portal_type="aba_editavel")
+            for i in results:
+                i.getObject().setTitle(titulo)
+                portal.portal_catalog.reindexObject(i.getObject())
+                return 'OK'
+        except Exception as exc:
+            print(exc)
+            return 'NOK'
+
+
 class SPAgora(BrowserView):
 
     def getParametroConfiguracaoAdmin(self):
@@ -216,6 +270,27 @@ class SPAgoraEditar(BrowserView):
             return pannelid
         except:
             return False
+
+
+class AlterarPrefeitoExercicio(SPAgora):
+
+    def __call__(self):
+        try:
+            habilita = self.request.form['habilita']
+            self.habilita(habilita)
+            return 'OK'
+        except:
+            return 'NOK'
+
+    def habilita(self, habilita):
+        habilita_persistencia = False
+        if habilita == 'S':
+            habilita_persistencia = True
+
+        try:
+            configuracao.Configuracao.setParametroConfiguracaoPrefeitoExercicio(habilita_persistencia)
+        except:
+            pass
 
 
 class habilitaDashboard(SPAgora):

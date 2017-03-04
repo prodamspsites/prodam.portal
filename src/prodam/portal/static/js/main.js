@@ -12,6 +12,17 @@
     });*/
 
 
+/*SS27262: Tratamento de clique nos links das abas da página 'agenda-prefeito'*/
+/*
+$("#btn_agenda_prefeito").click(function(e){
+  location.href = location.href + '?habilita_agenda_exercicio=False';
+});
+
+$("#btn_agenda_vice").click(function(e){
+  location.href = location.href + '?habilita_agenda_exercicio=True';
+});
+*/
+
     if ($('body').hasClass('portaltype-collective-cover-content') || $('body').hasClass('template-agenda-prefeito') || $('body').hasClass('portaltype-document') || $('body').hasClass('portaltype-topic')
         || $('body').hasClass('portaltype-service') || $('body').hasClass('portaltype-section') || $('body').hasClass('portaltype-news-item') || $('header').hasClass('dash-header')) {
       spagora_url = portal_url + '/spagora-assincrono';
@@ -36,11 +47,13 @@
         }
       day = $(this).text();
       date = month + '/' + day + '/' + year;
+      //habilita_agenda_exercicio = $("#habilita_agenda_exercicio").val();
       var form = $('<form action="' + portal_url + '/agenda/agenda-prefeito" method="post">' +
                    '<input type="text" name="date" value="' + date + '" />' +
                    '<input type="text" name="year" value="' + year  + '" />' +
                    '<input type="text" name="month" value="' + month + '" />' +
                    '<input type="text" name="day" value="' + day + '" />' +
+                   //'<input type="text" name="habilita_agenda_exercicio" value="' + habilita_agenda_exercicio + '" />' +
                    '</form>');
       $('body').append(form);
       form.submit();
@@ -206,11 +219,15 @@
         }
         day = $(this).text();
         date = month + '/' + day + '/' + year;
+
+        //habilita_agenda_exercicio = $("#habilita_agenda_exercicio").val();
+
         var form = $('<form action="' + portal_url + '/agenda/agenda-prefeito" method="post">' +
                      '<input type="text" name="date" value="' + date + '" />' +
-                   '<input type="text" name="year" value="' + year  + '" />' +
-                   '<input type="text" name="month" value="' + month + '" />' +
-                    '<input type="text" name="day" value="' + day + '" />' +
+                     '<input type="text" name="year" value="' + year  + '" />' +
+                     '<input type="text" name="month" value="' + month + '" />' +
+                     '<input type="text" name="day" value="' + day + '" />' +
+                     //'<input type="text" name="habilita_agenda_exercicio" value="' + habilita_agenda_exercicio + '" />' +
                      '</form>');
         $('body').append(form);
         form.submit();

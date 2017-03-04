@@ -49,6 +49,14 @@
             <p>Painel 1 ativo em 15/12/2015 às 10h</p>
         </a>
     </div>
+
+ <div class="boxHome">
+        <a href="#" tal:attributes="href string:${context/portal_url}/prefeito-exercicio" target="_blank" title="CONTROLE DA AGENDA DO PREFEITO EM EXERCÍCIO">
+            <span class="lnr lnr-calendar-full"></span>
+            <h2>AGENDA DO PREFEITO EM EXERCÍCIO</h2>
+            <p>Painel 1 ativo em 15/12/2015 às 10h</p>
+        </a>
+    </div>
 </div>
 </body>
 </html>

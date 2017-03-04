@@ -482,23 +482,26 @@ body{
     border-radius: 5px; 
 }
 
-#paramConfiguracaoSPAgora {
+#paramConfiguracaoSPAgora, #paramConfiguracaoPrefeitoExercicio, #paramConfiguracaoAbaVice, #paramConfiguracaoAbaPrefeito {
     border: 1px solid #000000; 
     width: 645px; 
     margin-bottom: 15px; 
     height: 50px;
 }
 
-#paramConfiguracaoSPAgora form{
+#paramConfiguracaoSPAgora form, #paramConfiguracaoPrefeitoExercicio form, #paramConfiguracaoAbaPrefeito form, #paramConfiguracaoAbaVice form{
     margin-top: 10px;
 }
 
-#paramConfiguracaoSPAgora label{
+#paramConfiguracaoSPAgora label, #paramConfiguracaoAbaPrefeito label, #paramConfiguracaoAbaVice label{
     padding: 10px;
 }
 
+#aba_vice, #aba_prefeito{
+    width: 200px;
+}
 
-.contentGeral .contentRight #paramConfiguracaoSPAgora .btnSalvar{
+.contentGeral .contentRight #paramConfiguracaoSPAgora .btnSalvar, .contentGeral .contentRight #paramConfiguracaoPrefeitoExercicio  .btnSalvar, .contentGeral .contentRight #paramConfiguracaoAbaPrefeito .btnSalvarAbaPrefeito,  .contentGeral .contentRight #paramConfiguracaoAbaVice .btnSalvarAbaVice{
     background:#205c90;
     color:#fff;
     text-align:center;
@@ -663,6 +666,8 @@ body{
     clear:both;
     width:100%; 
 }
+
+
 .contentGeral .contentRight .divPainel .formPainel .inputTitulo{
     float:left;
     clear:both;

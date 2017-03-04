@@ -84,6 +84,88 @@ jQuery(document).ready(function($) {
         }
     });
 
+/*secao 'AGENDA DO PREFEITO EM EXERCICIO'*/
+
+$('#paramConfiguracaoPrefeitoExercicio .btnSalvar').click(function(event){
+        event.preventDefault();
+        var habilita;
+        try{
+            habilita = $("input[name='rdbHabilita']:checked").attr('value');
+            if(!habilita){
+                habilita = '';
+            }
+        }catch(err){
+            habilita = '';
+        }
+        if(habilita.length > 0){
+           site_url = $('.breadcrumb a').first().attr('href');
+           url = site_url + '/@@alterar-prefeito-exercicio';
+           $.post( url,
+           {
+               habilita: habilita
+            },function(res){
+                $("#mensagem").remove();
+                if(res == 'OK'){
+                    $('.divPainel').prepend('<div id="mensagem"><p>Configuração alterada com sucesso</p></div>');
+                }else{
+                 $('.divPainel').prepend('<div id="mensagem"><p>Erro na atualização do registro</p></div>');}
+            });
+        }
+    });
+
+$('#paramConfiguracaoAbaPrefeito .btnSalvarAbaPrefeito').click(function(event){
+        event.preventDefault();
+        var titulo;
+        try{
+           titulo = $("#aba_prefeito").val();
+        }catch(err){
+            titulo = '';
+        }
+        if(titulo.length > 0){
+           site_url = $('.breadcrumb a').first().attr('href');
+           url = site_url + '/@@alterar-aba-prefeito';
+           $.post( url,
+           {
+               titulo: titulo
+            },function(res){
+                $("#mensagem").remove();
+                if(res == 'OK'){
+                    $('.divPainel').prepend('<div id="mensagem"><p>Aba do prefeito alterado com sucesso</p></div>');
+                }else{
+                 $('.divPainel').prepend('<div id="mensagem"><p>Erro na alteração da aba do prefeito</p></div>');}
+            });
+        }
+    });
+
+$('#paramConfiguracaoAbaVice .btnSalvarAbaVice').click(function(event){
+        event.preventDefault();
+        var titulo;
+        try{
+           titulo = $("#aba_vice").val();
+        }catch(err){
+            titulo = '';
+        }
+        if(titulo.length > 0){
+           site_url = $('.breadcrumb a').first().attr('href');
+           url = site_url + '/@@alterar-aba-vice';
+           $.post( url,
+           {
+               titulo: titulo
+            },function(res){
+                $("#mensagem").remove();
+                if(res == 'OK'){
+                    $('.divPainel').prepend('<div id="mensagem"><p>Aba do prefeito em exercício alterado com sucesso</p></div>');
+                }else{
+                 $('.divPainel').prepend('<div id="mensagem"><p>Erro na alteração da aba do prefeito em exercício</p></div>');}
+            });
+        }
+    });
+
+
+/*fim secao 'AGENDA DO PREFEITO EM EXERCICIO'*/
+
+
+
     $( 'body.alertas .btnRestaurar' ).click( function(event) {
         event.preventDefault();
         href = $(this).attr('href');

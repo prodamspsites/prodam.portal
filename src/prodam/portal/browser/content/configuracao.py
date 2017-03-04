@@ -33,3 +33,28 @@ class Configuracao:
                 portal.portal_catalog.reindexObject(i.getObject())
         except:
             pass
+
+    @staticmethod
+    def IdParametroConfiguracaoPrefeitoExercicio():
+        return 'prefeito-exercicio'
+
+    @staticmethod
+    def getParametroConfiguracaoPrefeitoExercicio():
+        portal = api.portal.get()
+        id = Configuracao.IdParametroConfiguracaoPrefeitoExercicio()
+        results = portal.portal_catalog(id=id, portal_type="parametro_de_configuracao")
+        for i in results:
+            return i.getObject()
+        return None
+
+    @staticmethod
+    def setParametroConfiguracaoPrefeitoExercicio(habilita):
+        portal = api.portal.get()
+        try:
+            id = Configuracao.IdParametroConfiguracaoPrefeitoExercicio()
+            results = portal.portal_catalog(id=id, portal_type="parametro_de_configuracao")
+            for i in results:
+                i.getObject().habilitado = habilita
+                portal.portal_catalog.reindexObject(i.getObject())
+        except:
+            pass

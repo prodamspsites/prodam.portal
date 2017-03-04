@@ -4,4 +4,9 @@
         <indexed_attr value="autor"/>
     </index>
     <column value="autor"/>
+
+    <index name="habilita_agenda_exercicio" meta_type="FieldIndex">
+        <indexed_attr value="habilita_agenda_exercicio"/>
+    </index>
+    <column value="habilita_agenda_exercicio"/>
 </object>
