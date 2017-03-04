@@ -15,7 +15,7 @@ class Renderer(BaseRenderer):
     def getPrefeitoEmExercicio(self):
         sdm = self.context.session_data_manager
         session = sdm.getSessionData(create=True)
-        if 'habilita_agenda_exercicio' in session:
+        if 'habilita_agenda_exercicio' in session.keys():
             return session['habilita_agenda_exercicio']
         else:
             return True

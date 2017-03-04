@@ -21,7 +21,7 @@ class Agenda(BrowserView):
                 session.set("habilita_agenda_exercicio", False)
                 return False
         else:
-            if 'habilita_agenda_exercicio' in session:
+            if 'habilita_agenda_exercicio' in session.keys():
                 return session['habilita_agenda_exercicio']
             else:
                 session.set("habilita_agenda_exercicio", True)
