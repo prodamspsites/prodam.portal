@@ -48,4 +48,5 @@
  <object name="geolocalizacao" meta_type="Dexterity FTI"/>
  <object name="alerta" meta_type="Dexterity FTI"/>
  <object name="parametro_de_configuracao" meta_type="Dexterity FTI"/>
+ <object name="aba_editavel" meta_type="Dexterity FTI"/>
 </object>
