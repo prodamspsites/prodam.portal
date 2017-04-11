@@ -9,15 +9,24 @@
 
 <metal:main fill-slot="main">
     <tal:main-macro metal:define-macro="main">
-      <header class="titulo_principal">
+      <header class="titulo_principal" tal:define="abreExercicio view/getParametroConfiguracaoPrefeitoExercicio;" tal:condition="python: abreExercicio.habilitado == False">
+        <h1 class="titulo"><span class="agendaBold">Agenda</span> da Prefeitura</h1>
+      </header>
+
+
+ <header class="titulo_principal" tal:define="abreExercicio view/getParametroConfiguracaoPrefeitoExercicio;" tal:condition="python: abreExercicio.habilitado == True">
         <h1 class="titulo"><span class="agendaBold">Agendas</span> da Prefeitura</h1>
       </header>
 
 
-      <div class="prefeito" tal:define="abreExercicio view/getParametroConfiguracaoPrefeitoExercicio" tal:condition="python: abreExercicio.habilitado == False">
-        <h2 id="agendaPrefeitura" tal:content="context/Title"></h2>
+
+ <div id="prefeito" tal:define="abreExercicio view/getParametroConfiguracaoPrefeitoExercicio; nome view/getTitlePrefeito" tal:condition="python: abreExercicio.habilitado == False">
+        <h2 id="agendaPrefeitura" tal:define="titulo python:'Agenda: ' + nome" tal:content="titulo"></h2>
       </div>
-<div class="prefeito" tal:define="abreExercicio view/getParametroConfiguracaoPrefeitoExercicio" tal:condition="python: abreExercicio.habilitado == True">
+
+
+
+<div id="prefeito" class="aba-borda" tal:define="abreExercicio view/getParametroConfiguracaoPrefeitoExercicio" tal:condition="python: abreExercicio.habilitado == True">
 
 
 <a href='?habilita_agenda_exercicio=True' style="border-bottom: none;">

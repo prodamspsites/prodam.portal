@@ -389,5 +389,5 @@ def updateCreatorsNews(site):
 
 
 def createAbasEditaveis(site):
-    createAbaEditavel(site, 'aba_prefeito', 'Prefeito João Dória', 'configuracao', '')
-    createAbaEditavel(site, 'aba_vice', 'Prefeito em Exercício Bruno Covas', 'configuracao', '')
+    createAbaEditavel(site, 'aba_prefeito', 'João Dória', 'configuracao', '')
+    createAbaEditavel(site, 'aba_vice', 'Bruno Covas', 'configuracao', '')
