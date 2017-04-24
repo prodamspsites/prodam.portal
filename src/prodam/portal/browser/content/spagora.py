@@ -190,23 +190,23 @@ class SpAgora(BrowserView):
         content = ""
         dashboard = self.getCollectionDashBoardMongo()
         try:
-            if dashboard:
-                temp_media = dashboard['temp_media']
-                potencial = dashboard['potencial']
+           
+            temp_media = dashboard['temp_media']
+            potencial = dashboard['potencial']
 
-                propertyTitle, propertyTexto = self.getPainel(int(1))
-                if propertyTitle:
-                    titulo = propertyTitle
-                else:
-                    titulo = "Tempo"
+            propertyTitle, propertyTexto = self.getPainel(int(1))
+            if propertyTitle:
+                titulo = propertyTitle
+            else:
+                titulo = "Tempo"
 
-                if propertyTexto:
-                    texto = propertyTexto
-                else:
-                    texto = """ <div class="tempo-g nb"></div><div class="t-media"><span>Média</span><span id="CGE-media" class="amarelo bold">%(temp_media)s°</span></div><div class="tempestade"><span>Potencial <div class="raio"></div></span><span id="status-temp" class="amarelo">%(potencial)s</span></div></div><div class="ex-hover"><a href="#verMais"></a><div></div>
+            if propertyTexto:
+                texto = propertyTexto
+            else:
+                texto = """ <div class="tempo-g nb"></div><div class="t-media"><span>Média</span><span id="CGE-media" class="amarelo bold">%(temp_media)s°</span></div><div class="tempestade"><span>Potencial <div class="raio"></div></span><span id="status-temp" class="amarelo">%(potencial)s</span></div></div><div class="ex-hover"><a href="#verMais"></a><div></div>
 """ % {'temp_media': temp_media, 'potencial': potencial}
 
-                content += """
+            content += """
                        <li class="ex-clima ver-mais">
                        <div class="dash-border">
                        <strong class="titulo-dash">%(titulo)s</strong>
@@ -429,7 +429,7 @@ class SpAgora(BrowserView):
                    <li class="%(li)s ver-mais">
                    <div class="dash-border" style="display: block;">
                    <strong class="titulo-dash">%(text_div)s</strong>
-                   <p class="sp-erro">Não foi possível carregar informações</p>
+                   <p class="sp-erro">Informação indisponível no momento, tente novamente mais tarde.</p>
                    </div>
                    """ % {'text_div': text_div, 'li': class_li}
         return content
@@ -444,7 +444,7 @@ class SpAgora(BrowserView):
                    <h3 class="titulo-dash">%(text_div)s</h3>
                    <button class="fechar-dash">X</button>
                    </br>
-                   <p class="sp-erro" style="margin-top: 10px;">Não foi possível carregar informações</p>
+                   <p class="sp-erro" style="margin-top: 10px;">Informação indisponível no momento, tente novamente mais tarde.</p>
                    </div>
                    """ % {'text_div': text_div, 'li': class_li}
         return content

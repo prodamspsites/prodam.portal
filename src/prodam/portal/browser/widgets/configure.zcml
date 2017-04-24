@@ -1,0 +1,12 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="prodam.portal">
+
+  <browser:page
+        name="contenttree-fetch"
+        for="*"
+        permission="zope.Public"
+        class=".widget.MyFetch"
+        />
+</configure>

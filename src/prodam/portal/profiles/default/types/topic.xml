@@ -33,9 +33,15 @@
  </property>
  <property name="schema"></property>
  <property
-    name="model_source">&lt;model xmlns="http://namespaces.plone.org/supermodel/schema"&gt;
-  &lt;schema&gt;
-  &lt;/schema&gt;
+    name="model_source">&lt;model xmlns:security="http://namespaces.plone.org/supermodel/security" xmlns:marshal="http://namespaces.plone.org/supermodel/marshal" xmlns:form="http://namespaces.plone.org/supermodel/form" xmlns="http://namespaces.plone.org/supermodel/schema"&gt;
+    &lt;schema&gt;
+      &lt;field name="icone" type="plone.namedfile.field.NamedBlobImage"&gt;
+        &lt;description&gt;&amp;#205;cone do t&amp;#243;pico. No momento, somente t&amp;#243;picos de primeiro n&amp;#237;vel ter&amp;#227;o &amp;#237;cone.&amp;#13;
+  Preferencialmente, a imagem dever&amp;#225; ter as dimens&amp;#245;es 40x40.&lt;/description&gt;
+        &lt;required&gt;False&lt;/required&gt;
+        &lt;title&gt;icone&lt;/title&gt;
+      &lt;/field&gt;
+    &lt;/schema&gt;
   &lt;/model&gt;</property>
  <property name="model_file"></property>
  <property name="schema_policy">dexterity</property>
