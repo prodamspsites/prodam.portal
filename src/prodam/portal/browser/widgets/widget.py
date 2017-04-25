@@ -28,6 +28,8 @@ from plone.formwidget.contenttree.widget import Fetch
 
 class MyFetch(Fetch):
 
+    recurse_template = ViewPageTemplateFile('templates/input_recurse.pt')
+
     def __call__(self):
         # We want to check that the user was indeed allowed to access the
         # form for this widget. We can only this now, since security isn't

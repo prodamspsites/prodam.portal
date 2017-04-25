@@ -3,6 +3,17 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="prodam.portal">
 
+<!--
+
+Página abaixo é a sobrescrita da página de mesmo nome localizado em:
+DIRETORIO_CORE_PLONE/plone.formwidget.contenttree-1.0.7-py2.7.egg/plone/formwidget/contenttree/configure.zcml
+DIRETORIO_CORE_PLONE/plone.formwidget.contenttree-1.0.9-py2.7.egg/plone/formwidget/contenttree/configure.zcml
+
+Para que a página abaixo fique em operação, é necessário editar os arquivos zcml acima e comentar a configuração da página 'contenttree-fetch'.
+
+A sobrescrita abaixo é necessária para permitir o funcionamento do campo 'Galeria de imagens' na inclusão de noticias
+-->
+
   <browser:page
         name="contenttree-fetch"
         for="*"
