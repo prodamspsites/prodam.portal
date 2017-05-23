@@ -190,7 +190,6 @@ class SpAgora(BrowserView):
         content = ""
         dashboard = self.getCollectionDashBoardMongo()
         try:
-           
             temp_media = dashboard['temp_media']
             potencial = dashboard['potencial']
 

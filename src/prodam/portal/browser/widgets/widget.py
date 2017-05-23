@@ -1,30 +1,31 @@
 from AccessControl import getSecurityManager
-from Acquisition import Explicit
+# from Acquisition import Explicit
 from Acquisition.interfaces import IAcquirer
 
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
-from zope.interface import implementsOnly, implementer
+# from zope.interface import implementsOnly, implementer
 from zope.component import getMultiAdapter
-from zope.i18n import translate
+# from zope.i18n import translate
 
-import z3c.form.interfaces
-import z3c.form.widget
-import z3c.form.util
+# import z3c.form.interfaces
+# import z3c.form.widget
+# import z3c.form.util
 
 from plone.app.layout.navigation.interfaces import INavtreeStrategy
-from plone.app.layout.navigation.navtree import buildFolderTree
+# from plone.app.layout.navigation.navtree import buildFolderTree
 
-from plone.formwidget.autocomplete.widget import \
-    AutocompleteSelectionWidget, AutocompleteMultiSelectionWidget
+# from plone.formwidget.autocomplete.widget import \
+#    AutocompleteSelectionWidget, AutocompleteMultiSelectionWidget
 
 from Products.CMFCore.utils import getToolByName
-from Products.Five.browser import BrowserView
+# from Products.Five.browser import BrowserView
 
-from plone.formwidget.contenttree.interfaces import IContentTreeWidget
-from plone.formwidget.contenttree import MessageFactory as _
+# from plone.formwidget.contenttree.interfaces import IContentTreeWidget
+# from plone.formwidget.contenttree import MessageFactory as _
 from plone.formwidget.contenttree.utils import closest_content
 
 from plone.formwidget.contenttree.widget import Fetch
+
 
 class MyFetch(Fetch):
 
@@ -101,7 +102,7 @@ class MyFetch(Fetch):
         if not view_name.startswith('@@') and not view_name.startswith('++'):
             view_name = '@@' + view_name
         print(view_name)
-        view_name = view_name.replace("%20"," ")
+        view_name = view_name.replace("%20", " ")
         view_instance = content.restrictedTraverse(view_name)
         getSecurityManager().validate(content, content, view_name,
                                       view_instance)

@@ -20,12 +20,12 @@
                                    title node/Description;
                                    class string:$item_class;
                                    ">
-                    <img tal:attributes="src item_token; 
+                 <img tal:attributes="src item_token;
                                          width string:100;
                                          height string:100" />
 
 
-                    <span  style="display: none" tal:content="node/Title">Selected Item Title</span>
+                 <span  style="display: none" tal:content="node/Title">Selected Item Title</span>
 
                 </a>
 

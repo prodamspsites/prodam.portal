@@ -13,6 +13,7 @@ Para que a página abaixo fique em operação, é necessário editar os arquivos
 
 A sobrescrita abaixo é necessária para permitir o funcionamento do campo 'Galeria de imagens' na inclusão de noticias
 -->
+<includeOverrides file="overrides.zcml" />
 
   <browser:page
         name="contenttree-fetch"
