@@ -1,0 +1,18 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+<include package="z3c.unconfigure" file="meta.zcml" />
+
+
+<unconfigure>
+ <browser:page
+        name="contenttree-fetch"
+        for="plone.formwidget.contenttree.interfaces.IContentTreeWidget"
+        permission="zope.Public"
+        class="plone.formwidget.contenttree.widget.Fetch"
+        />
+
+</unconfigure>
+
+</configure>
