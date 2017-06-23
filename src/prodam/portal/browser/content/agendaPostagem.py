@@ -6,7 +6,7 @@ from prodam.portal.browser.content import configuracao
 from plone import api
 
 
-class Agenda(BrowserView):
+class AgendaPostagem(BrowserView):
 
     def getPrefeitoEmExercicio(self):
         sdm = self.context.session_data_manager
@@ -34,14 +34,28 @@ class Agenda(BrowserView):
         except:
             return DateTime().strftime('%m/%d/%Y')
 
+    def getPostagens(self):
+        requested_date = self.getDay()
+        start_date = DateTime(requested_date + ' 00:00')
+        print(requested_date)
+        print(start_date)
+        print(start_date.strftime("%s"))
+        try:
+            events = self.context.portal_catalog(portal_type='agenda',
+                                                 review_state='published')
+            print(events)
+            for i in events:
+                print(i.data_evento)
+            return events
+        except:
+            print("Erro na consulta de postagnes")
+            return []
+
     def getEvents(self):
         requested_date = self.getDay()
         start_date = DateTime(requested_date + ' 00:00')
         end_date = DateTime(requested_date + ' 23:59')
         exercicio = self.getPrefeitoEmExercicio()
-        print('EXERCICIO: ' + str(exercicio))
-        print(start_date)
-        print(start_date.strftime("%s"))
         if exercicio:
             events = self.context.portal_catalog(portal_type='Event',
                                                  start={'query': [start_date, end_date], 'range': 'min:max'},
@@ -54,8 +68,6 @@ class Agenda(BrowserView):
                                                  sort_on='start',
                                                  review_state='published',
                                                  habilita_agenda_exercicio=False)
-        for i in events:
-            print(i.start)
         return events
 
     def getYearEvent(self):

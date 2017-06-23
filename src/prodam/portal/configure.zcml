@@ -38,7 +38,9 @@
     />
 
 
-<!-- Registro do indice 'autor'  -->
+<!-- Registros de índices  -->
 <adapter factory=".index.autorIndexer" name="autor" />
 <adapter factory=".index.emExercicioIndexer" name="habilita_agenda_exercicio" />
+<adapter factory=".index.nomePrefeitoIndexer" name="nome_prefeito" />
+
 </configure>

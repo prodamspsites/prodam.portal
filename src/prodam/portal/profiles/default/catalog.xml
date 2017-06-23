@@ -9,4 +9,15 @@
         <indexed_attr value="habilita_agenda_exercicio"/>
     </index>
     <column value="habilita_agenda_exercicio"/>
+
+    <index name="nome_prefeito" meta_type="FieldIndex">
+        <indexed_attr value="nome_prefeito"/>
+    </index>
+    <column value="nome_prefeito"/>
+
+    <index name="data_evento" meta_type="DateIndex">
+        <property name="data_evento">True</property>
+    </index>
+    <column value="data_evento"/>
+
 </object>

@@ -56,6 +56,16 @@
       layer="prodam.portal.interfaces.IProdamPortal"
       />
 
+ <browser:page
+      name="agenda-postagem"
+      for="*"
+      permission="zope2.View"
+      class=".agendaPostagem.AgendaPostagem"
+      template="templates/agendaPostagem.pt"
+      layer="prodam.portal.interfaces.IProdamPortal"
+      />
+
+
 <!--
   <browser:page
       name="admin"

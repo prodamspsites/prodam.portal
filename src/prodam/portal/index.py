@@ -16,3 +16,11 @@ def emExercicioIndexer(obj):
         return None
     else:
         return obj.habilita_agenda_exercicio
+
+
+@indexer(IProdamPortal)
+def nomePrefeitoIndexer(obj):
+    if obj.nome_prefeito is None:
+        return None
+    else:
+        return obj.nome_prefeito
