@@ -24,3 +24,19 @@ def nomePrefeitoIndexer(obj):
         return None
     else:
         return obj.nome_prefeito
+
+
+@indexer(IProdamPortal)
+def dataEventoIndexer(obj):
+    if obj.data_evento is None:
+        return None
+    else:
+        return obj.data_evento
+
+
+@indexer(IProdamPortal)
+def dataDaAgendaIndexer(obj):
+    if obj.data_da_agenda is None:
+        return None
+    else:
+        return obj.data_da_agenda

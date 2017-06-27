@@ -13,12 +13,19 @@
         <h1 class="titulo"><span class="agendaBold">Agendas</span> da Prefeitura</h1>
       </header>
 
-      <div id="prefeito" tal:define="posts view/getPostagens;">
-        <h2 id="agendaPrefeitura" tal:define="nome string:teste" tal:content="nome"></h2>
-      </div>
+       <div id="prefeito" tal:define="posts view/getPostagens; count python:len(posts)" tal:condition="python: count == 1 ">
+            <h2 id="agendaPrefeitura" tal:define="nome python: posts[0].Title;" tal:content="nome">            </h2>
+       </div>
 
       <header class="agendaHeader">
+
+          <div class="contentBody" tal:define="texto context/texto/raw | nothing">
+            <p tal:replace="structure texto">Conteúdo</p>
+          </div>
+
+<!--
         <strong id="agendaDia" tal:content="view/getTitle">HOJE: Quinta-Feira, 3 de Dezembro de 2015</strong>
+-->
       </header>
     <!-- CONTEUDO AQUI-->
     </tal:main-macro>

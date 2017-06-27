@@ -16,8 +16,13 @@
     <column value="nome_prefeito"/>
 
     <index name="data_evento" meta_type="DateIndex">
-        <property name="data_evento">True</property>
+        <property name="index_naive_time_as_local">True</property>
     </index>
     <column value="data_evento"/>
+
+    <index name="data_da_agenda" meta_type="DateIndex">
+        <property name="index_naive_time_as_local">True</property>
+    </index>
+    <column value="data_da_agenda"/>
 
 </object>

@@ -40,15 +40,18 @@ class AgendaPostagem(BrowserView):
         print(requested_date)
         print(start_date)
         print(start_date.strftime("%s"))
+        end_date = DateTime(requested_date + ' 23:59')
         try:
             events = self.context.portal_catalog(portal_type='agenda',
+                                                 data_da_agenda={'query': [start_date, end_date], 'range': 'min:max'},
                                                  review_state='published')
             print(events)
             for i in events:
-                print(i.data_evento)
+                print(i)
             return events
-        except:
+        except Exception as inst:
             print("Erro na consulta de postagnes")
+            print(inst)
             return []
 
     def getEvents(self):

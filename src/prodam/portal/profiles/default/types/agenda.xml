@@ -32,15 +32,15 @@
         &lt;description&gt;O nome do prefeito&lt;/description&gt;
         &lt;title&gt;nome do prefeito&lt;/title&gt;
       &lt;/field&gt;
-      &lt;field name="data_evento" type="zope.schema.Date"&gt;
-        &lt;default&gt;2017-06-20&lt;/default&gt;
-        &lt;description&gt;Data em que ocorrem os eventos da postagem&lt;/description&gt;
-        &lt;title&gt;Data da agenda&lt;/title&gt;
-      &lt;/field&gt;
       &lt;field name="texto" type="plone.app.textfield.RichText"&gt;
         &lt;default&gt;&amp;lt;p&amp;gt;&amp;lt;strong style="text-align: justify; "&amp;gt;10h - Mutir&amp;#227;o M&amp;#225;rio Covas - Programa Cal&amp;#231;ada Nova na Vila Mariana&amp;lt;/strong&amp;gt;&amp;lt;br style="text-align: justify; " /&amp;gt;&amp;lt;span style="text-align: justify; "&amp;gt;&amp;lt;strong&amp;gt;Local:&amp;lt;/strong&amp;gt;&amp;lt;span class="Apple-converted-space"&amp;gt;&amp;#160;&amp;lt;/span&amp;gt;Rua Embua&amp;#231;u, 520 - Vila Mariana - Zona Sul (cal&amp;#231;ada da EMEI Oswaldo Cruz)&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;&lt;/default&gt;
         &lt;description&gt;Eventos da postagem&lt;/description&gt;
         &lt;title&gt;texto&lt;/title&gt;
+      &lt;/field&gt;
+      &lt;field name="data_da_agenda" type="zope.schema.Datetime"&gt;
+        &lt;default&gt;2017-06-27 00:00:00&lt;/default&gt;
+        &lt;description/&gt;
+        &lt;title&gt;data dos eventos&lt;/title&gt;
       &lt;/field&gt;
     &lt;/schema&gt;
   &lt;/model&gt;</property>

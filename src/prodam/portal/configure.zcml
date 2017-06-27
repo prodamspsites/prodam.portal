@@ -42,5 +42,7 @@
 <adapter factory=".index.autorIndexer" name="autor" />
 <adapter factory=".index.emExercicioIndexer" name="habilita_agenda_exercicio" />
 <adapter factory=".index.nomePrefeitoIndexer" name="nome_prefeito" />
+<adapter factory=".index.dataEventoIndexer" name="data_evento" />
+<adapter factory=".index.dataDaAgendaIndexer" name="data_da_agenda" />
 
 </configure>
