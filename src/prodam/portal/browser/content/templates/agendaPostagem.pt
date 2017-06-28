@@ -9,26 +9,31 @@
 
 <metal:main fill-slot="main">
     <tal:main-macro metal:define-macro="main">
+    <tal:registro tal:define="posts view/getPostagens; count python:len(posts)" tal:condition="python: count == 1 ">
       <header class="titulo_principal">
         <h1 class="titulo"><span class="agendaBold">Agendas</span> da Prefeitura</h1>
       </header>
 
-       <div id="prefeito" tal:define="posts view/getPostagens; count python:len(posts)" tal:condition="python: count == 1 ">
-            <h2 id="agendaPrefeitura" tal:define="nome python: posts[0].Title;" tal:content="nome">            </h2>
+       <div id="prefeito">
+            <h2 id="agendaPrefeitura">Agendas da prefeitura</h2>
        </div>
 
       <header class="agendaHeader">
+           <strong id="agendaDia" tal:define="nome python: posts[0].Title;" tal:content="nome">HOJE: Quinta-Feira, 3 de Dezembro de 2015</strong>
 
-          <div class="contentBody" tal:define="texto context/texto/raw | nothing">
+      </header>
+<br />
+
+    <!-- CONTEUDO AQUI-->
+          <div class="contentBody" tal:define="texto python:posts[0].getObject().texto.raw">
             <p tal:replace="structure texto">Conteúdo</p>
           </div>
 
-<!--
-        <strong id="agendaDia" tal:content="view/getTitle">HOJE: Quinta-Feira, 3 de Dezembro de 2015</strong>
--->
-      </header>
-    <!-- CONTEUDO AQUI-->
+    </tal:registro>
+
+
     </tal:main-macro>
+
 </metal:main>
 
 </body>
