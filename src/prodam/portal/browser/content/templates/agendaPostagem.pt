@@ -15,7 +15,7 @@
       </header>
 
        <div id="prefeito">
-            <h2 id="agendaPrefeitura">Agendas da prefeitura</h2>
+            <h2 id="agendaPrefeitura">Agenda da prefeitura</h2>
        </div>
 
       <header class="agendaHeader">
@@ -31,6 +31,30 @@
 
     </tal:registro>
 
+    <tal:registros tal:define="posts view/getPostagens; count python:len(posts)" tal:condition="python: count > 1 ">
+
+       <header class="titulo_principal">
+         <h1 class="titulo"><span class="agendaBold">Agendas</span> da Prefeitura</h1>
+       </header>
+
+       <div id="prefeito">
+         <h2 id="agendaPrefeitura">Agendas da prefeitura</h2>
+       </div>
+
+      <header class="agendaHeader">
+           <strong id="agendaDia">Agendas</strong>
+
+      </header>
+
+
+        <div id="listaAgendaPostagem">
+          <tal:posts repeat="post posts">
+             <br>
+             <a tal:content="python: post.getObject().title" tal:attributes="href post/getURL"></a>
+          </tal:posts>
+        </div>
+
+    </tal:registros>
 
     </tal:main-macro>
 

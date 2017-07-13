@@ -1,0 +1,38 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="prodam.portal">
+
+  <body>
+    <metal:content-core fill-slot="main">
+      <metal:block define-macro="main">
+        <header class="titulo_principal">
+          <h1>Notícias</h1>
+        </header>
+        <article>
+          <header tal:define="portal_url context/portal_url;">
+            <div class="btn_voltar">
+              <a href="#" tal:attributes="href python:portal_url + '/postagens-de-agenda/agenda-postagem'"><span></span> Voltar</a>
+            </div>
+            <h1 tal:content="context/Title | nothing">Template de notícias</h1>
+            <h2 tal:content="context/Description | nothing">Descrição</h2>
+
+
+          </header>
+          <div class="contentBody" tal:define="texto context/text/raw | nothing">
+            <p tal:replace="structure texto">Conteúdo</p>
+          </div>
+
+
+
+
+          <div tal:replace="structure provider:plone.belowcontentbody" />
+        </article>
+      </metal:block>
+    </metal:content-core>
+  </body>
+
+</html>
