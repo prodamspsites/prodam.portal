@@ -9,25 +9,19 @@
   <body>
     <metal:content-core fill-slot="main">
       <metal:block define-macro="main">
-        <header class="titulo_principal">
-          <h1>Notícias</h1>
-        </header>
         <article>
+
           <header tal:define="portal_url context/portal_url;">
-            <div class="btn_voltar">
-              <a href="#" tal:attributes="href python:portal_url + '/postagens-de-agenda/agenda-postagem'"><span></span> Voltar</a>
-            </div>
             <h1 tal:content="context/Title | nothing">Template de notícias</h1>
+            <br>
             <h2 tal:content="context/Description | nothing">Descrição</h2>
-
-
+            <br>
+            <h2 tal:define="nome_prefeito context/nome_prefeito" tal:content="string: Prefeito: ${nome_prefeito}">Descrição</h2>
           </header>
-          <div class="contentBody" tal:define="texto context/text/raw | nothing">
+           <br>
+          <div class="contentBody" tal:define="texto context/texto/raw | nothing">
             <p tal:replace="structure texto">Conteúdo</p>
           </div>
-
-
-
 
           <div tal:replace="structure provider:plone.belowcontentbody" />
         </article>
