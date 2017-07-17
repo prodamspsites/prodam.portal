@@ -37,4 +37,14 @@
       layer="prodam.portal.interfaces.IProdamPortal"
       />
 
+<!-- Portlet de postagens-agenda -->
+
+        <plone:portlet
+        name="prodam.calendario-agenda"
+        interface=".calendar-postagem.ICalendarPostagemPortlet"
+        assignment=".calendar-postagem.Assignment"
+        renderer=".calendar-postagem.Renderer"
+        addview=".calendar-postagem.AddForm"
+        />
+
 </configure>

@@ -34,5 +34,12 @@
    <for interface="plone.app.portlets.interfaces.IDashboard" />
  </portlet>
 
+ <portlet title="Calendário de agenda"
+      addview="prodam.calendario-agenda"
+      description="This portlets show the items with content-type 'agenda'"
+      i18n:attributes="title; description">
+    <for interface="plone.app.portlets.interfaces.IColumn" />
+    <for interface="plone.app.portlets.interfaces.IDashboard" />
+</portlet>
 
 </portlets>
