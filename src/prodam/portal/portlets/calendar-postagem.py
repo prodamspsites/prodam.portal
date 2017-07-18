@@ -2,16 +2,17 @@
 
 from zope.interface import implements
 from Acquisition import aq_inner
-from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.portlets.portlets import base
-from plone.app.portlets.portlets import calendar
+from plone.app.portlets.portlets import calendar as porta
 from plone.app.portlets.portlets.calendar import Renderer as BaseRenderer
+from Products.CMFCalendar.CalendarTool import calendar
+from DateTime.DateTime import DateTime
 
 
-class ICalendarPostagemPortlet(calendar.ICalendarPortlet):
+class ICalendarPostagemPortlet(porta.ICalendarPortlet):
     """Calendar postagem-agenda portlet"""
 
 
@@ -25,7 +26,7 @@ class Assignment(base.Assignment):
 
 class Renderer(BaseRenderer):
 
-    render = ViewPageTemplateFile('templates/calendar-postagem.pt')
+    render = ViewPageTemplateFile('templates/calendar.pt')
 
     def checkIsDayEvent(self, day):
         day_event = self.request.get('day', 0)
@@ -54,6 +55,7 @@ class Renderer(BaseRenderer):
         month = self.month
         # portal_state = getMultiAdapter((self.context, self.request), name='plone_portal_state')
         # navigation_root_path = portal_state.navigation_root_path()
+        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
         weeks = self.getEventsForCatalog(month, year)
         for week in weeks:
             for day in week:
@@ -98,7 +100,7 @@ class Renderer(BaseRenderer):
         #  [28, 29, 30, 31, 0, 0, 0]]
         daysByWeek = self._getCalendar().monthcalendar(year, month)
         weeks = []
-
+        print("CHAMANDO METODO DE BUSCA POR DATA")
         events = self.buscaEventosPorData(year, month)
 
         for week in daysByWeek:
@@ -125,15 +127,12 @@ class Renderer(BaseRenderer):
         last_date = self.getBeginAndEndTimes(last_day, month, year)[1]
 
         ctool = getToolByName(self, 'portal_catalog')
-
-        habilita_agenda_exercicio = self.getPrefeitoEmExercicio()
-
-        query = ctool(portal_type=('Event',),
+        print("FILTRAGEM POR DATAS: ")
+        print((first_date, last_date))
+        query = ctool(portal_type=('agenda',),
                       review_state=('published',),
-                      start={'query': last_date, 'range': 'max'},
-                      end={'query': first_date, 'range': 'min'},
-                      sort_on='start',
-                      habilita_agenda_exercicio=habilita_agenda_exercicio)
+                      data_da_agenda={'query': (first_date, last_date), 'range': 'min:max'},
+                      sort_on='data_da_agenda')
 
         # compile a list of the days that have events
         eventDays = {}
@@ -143,35 +142,41 @@ class Renderer(BaseRenderer):
                                     'day': daynumber}
         includedevents = []
         for result in query:
+            print("Percorrendo lista de eventos")
+            print(result)
             if result.getRID() in includedevents:
                 break
             else:
                 includedevents.append(result.getRID())
             event = {}
             # we need to deal with events that end next month
-            if result.end.greaterThan(last_date):
+            print(last_date)
+            print(result.data_da_agenda)
+            teste = DateTime(str(result.data_da_agenda))
+            print(teste)
+            if result.data_da_agenda.greaterThan(last_date):
                 eventEndDay = last_day
                 event['end'] = None
             else:
-                eventEndDay = result.end.day()
-                if result.end == result.end.earliestTime():
-                    event['end'] = (result.end - 1).latestTime().Time()
+                eventEndDay = result.data_da_agenda.day()
+                if result.data_da_agenda == result.data_da_agenda.earliestTime():
+                    event['end'] = (result.data_da_agenda - 1).latestTime().Time()
                 else:
-                    event['end'] = result.end.Time()
+                    event['end'] = result.data_da_agenda.Time()
             # and events that started last month
-            if result.start.lessThan(first_date):
+            if result.data_da_agenda.lessThan(first_date):
                 eventStartDay = 1
                 event['start'] = None
             else:
-                eventStartDay = result.start.day()
-                event['start'] = result.start.Time()
+                eventStartDay = result.data_da_agenda.day()
+                event['start'] = result.data_da_agenda.Time()
 
             event['title'] = result.Title or result.getId
 
             if eventStartDay != eventEndDay:
                 allEventDays = range(eventStartDay, eventEndDay + 1)
                 eventDays[eventStartDay]['eventslist'].append({'end': None,
-                                                               'start': result.start.Time(),
+                                                               'start': result.data_da_agenda.Time(),
                                                                'title': event['title']})
                 eventDays[eventStartDay]['event'] = 1
 
@@ -182,11 +187,11 @@ class Renderer(BaseRenderer):
                          'title': event['title']})
                     eventDays[eventday]['event'] = 1
 
-                if (result.end == result.end.earliestTime() and event['end'] is not None):
+                if (result.data_da_agenda == result.data_da_agenda.earliestTime() and event['end'] is not None):
                     # ends some day this month at midnight
                     last_day_data = eventDays[allEventDays[-2]]
                     last_days_event = last_day_data['eventslist'][-1]
-                    last_days_event['end'] = (result.end - 1).latestTime().Time()
+                    last_days_event['end'] = (result.data_da_agenda - 1).latestTime().Time()
                 else:
                     eventDays[eventEndDay]['eventslist'].append(
                         {'end': event['end'],

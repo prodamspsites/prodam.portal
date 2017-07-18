@@ -47,6 +47,7 @@ class Renderer(BaseRenderer):
         month = self.month
         # portal_state = getMultiAdapter((self.context, self.request), name='plone_portal_state')
         # navigation_root_path = portal_state.navigation_root_path()
+        print("PEGANDO DO LUGAR ERRADO")
         weeks = self.getEventsForCatalog(month, year)
         for week in weeks:
             for day in week:

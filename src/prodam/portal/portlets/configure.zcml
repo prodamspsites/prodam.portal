@@ -31,12 +31,13 @@
         editview=".agenda.EditForm"
         />
 
+<!--
   <plone:portletRenderer
       portlet="plone.app.portlets.portlets.calendar.ICalendarPortlet"
       class=".calendar.Renderer"
       layer="prodam.portal.interfaces.IProdamPortal"
       />
-
+-->
 <!-- Portlet de postagens-agenda -->
 
         <plone:portlet

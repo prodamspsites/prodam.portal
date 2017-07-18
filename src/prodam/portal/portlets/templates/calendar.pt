@@ -17,8 +17,7 @@
            title="Previous month"
            class="calendarPrev"
            tal:define="prevMonthMonth view/prevMonthMonth;
-                       prevMonthYear view/prevMonthYear;
-                       exercicio view/getPrefeitoEmExercicio; exercicio_string string:${exercicio}"
+                       prevMonthYear view/prevMonthYear;"
            tal:attributes="id python:'calendar-previous';
                            href python:'?%smonth:int=%d&amp;year:int=%d&amp;orig_query=%s' % (query_string, prevMonthMonth, prevMonthYear, url_quote_plus(query_string));
                            data-year prevMonthYear;
@@ -38,8 +37,7 @@
            title="Next month"
            class="calendarNext"
            tal:define="nextMonthMonth view/nextMonthMonth;
-                       nextMonthYear view/nextMonthYear;
-                       exercicio view/getPrefeitoEmExercicio; exercicio_string string:${exercicio}"
+                       nextMonthYear view/nextMonthYear;"
            tal:attributes="id python:'calendar-next';
                            href python:'?%smonth:int=%d&amp;year:int=%d&amp;orig_query=%s' % (query_string, nextMonthMonth, nextMonthYear, url_quote_plus(query_string));
                            data-year nextMonthYear;
@@ -49,7 +47,6 @@
     </dt>
 
     <dd class="portletItem">
-        <input type="hidden" id="habilita_agenda_exercicio" tal:define="exercicio view/getPrefeitoEmExercicio; exercicio_string string:${exercicio}" tal:attributes="value exercicio_string" />
         <table class="ploneCalendar"
                summary="Calendar"
                i18n:domain="plone"
@@ -79,7 +76,7 @@
                                        ><strong>
 <!--
                                         <a href=""
-                                           tal:attributes="href string:${navigation_root_url}/@@search?advanced_search=True&amp;${view/getReviewStateString}start.query:record:list:date=${day/date_string}+23%3A59%3A59&amp;start.range:record=max&amp;end.query:record:list:date=${day/date_string}+00%3A00%3A00&amp;end.range:record=min&amp;list:&amp;${view/getEventTypes}&habilita_agenda_exercicio=${view/getPrefeitoEmExercicio};
+                                           tal:attributes="href string:${navigation_root_url}/@@search?advanced_search=True&amp;${view/getReviewStateString}start.query:record:list:date=${day/date_string}+23%3A59%3A59&amp;start.range:record=max&amp;end.query:record:list:date=${day/date_string}+00%3A00%3A00&amp;end.range:record=min&amp;list:&amp;${view/getEventTypes};
                                                            title day/eventstring;"
                                            tal:content="daynumber">
                                            31
@@ -89,7 +86,7 @@
 -->
 
 <a href=""
-                                           tal:attributes="href string:${navigation_root_url}/@@busca?advanced_search=True&amp;${view/getReviewStateString}start.query:record:list:date=${day/date_string}+23%3A59%3A59&amp;start.range:record=max&amp;end.query:record:list:date=${day/date_string}+00%3A00%3A00&amp;end.range:record=min&amp;list:&amp;${view/getEventTypes}&habilita_agenda_exercicio=${view/getPrefeitoEmExercicio};
+                                           tal:attributes="href string:${navigation_root_url}/@@busca?advanced_search=True&amp;${view/getReviewStateString}start.query:record:list:date=${day/date_string}+23%3A59%3A59&amp;start.range:record=max&amp;end.query:record:list:date=${day/date_string}+00%3A00%3A00&amp;end.range:record=min&amp;list:&amp;${view/getEventTypes};
                                                            title day/eventstring;"
                                            tal:content="daynumber">
                                            31
