@@ -9,7 +9,12 @@ def importSteps(context):
     createConfigurationFolder(site)
     createLinks(site)
     createAbasEditaveis(site)
+    createFolderPostagemAgenda(site)
     # UpdateIndexAgenda(site)
+
+
+def createFolderPostagemAgenda(site):
+    createObj(site, 'postagens-de-agenda', 'Postagens de agenda', 'Folder', '', exclude_from_nav=True)
 
 
 def reIndexNews(site):

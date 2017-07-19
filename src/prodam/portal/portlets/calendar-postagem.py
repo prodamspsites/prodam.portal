@@ -55,7 +55,6 @@ class Renderer(BaseRenderer):
         month = self.month
         # portal_state = getMultiAdapter((self.context, self.request), name='plone_portal_state')
         # navigation_root_path = portal_state.navigation_root_path()
-        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
         weeks = self.getEventsForCatalog(month, year)
         for week in weeks:
             for day in week:
@@ -100,7 +99,6 @@ class Renderer(BaseRenderer):
         #  [28, 29, 30, 31, 0, 0, 0]]
         daysByWeek = self._getCalendar().monthcalendar(year, month)
         weeks = []
-        print("CHAMANDO METODO DE BUSCA POR DATA")
         events = self.buscaEventosPorData(year, month)
 
         for week in daysByWeek:
@@ -127,8 +125,6 @@ class Renderer(BaseRenderer):
         last_date = self.getBeginAndEndTimes(last_day, month, year)[1]
 
         ctool = getToolByName(self, 'portal_catalog')
-        print("FILTRAGEM POR DATAS: ")
-        print((first_date, last_date))
         query = ctool(portal_type=('agenda',),
                       review_state=('published',),
                       data_da_agenda={'query': (first_date, last_date), 'range': 'min:max'},
@@ -142,41 +138,37 @@ class Renderer(BaseRenderer):
                                     'day': daynumber}
         includedevents = []
         for result in query:
-            print("Percorrendo lista de eventos")
-            print(result)
             if result.getRID() in includedevents:
                 break
             else:
                 includedevents.append(result.getRID())
             event = {}
             # we need to deal with events that end next month
-            print(last_date)
-            print(result.data_da_agenda)
             teste = DateTime(str(result.data_da_agenda))
-            print(teste)
-            if result.data_da_agenda.greaterThan(last_date):
+            dda = teste
+            if dda.greaterThan(last_date):
                 eventEndDay = last_day
                 event['end'] = None
             else:
-                eventEndDay = result.data_da_agenda.day()
-                if result.data_da_agenda == result.data_da_agenda.earliestTime():
-                    event['end'] = (result.data_da_agenda - 1).latestTime().Time()
+                eventEndDay = dda.day()
+                if dda == dda.earliestTime():
+                    event['end'] = (dda - 1).latestTime().Time()
                 else:
-                    event['end'] = result.data_da_agenda.Time()
+                    event['end'] = dda.Time()
             # and events that started last month
-            if result.data_da_agenda.lessThan(first_date):
+            if dda.lessThan(first_date):
                 eventStartDay = 1
                 event['start'] = None
             else:
-                eventStartDay = result.data_da_agenda.day()
-                event['start'] = result.data_da_agenda.Time()
+                eventStartDay = dda.day()
+                event['start'] = dda.Time()
 
             event['title'] = result.Title or result.getId
 
             if eventStartDay != eventEndDay:
                 allEventDays = range(eventStartDay, eventEndDay + 1)
                 eventDays[eventStartDay]['eventslist'].append({'end': None,
-                                                               'start': result.data_da_agenda.Time(),
+                                                               'start': dda.Time(),
                                                                'title': event['title']})
                 eventDays[eventStartDay]['event'] = 1
 
@@ -187,7 +179,7 @@ class Renderer(BaseRenderer):
                          'title': event['title']})
                     eventDays[eventday]['event'] = 1
 
-                if (result.data_da_agenda == result.data_da_agenda.earliestTime() and event['end'] is not None):
+                if (dda == dda.earliestTime() and event['end'] is not None):
                     # ends some day this month at midnight
                     last_day_data = eventDays[allEventDays[-2]]
                     last_days_event = last_day_data['eventslist'][-1]

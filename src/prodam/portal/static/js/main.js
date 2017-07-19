@@ -48,7 +48,7 @@ $("#btn_agenda_vice").click(function(e){
       day = $(this).text();
       date = month + '/' + day + '/' + year;
       //habilita_agenda_exercicio = $("#habilita_agenda_exercicio").val();
-      var form = $('<form action="' + portal_url + '/agenda/agenda-prefeito" method="post">' +
+      var form = $('<form action="' + portal_url + '/postagens-de-agenda/agenda-postagem" method="post">' +
                    '<input type="text" name="date" value="' + date + '" />' +
                    '<input type="text" name="year" value="' + year  + '" />' +
                    '<input type="text" name="month" value="' + month + '" />' +
@@ -222,7 +222,7 @@ $("#btn_agenda_vice").click(function(e){
 
         //habilita_agenda_exercicio = $("#habilita_agenda_exercicio").val();
 
-        var form = $('<form action="' + portal_url + '/agenda/agenda-prefeito" method="post">' +
+        var form = $('<form action="' + portal_url + '/postagens-de-agenda/agenda-postagem" method="post">' +
                      '<input type="text" name="date" value="' + date + '" />' +
                      '<input type="text" name="year" value="' + year  + '" />' +
                      '<input type="text" name="month" value="' + month + '" />' +
