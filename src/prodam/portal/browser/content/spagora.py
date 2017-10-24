@@ -57,6 +57,11 @@ class SpAgora(BrowserView):
     soup = None
     tree = None
 
+    def getCollectionDashBoardMongo(self):
+        mongo_client = MongoClient('mongodb://mongo0.prodam:27017')
+        database = mongo_client.prodam
+        return database.dashboard.find_one()
+
     def __init__(self, context, request, state=None, proxy=None, max_retries=3):
         """Classe para fazer scrap class spagora args:
         @state: Estado de scrapper anterior obtido via .get_state()
@@ -183,35 +188,25 @@ class SpAgora(BrowserView):
 
     def WeatherCapa(self):
         content = ""
+        dashboard = self.getCollectionDashBoardMongo()
         try:
-            self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima-media")))
-            temp_media = self.getTempMedia()
-            hour = localtime(time()).tm_hour
-            self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima")))
-            dia = self.soup.findAll('dia')
-            potencial = dia[0].parent.find('ct', {'periodo': self.getPeriod(hour)})
+            if dashboard:
+                temp_media = dashboard['temp_media']
+                potencial = dashboard['potencial']
 
-            propertyTitle, propertyTexto = self.getPainel(int(1))
-            if propertyTitle:
-                titulo = propertyTitle
-            else:
-                titulo = "Tempo"
+                propertyTitle, propertyTexto = self.getPainel(int(1))
+                if propertyTitle:
+                    titulo = propertyTitle
+                else:
+                    titulo = "Tempo"
 
-            if propertyTexto:
-                texto = propertyTexto
-            else:
-                texto = """
-                         <div class="tempo-g nb"></div>
-                         <div class="t-media"><span>Média</span><span id="CGE-media" class="amarelo bold">%(temp_media)s°</span></div>
-                         <div class="tempestade">
-                         <span>Potencial <div class="raio"></div></span>
-                         <span id="status-temp" class="amarelo">%(potencial)s</span>
-                         </div>
-                         </div>
-                         <div class="ex-hover"><a href="#verMais"></a><div></div>
-                        """ % {'temp_media': temp_media, 'potencial': str(potencial['pt'])}
+                if propertyTexto:
+                    texto = propertyTexto
+                else:
+                    texto = """ <div class="tempo-g nb"></div><div class="t-media"><span>Média</span><span id="CGE-media" class="amarelo bold">%(temp_media)s°</span></div><div class="tempestade"><span>Potencial <div class="raio"></div></span><span id="status-temp" class="amarelo">%(potencial)s</span></div></div><div class="ex-hover"><a href="#verMais"></a><div></div>
+""" % {'temp_media': temp_media, 'potencial': potencial}
 
-            content += """
+                content += """
                        <li class="ex-clima ver-mais">
                        <div class="dash-border">
                        <strong class="titulo-dash">%(titulo)s</strong>
@@ -225,9 +220,9 @@ class SpAgora(BrowserView):
 
     def airQualityCapa(self):
         content = ""
+        dashboard = self.getCollectionDashBoardMongo()
         try:
-            self.soup = BeautifulSoup(self.getContent(url_direct.get('qualidade-oxigenio')))
-            qualidade_ar = self.getDescQualidade()
+            qualidade_ar = dashboard['qualidade_ar']
 
             propertyTitle, propertyTexto = self.getPainel(int(2))
             if propertyTitle:
@@ -258,12 +253,12 @@ class SpAgora(BrowserView):
 
     def trafficCapa(self):
         content = ""
+        dashboard = self.getCollectionDashBoardMongo()
         try:
-            self.soup = BeautifulSoup(self.getContent(url_direct.get('transito-agora')))
 
-            total_km_lentidao = self.soup.find('div', {"id": 'lentidao'}).string
-
-            result = self.getTrafficCount(total_km_lentidao)
+            total_km_lentidao = dashboard['total_km_lentidao']
+            css = dashboard['traffic_css']
+            status_transito_sp = dashboard['status_transito_sp']
 
             propertyTitle, propertyTexto = self.getPainel(int(5))
             if propertyTitle:
@@ -282,7 +277,7 @@ class SpAgora(BrowserView):
                         <span class="kmStatus %(css)s"><i class="ball-status %(css)s"></i>%(status_transito_sp)s</span>
                         </div></div>
                         <div class="ex-hover"><a href="#verMais"></a><div></div>
-                        """ % {'total_km_lentidao': total_km_lentidao, 'status_transito_sp': result[1], 'css': result[0]}
+                        """ % {'total_km_lentidao': total_km_lentidao, 'status_transito_sp': status_transito_sp, 'css': css}
 
             content += """
                        <li class="ex-transito ver-mais">
@@ -301,7 +296,6 @@ class SpAgora(BrowserView):
     ##########################################################################
     """
 
-    @ram.cache(lambda *args: time() // (60 * 5))
     def getCapa(self):
         content = ""
 
@@ -360,10 +354,8 @@ class SpAgora(BrowserView):
         content += self.trafficCapa()
 
         try:
-            url_rodizio = url_direct.get('dash-rodizio')
-            placas_final_url_return = urllib.urlopen(url_rodizio)
-            data_result = json.loads(placas_final_url_return.read())
-            placa = data_result['Rotation']['desc']
+            dashboard = self.getCollectionDashBoardMongo()
+            placa = dashboard['placa']
 
             propertyTitle, propertyTexto = self.getPainel(int(6))
             if propertyTitle:
@@ -401,7 +393,6 @@ class SpAgora(BrowserView):
                            Helpers
     ##########################################################################
     """
-    @ram.cache(lambda *args: time() // (60 * 15))
     def getTempMedia(self):
         """
         return temperature median in moment
@@ -458,7 +449,6 @@ class SpAgora(BrowserView):
                    """ % {'text_div': text_div, 'li': class_li}
         return content
 
-    @ram.cache(lambda *args: time() // (60 * 15))
     def getDescQualidade(self, local='Congonhas'):
         """
         return type description qualidaty atmosfera
@@ -476,7 +466,6 @@ class SpAgora(BrowserView):
             descript = 'Pessimo'
         return descript
 
-    @ram.cache(lambda *args: time() // (60 * 15))
     def getTempMaxima(self):
         """
         return time morning
@@ -486,7 +475,6 @@ class SpAgora(BrowserView):
         temp_max = dia[0].parent.find('temp-max')
         return temp_max.string
 
-    @ram.cache(lambda *args: time() // (60 * 15))
     def getTempMinima(self):
         """
         return temperature minimo
@@ -496,7 +484,6 @@ class SpAgora(BrowserView):
         temp_min = dia[0].parent.find('temp-min')
         return temp_min.string
 
-    @ram.cache(lambda *args: time() // (60 * 15))
     def getUmidadeArMax(self):
         """
         return unit ar max
@@ -506,7 +493,6 @@ class SpAgora(BrowserView):
         umid_max = dia[0].parent.find('umid-max')
         return umid_max.string
 
-    @ram.cache(lambda *args: time() // (60 * 15))
     def getUmidadeArMin(self):
         """
         return unit ar min
@@ -516,7 +502,6 @@ class SpAgora(BrowserView):
         umid_min = dia[0].parent.find('umid-min')
         return umid_min.string
 
-    @ram.cache(lambda *args: time() // (60 * 15))
     def getHoraNascerSol(self):
         """
         return hour sunrise
@@ -526,7 +511,6 @@ class SpAgora(BrowserView):
         sunrise = dia[0].parent.find('sunrise')
         return sunrise.string
 
-    @ram.cache(lambda *args: time() // (60 * 15))
     def getHoraPorSol(self):
         """
         return sunset time
@@ -541,7 +525,6 @@ class SpAgora(BrowserView):
                            Qualidade do ar
     ##########################################################################
     """
-    @ram.cache(lambda *args: time() // (60 * 15))
     def getAirQuality(self):
         try:
             content = """
@@ -566,7 +549,6 @@ class SpAgora(BrowserView):
             content = self.getContentExceptOculto(class_li='ex-ar', text_div='Qualidade do Ar')
         return content
 
-    @ram.cache(lambda *args: time() // (60 * 15))
     def getEfeitoSaude(self):
         """
         return list efect quality life
@@ -584,7 +566,6 @@ class SpAgora(BrowserView):
                            Clima
     ##########################################################################
     """
-    @ram.cache(lambda *args: time() // (60 * 15))
     def getWeatherSp(self, title=False):
         try:
             self.soup = BeautifulSoup(self.getContent(url_direct.get("ex-clima-media")))
@@ -749,7 +730,6 @@ class SpAgora(BrowserView):
             print '6', traceback.print_tb(tb)
         return content
 
-    @ram.cache(lambda *args: time() // (60 * 15))
     def AeroportoVooSatus(self):
         soup = BeautifulSoup(self.getContent(url_direct.get('dash-aero')))
         content = ''
@@ -772,7 +752,6 @@ class SpAgora(BrowserView):
                            Rodizio SP
     ##########################################################################
     """
-    @ram.cache(lambda *args: time() // (60 * 15))
     def getCarRotation(self):
         try:
             url_rodizio = url_direct.get('dash-rodizio')
@@ -801,7 +780,6 @@ class SpAgora(BrowserView):
                            Trânsito SP
     ##########################################################################
     """
-    @ram.cache(lambda *args: time() // (60 * 15))
     def getTraffic(self):
         try:
             self.soup = BeautifulSoup(self.getContent(url_direct.get('transito-agora')))
@@ -836,7 +814,6 @@ class SpAgora(BrowserView):
             content = self.getContentExceptOculto(class_li='ex-transito', text_div='Transito')
         return content
 
-    @ram.cache(lambda *args: time() // (60 * 15))
     def getTrafficCount(self, total_km_lentidao):
         traffic_count = []
         if int(total_km_lentidao) <= 45:
@@ -857,7 +834,6 @@ class SpAgora(BrowserView):
                            Transporte Público
     ##########################################################################
     """
-    @ram.cache(lambda *args: time() // (60 * 15))
     def getMeansOfTransportation(self):
         try:
             status_metro_sp = self.getStatusMetro()
@@ -890,7 +866,6 @@ class SpAgora(BrowserView):
             content = self.getContentExceptOculto(class_li='ex-publico', text_div='Transporte público')
         return content
 
-    @ram.cache(lambda *args: time() // (60 * 15))
     def getStatusCptm(self):
         """
         return Informações CPTM da cidade de São Paulo
@@ -920,7 +895,6 @@ class SpAgora(BrowserView):
             content += 'Circulação normal'
         return content
 
-    @ram.cache(lambda *args: time() // (60 * 15))
     def getStatusMetro(self):
         """
         return Informações Metro da cidade de São Paulo
